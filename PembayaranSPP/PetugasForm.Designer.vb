@@ -36,6 +36,8 @@ Partial Class PetugasForm
         Me.btn_delete = New System.Windows.Forms.Button()
         Me.btn_update = New System.Windows.Forms.Button()
         Me.cmb_level = New System.Windows.Forms.ComboBox()
+        Me.lbl_id_spp = New System.Windows.Forms.Label()
+        Me.tb_id_petugas = New System.Windows.Forms.TextBox()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -53,7 +55,7 @@ Partial Class PetugasForm
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(206, 74)
+        Me.Label5.Location = New System.Drawing.Point(206, 96)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(33, 13)
         Me.Label5.TabIndex = 27
@@ -62,7 +64,7 @@ Partial Class PetugasForm
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(9, 73)
+        Me.Label3.Location = New System.Drawing.Point(9, 95)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(122, 13)
         Me.Label3.TabIndex = 25
@@ -71,7 +73,7 @@ Partial Class PetugasForm
         'lbl_password
         '
         Me.lbl_password.AutoSize = True
-        Me.lbl_password.Location = New System.Drawing.Point(206, 30)
+        Me.lbl_password.Location = New System.Drawing.Point(206, 53)
         Me.lbl_password.Name = "lbl_password"
         Me.lbl_password.Size = New System.Drawing.Size(53, 13)
         Me.lbl_password.TabIndex = 24
@@ -80,7 +82,7 @@ Partial Class PetugasForm
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(9, 30)
+        Me.Label1.Location = New System.Drawing.Point(9, 52)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(55, 13)
         Me.Label1.TabIndex = 23
@@ -103,14 +105,14 @@ Partial Class PetugasForm
         '
         'tb_nama_petugas
         '
-        Me.tb_nama_petugas.Location = New System.Drawing.Point(12, 89)
+        Me.tb_nama_petugas.Location = New System.Drawing.Point(12, 111)
         Me.tb_nama_petugas.Name = "tb_nama_petugas"
         Me.tb_nama_petugas.Size = New System.Drawing.Size(180, 20)
         Me.tb_nama_petugas.TabIndex = 18
         '
         'tb_password
         '
-        Me.tb_password.Location = New System.Drawing.Point(209, 46)
+        Me.tb_password.Location = New System.Drawing.Point(209, 68)
         Me.tb_password.Name = "tb_password"
         Me.tb_password.Size = New System.Drawing.Size(128, 20)
         Me.tb_password.TabIndex = 17
@@ -118,7 +120,7 @@ Partial Class PetugasForm
         '
         'tb_username
         '
-        Me.tb_username.Location = New System.Drawing.Point(12, 46)
+        Me.tb_username.Location = New System.Drawing.Point(12, 68)
         Me.tb_username.Name = "tb_username"
         Me.tb_username.Size = New System.Drawing.Size(180, 20)
         Me.tb_username.TabIndex = 16
@@ -192,16 +194,36 @@ Partial Class PetugasForm
         Me.cmb_level.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmb_level.FormattingEnabled = True
         Me.cmb_level.Items.AddRange(New Object() {"admin", "petugas"})
-        Me.cmb_level.Location = New System.Drawing.Point(209, 90)
+        Me.cmb_level.Location = New System.Drawing.Point(209, 112)
         Me.cmb_level.Name = "cmb_level"
         Me.cmb_level.Size = New System.Drawing.Size(128, 21)
         Me.cmb_level.TabIndex = 48
+        '
+        'lbl_id_spp
+        '
+        Me.lbl_id_spp.AutoSize = True
+        Me.lbl_id_spp.Location = New System.Drawing.Point(9, 13)
+        Me.lbl_id_spp.Name = "lbl_id_spp"
+        Me.lbl_id_spp.Size = New System.Drawing.Size(60, 13)
+        Me.lbl_id_spp.TabIndex = 54
+        Me.lbl_id_spp.Text = "ID Petugas"
+        '
+        'tb_id_petugas
+        '
+        Me.tb_id_petugas.Cursor = System.Windows.Forms.Cursors.No
+        Me.tb_id_petugas.Location = New System.Drawing.Point(12, 29)
+        Me.tb_id_petugas.Name = "tb_id_petugas"
+        Me.tb_id_petugas.ReadOnly = True
+        Me.tb_id_petugas.Size = New System.Drawing.Size(325, 20)
+        Me.tb_id_petugas.TabIndex = 53
         '
         'PetugasForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(584, 364)
+        Me.Controls.Add(Me.lbl_id_spp)
+        Me.Controls.Add(Me.tb_id_petugas)
         Me.Controls.Add(Me.cmb_level)
         Me.Controls.Add(Me.btn_back)
         Me.Controls.Add(Me.btn_delete)
@@ -238,4 +260,6 @@ Partial Class PetugasForm
     Friend WithEvents btn_delete As Button
     Friend WithEvents btn_update As Button
     Friend WithEvents cmb_level As ComboBox
+    Friend WithEvents lbl_id_spp As Label
+    Friend WithEvents tb_id_petugas As TextBox
 End Class

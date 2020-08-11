@@ -31,7 +31,8 @@ Public Class Login
             Try
                 Connection()
                 cn.Open()
-                cm = New MySqlCommand("SELECT * FROM petugas WHERE username = '" & username & "' ", cn)
+                cm = New MySqlCommand("SELECT * FROM petugas WHERE username = @username ", cn)
+                cm.Parameters.AddWithValue("@username", tb_username.Text)
                 dr = cm.ExecuteReader()
                 dr.Read()
                 If dr.HasRows() Then
@@ -66,7 +67,9 @@ Public Class Login
             Try
                 Connection()
                 cn.Open()
-                cm = New MySqlCommand("SELECT * FROM siswa WHERE nisn = '" & nisn & "' AND nis = '" & nis & "' ", cn)
+                cm = New MySqlCommand("SELECT * FROM siswa WHERE nisn = @nisn AND nis = @nis ", cn)
+                cm.Parameters.AddWithValue("@nisn", nisn)
+                cm.Parameters.AddWithValue("@nis", nis)
                 dr = cm.ExecuteReader()
                 dr.Read()
                 If dr.HasRows() Then

@@ -32,6 +32,8 @@ Partial Class SppForm
         Me.btn_update = New System.Windows.Forms.Button()
         Me.btn_delete = New System.Windows.Forms.Button()
         Me.btn_back = New System.Windows.Forms.Button()
+        Me.lbl_id_spp = New System.Windows.Forms.Label()
+        Me.tb_id_spp = New System.Windows.Forms.TextBox()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -49,7 +51,7 @@ Partial Class SppForm
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(9, 69)
+        Me.Label2.Location = New System.Drawing.Point(9, 99)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(45, 13)
         Me.Label2.TabIndex = 37
@@ -58,7 +60,7 @@ Partial Class SppForm
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(9, 28)
+        Me.Label1.Location = New System.Drawing.Point(9, 58)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(38, 13)
         Me.Label1.TabIndex = 36
@@ -81,14 +83,14 @@ Partial Class SppForm
         '
         'tb_nominal
         '
-        Me.tb_nominal.Location = New System.Drawing.Point(12, 85)
+        Me.tb_nominal.Location = New System.Drawing.Point(12, 115)
         Me.tb_nominal.Name = "tb_nominal"
         Me.tb_nominal.Size = New System.Drawing.Size(304, 20)
         Me.tb_nominal.TabIndex = 32
         '
         'tb_tahun
         '
-        Me.tb_tahun.Location = New System.Drawing.Point(12, 44)
+        Me.tb_tahun.Location = New System.Drawing.Point(12, 74)
         Me.tb_tahun.Name = "tb_tahun"
         Me.tb_tahun.Size = New System.Drawing.Size(304, 20)
         Me.tb_tahun.TabIndex = 31
@@ -157,11 +159,31 @@ Partial Class SppForm
         Me.btn_back.UseVisualStyleBackColor = False
         Me.btn_back.Visible = False
         '
+        'lbl_id_spp
+        '
+        Me.lbl_id_spp.AutoSize = True
+        Me.lbl_id_spp.Location = New System.Drawing.Point(9, 18)
+        Me.lbl_id_spp.Name = "lbl_id_spp"
+        Me.lbl_id_spp.Size = New System.Drawing.Size(42, 13)
+        Me.lbl_id_spp.TabIndex = 45
+        Me.lbl_id_spp.Text = "ID SPP"
+        '
+        'tb_id_spp
+        '
+        Me.tb_id_spp.Cursor = System.Windows.Forms.Cursors.No
+        Me.tb_id_spp.Location = New System.Drawing.Point(12, 34)
+        Me.tb_id_spp.Name = "tb_id_spp"
+        Me.tb_id_spp.ReadOnly = True
+        Me.tb_id_spp.Size = New System.Drawing.Size(304, 20)
+        Me.tb_id_spp.TabIndex = 44
+        '
         'SppForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(584, 364)
+        Me.Controls.Add(Me.lbl_id_spp)
+        Me.Controls.Add(Me.tb_id_spp)
         Me.Controls.Add(Me.btn_back)
         Me.Controls.Add(Me.btn_delete)
         Me.Controls.Add(Me.btn_update)
@@ -190,4 +212,6 @@ Partial Class SppForm
     Friend WithEvents btn_update As Button
     Friend WithEvents btn_delete As Button
     Friend WithEvents btn_back As Button
+    Friend WithEvents lbl_id_spp As Label
+    Friend WithEvents tb_id_spp As TextBox
 End Class

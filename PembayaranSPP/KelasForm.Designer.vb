@@ -32,6 +32,8 @@ Partial Class KelasForm
         Me.btn_back = New System.Windows.Forms.Button()
         Me.btn_delete = New System.Windows.Forms.Button()
         Me.btn_update = New System.Windows.Forms.Button()
+        Me.lbl_id_spp = New System.Windows.Forms.Label()
+        Me.tb_id_kelas = New System.Windows.Forms.TextBox()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -49,7 +51,7 @@ Partial Class KelasForm
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(10, 68)
+        Me.Label2.Location = New System.Drawing.Point(10, 91)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(106, 13)
         Me.Label2.TabIndex = 46
@@ -58,7 +60,7 @@ Partial Class KelasForm
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(10, 21)
+        Me.Label1.Location = New System.Drawing.Point(10, 52)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(64, 13)
         Me.Label1.TabIndex = 45
@@ -81,14 +83,14 @@ Partial Class KelasForm
         '
         'tb_kompetensi_keahlian
         '
-        Me.tb_kompetensi_keahlian.Location = New System.Drawing.Point(13, 84)
+        Me.tb_kompetensi_keahlian.Location = New System.Drawing.Point(13, 107)
         Me.tb_kompetensi_keahlian.Name = "tb_kompetensi_keahlian"
         Me.tb_kompetensi_keahlian.Size = New System.Drawing.Size(304, 20)
         Me.tb_kompetensi_keahlian.TabIndex = 43
         '
         'tb_nama_kelas
         '
-        Me.tb_nama_kelas.Location = New System.Drawing.Point(13, 37)
+        Me.tb_nama_kelas.Location = New System.Drawing.Point(13, 68)
         Me.tb_nama_kelas.Name = "tb_nama_kelas"
         Me.tb_nama_kelas.Size = New System.Drawing.Size(304, 20)
         Me.tb_nama_kelas.TabIndex = 42
@@ -157,11 +159,31 @@ Partial Class KelasForm
         Me.btn_update.UseVisualStyleBackColor = False
         Me.btn_update.Visible = False
         '
+        'lbl_id_spp
+        '
+        Me.lbl_id_spp.AutoSize = True
+        Me.lbl_id_spp.Location = New System.Drawing.Point(10, 13)
+        Me.lbl_id_spp.Name = "lbl_id_spp"
+        Me.lbl_id_spp.Size = New System.Drawing.Size(47, 13)
+        Me.lbl_id_spp.TabIndex = 52
+        Me.lbl_id_spp.Text = "ID Kelas"
+        '
+        'tb_id_kelas
+        '
+        Me.tb_id_kelas.Cursor = System.Windows.Forms.Cursors.No
+        Me.tb_id_kelas.Location = New System.Drawing.Point(13, 29)
+        Me.tb_id_kelas.Name = "tb_id_kelas"
+        Me.tb_id_kelas.ReadOnly = True
+        Me.tb_id_kelas.Size = New System.Drawing.Size(304, 20)
+        Me.tb_id_kelas.TabIndex = 51
+        '
         'KelasForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(584, 364)
+        Me.Controls.Add(Me.lbl_id_spp)
+        Me.Controls.Add(Me.tb_id_kelas)
         Me.Controls.Add(Me.btn_back)
         Me.Controls.Add(Me.btn_delete)
         Me.Controls.Add(Me.btn_update)
@@ -190,4 +212,6 @@ Partial Class KelasForm
     Friend WithEvents btn_back As Button
     Friend WithEvents btn_delete As Button
     Friend WithEvents btn_update As Button
+    Friend WithEvents lbl_id_spp As Label
+    Friend WithEvents tb_id_kelas As TextBox
 End Class

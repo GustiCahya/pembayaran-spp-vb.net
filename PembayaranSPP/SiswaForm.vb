@@ -113,7 +113,8 @@ Public Class SiswaForm
             Case MsgBoxResult.Yes
                 Try
                     cn.Open()
-                    cm = New MySqlCommand("DELETE FROM siswa WHERE nisn = '" & currentId & "'", cn)
+                    cm = New MySqlCommand("DELETE FROM siswa WHERE nisn = @nisn", cn)
+                    cm.Parameters.AddWithValue("@nisn", currentId)
                     cm.ExecuteNonQuery()
                     cn.Close()
                     btn_back.PerformClick()
@@ -128,7 +129,16 @@ Public Class SiswaForm
         Try
             cn.Open()
             If Not String.IsNullOrEmpty(tb_nisn.Text) And Not String.IsNullOrEmpty(tb_nis.Text) And Not String.IsNullOrEmpty(tb_nama.Text) And Not String.IsNullOrEmpty(cmb_kelas.SelectedValue) And Not String.IsNullOrEmpty(tb_alamat.Text) And Not String.IsNullOrEmpty(tb_telepon.Text) And Not String.IsNullOrEmpty(cmb_spp.SelectedValue) Then
-                cm = New MySqlCommand("INSERT INTO siswa VALUES ('" & tb_nisn.Text & "', '" & tb_nis.Text & "', '" & tb_nama.Text & "', '" & cmb_kelas.SelectedValue & "', '" & tb_alamat.Text & "', '" & tb_telepon.Text & "', '" & cmb_spp.SelectedValue & "')", cn)
+                cm = New MySqlCommand("INSERT INTO siswa VALUES (@nisn, @nis, @nama, @id_kelas, @alamat, @telepon, @id_spp)", cn)
+                With cm.Parameters
+                    .AddWithValue("@nisn", tb_nisn.Text)
+                    .AddWithValue("@nis", tb_nis.Text)
+                    .AddWithValue("@nama", tb_nama.Text)
+                    .AddWithValue("@id_kelas", cmb_kelas.SelectedValue)
+                    .AddWithValue("@alamat", tb_alamat.Text)
+                    .AddWithValue("@telepon", tb_telepon.Text)
+                    .AddWithValue("@id_spp", cmb_spp.SelectedValue)
+                End With
                 cm.ExecuteNonQuery()
                 LoadTable()
                 ClearTextBox()
@@ -147,7 +157,17 @@ Public Class SiswaForm
         Try
             cn.Open()
             If Not String.IsNullOrEmpty(tb_nisn.Text) And Not String.IsNullOrEmpty(tb_nis.Text) And Not String.IsNullOrEmpty(tb_nama.Text) And Not String.IsNullOrEmpty(cmb_kelas.SelectedValue) And Not String.IsNullOrEmpty(tb_alamat.Text) And Not String.IsNullOrEmpty(tb_telepon.Text) And Not String.IsNullOrEmpty(cmb_spp.SelectedValue) Then
-                cm = New MySqlCommand("UPDATE siswa SET nisn='" & tb_nisn.Text & "', nis='" & tb_nis.Text & "', nama='" & tb_nama.Text & "', id_kelas='" & cmb_kelas.SelectedValue & "', alamat='" & tb_alamat.Text & "', no_telp='" & tb_telepon.Text & "', id_spp='" & cmb_spp.SelectedValue & "' WHERE nisn='" & currentId & "'", cn)
+                cm = New MySqlCommand("UPDATE siswa 
+SET nisn=@nisn, nis=@nis, nama=@nama, id_kelas=@id_kelas, alamat=@alamat, no_telp=@telepon, id_spp=@id_spp WHERE nisn=@nisn", cn)
+                With cm.Parameters
+                    .AddWithValue("@nisn", tb_nisn.Text)
+                    .AddWithValue("@nis", tb_nis.Text)
+                    .AddWithValue("@nama", tb_nama.Text)
+                    .AddWithValue("@id_kelas", cmb_kelas.SelectedValue)
+                    .AddWithValue("@alamat", tb_alamat.Text)
+                    .AddWithValue("@telepon", tb_telepon.Text)
+                    .AddWithValue("@id_spp", cmb_spp.SelectedValue)
+                End With
                 cm.ExecuteNonQuery()
                 btn_back.PerformClick()
             Else

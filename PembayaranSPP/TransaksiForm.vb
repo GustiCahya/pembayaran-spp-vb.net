@@ -5,7 +5,8 @@ Public Class TransaksiForm
         'Handle Combobox Petugas
         Try
             cn.Open()
-            cm = New MySqlCommand("SELECT * FROM petugas WHERE username='" & PageAdmin.username & "'", cn)
+            cm = New MySqlCommand("SELECT * FROM petugas WHERE username = @username", cn)
+            cm.Parameters.AddWithValue("@username", PageAdmin.username)
             dt = New DataTable
             dt.Load(cm.ExecuteReader())
             cmb_petugas.ValueMember = "id_petugas"
@@ -57,7 +58,8 @@ Public Class TransaksiForm
         Try
             Connection()
             cn.Open()
-            cm = New MySqlCommand("SELECT nama FROM siswa WHERE nisn='" & cmb_nisn.SelectedValue & "'", cn)
+            cm = New MySqlCommand("SELECT nama FROM siswa WHERE nisn=@nisn", cn)
+            cm.Parameters.AddWithValue("@nisn", cmb_nisn.SelectedValue)
             dt = New DataTable
             dt.Load(cm.ExecuteReader())
             lbl_nama_siswa.Text = dt.Rows(0)("nama")
@@ -77,12 +79,23 @@ Public Class TransaksiForm
                 Dim tahun As String = dtp_tanggal.Value.Year
                 Dim id_spp As Integer = cmb_spp.SelectedValue
                 Dim jumlah_bayar As Integer = tb_jumlah_bayar.Text
-                cm = New MySqlCommand("SELECT nominal FROM spp WHERE id_spp='" & id_spp & "'", cn)
+                cm = New MySqlCommand("SELECT nominal FROM spp WHERE id_spp=@id_spp", cn)
+                cm.Parameters.AddWithValue("@id_spp", id_spp)
                 Dim nominal As Integer = cm.ExecuteScalar()
                 If jumlah_bayar >= nominal Then
                     cm = New MySqlCommand("SELECT Count(*) FROM pembayaran", cn)
                     Dim count As Integer = cm.ExecuteScalar()
-                    cm = New MySqlCommand("INSERT INTO pembayaran VALUES ('" & count + 1 & "', '" & cmb_petugas.SelectedValue & "', '" & cmb_nisn.SelectedValue & "', '" & tanggal & "', '" & bulan & "', '" & tahun & "', '" & id_spp & "', '" & jumlah_bayar & "')", cn)
+                    cm = New MySqlCommand("INSERT INTO pembayaran VALUES (@id, @id_petugas, @nisn, @tanggal, @bulan, @tahun, @id_spp, @jumlah_bayar)", cn)
+                    With cm.Parameters
+                        .AddWithValue("@id", count + 1)
+                        .AddWithValue("@id_petugas", cmb_petugas.SelectedValue)
+                        .AddWithValue("@nisn", cmb_nisn.SelectedValue)
+                        .AddWithValue("@tanggal", tanggal)
+                        .AddWithValue("@bulan", bulan)
+                        .AddWithValue("@tahun", tahun)
+                        .AddWithValue("@id_spp", id_spp)
+                        .AddWithValue("@jumlah_bayar", jumlah_bayar)
+                    End With
                     cm.ExecuteNonQuery()
                     MsgBox("Transaksi Berhasil Disimpan!", vbInformation)
                     ClearTextBox()

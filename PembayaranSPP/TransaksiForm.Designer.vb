@@ -261,9 +261,9 @@ Partial Class TransaksiForm
         Me.lbl_minimum.Location = New System.Drawing.Point(291, 145)
         Me.lbl_minimum.Name = "lbl_minimum"
         Me.lbl_minimum.Padding = New System.Windows.Forms.Padding(5, 4, 5, 4)
-        Me.lbl_minimum.Size = New System.Drawing.Size(85, 21)
+        Me.lbl_minimum.Size = New System.Drawing.Size(118, 21)
         Me.lbl_minimum.TabIndex = 51
-        Me.lbl_minimum.Text = "Min : ######"
+        Me.lbl_minimum.Text = "Biaya SPP : ######"
         '
         'btn_delete
         '

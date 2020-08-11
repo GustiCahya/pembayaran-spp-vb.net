@@ -46,10 +46,10 @@ Public Class RiwayatForm
         da.Fill(ds, "pembayaran")
         DataGridView1.DataSource = ds.Tables("pembayaran")
         DataGridView1.Columns(6).Visible = False
-        DataGridView1.Columns(8).HeaderText = "petugas"
-        DataGridView1.Columns(8).DisplayIndex = 1
-        DataGridView1.Columns(9).HeaderText = "siswa"
-        DataGridView1.Columns(9).DisplayIndex = 3
+        DataGridView1.Columns(8).HeaderText = "nama_petugas"
+        DataGridView1.Columns(8).DisplayIndex = 2
+        DataGridView1.Columns(9).HeaderText = "nama_siswa"
+        DataGridView1.Columns(9).DisplayIndex = 4
         Dim indexBulan As Integer
         Dim tanggal As Date
         For i = 0 To DataGridView1.Rows.Count - 1

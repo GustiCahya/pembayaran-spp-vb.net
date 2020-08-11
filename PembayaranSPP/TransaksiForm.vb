@@ -52,7 +52,7 @@ Public Class TransaksiForm
             Dim get_tahun As String = dtp_tanggal.Value.Year
             cm = New MySqlCommand("SELECT nominal FROM spp WHERE tahun=@tahun", cn)
             cm.Parameters.AddWithValue("@tahun", get_tahun)
-            lbl_minimum.Text = "Minimum: " & cm.ExecuteScalar()
+            lbl_minimum.Text = "Biaya SPP : " & cm.ExecuteScalar()
             cn.Close()
         Catch ex As Exception
             cn.Close()

@@ -51,6 +51,7 @@
     End Sub
 
     Private Sub PageAdmin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        btn_transaksi.Select()
         lbl_name.Text = Capitalize(username)
         lbl_role.Text = "Role: " & role
         Select Case role

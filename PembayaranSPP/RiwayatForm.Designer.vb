@@ -67,15 +67,12 @@ Partial Class RiwayatForm
         Me.btn_laporan.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btn_laporan.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!)
         Me.btn_laporan.ForeColor = System.Drawing.SystemColors.HighlightText
-        Me.btn_laporan.Location = New System.Drawing.Point(191, 72)
+        Me.btn_laporan.Location = New System.Drawing.Point(194, 72)
         Me.btn_laporan.Name = "btn_laporan"
         Me.btn_laporan.Size = New System.Drawing.Size(204, 43)
         Me.btn_laporan.TabIndex = 48
         Me.btn_laporan.Text = "Generate Laporan"
         Me.btn_laporan.UseVisualStyleBackColor = False
-        '
-        'PrintDocument1
-        '
         '
         'PrintPreviewDialog1
         '

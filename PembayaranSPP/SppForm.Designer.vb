@@ -41,7 +41,7 @@ Partial Class SppForm
         '
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 25.0!, System.Drawing.FontStyle.Bold)
-        Me.Label7.Location = New System.Drawing.Point(439, 19)
+        Me.Label7.Location = New System.Drawing.Point(436, 21)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(89, 39)
         Me.Label7.TabIndex = 40

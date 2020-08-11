@@ -45,11 +45,11 @@ Public Class RiwayatForm
         ds = New DataSet()
         da.Fill(ds, "pembayaran")
         DataGridView1.DataSource = ds.Tables("pembayaran")
-        DataGridView1.Columns(1).Visible = False
+        DataGridView1.Columns(6).Visible = False
         DataGridView1.Columns(8).HeaderText = "petugas"
         DataGridView1.Columns(8).DisplayIndex = 1
         DataGridView1.Columns(9).HeaderText = "siswa"
-        DataGridView1.Columns(9).DisplayIndex = 4
+        DataGridView1.Columns(9).DisplayIndex = 3
         Dim indexBulan As Integer
         Dim tanggal As Date
         For i = 0 To DataGridView1.Rows.Count - 1
@@ -67,10 +67,12 @@ Public Class RiwayatForm
             Case MsgBoxResult.Yes
                 Try
                     cn.Open()
-                    cm = New MySqlCommand("DELETE FROM pembayaran WHERE id_pembayaran = '" & currentId & "'", cn)
+                    cm = New MySqlCommand("DELETE FROM pembayaran WHERE id_pembayaran = @id_pembayaran", cn)
+                    cm.Parameters.AddWithValue("@id_pembayaran", currentId)
                     cm.ExecuteNonQuery()
                     cn.Close()
                     btn_delete.Visible = False
+                    LoadTable()
                 Catch ex As Exception
                     cn.Close()
                     MsgBox(ex.ToString(), vbCritical)
@@ -85,4 +87,5 @@ Public Class RiwayatForm
             btn_delete.Location = New System.Drawing.Point(487, 51)
         End If
     End Sub
+
 End Class

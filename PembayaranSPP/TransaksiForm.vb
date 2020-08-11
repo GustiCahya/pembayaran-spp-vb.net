@@ -14,7 +14,7 @@ Public Class TransaksiForm
             cn.Close()
         Catch ex As Exception
             cn.Close()
-            MsgBox(ex.ToString(), vbCritical)
+            MsgBox(ex.Message.ToString(), vbCritical)
         End Try
         'Handle Combobox NISN
         Try
@@ -36,7 +36,7 @@ Public Class TransaksiForm
             cn.Close()
         Catch ex As Exception
             cn.Close()
-            MsgBox(ex.ToString(), vbCritical)
+            MsgBox(ex.Message.ToString(), vbCritical)
         End Try
         'Handle Combobox SPP
         Try
@@ -50,7 +50,7 @@ Public Class TransaksiForm
             cn.Close()
         Catch ex As Exception
             cn.Close()
-            MsgBox(ex.ToString(), vbCritical)
+            MsgBox(ex.Message.ToString(), vbCritical)
         End Try
     End Sub
     Private Sub cmb_nisn_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmb_nisn.SelectedIndexChanged
@@ -64,7 +64,7 @@ Public Class TransaksiForm
             cn.Close()
         Catch ex As Exception
             cn.Close()
-            MsgBox(ex.ToString(), vbCritical)
+            MsgBox(ex.Message.ToString(), vbCritical)
         End Try
     End Sub
     Private Sub btn_create_Click(sender As Object, e As EventArgs) Handles btn_create.Click
@@ -95,7 +95,7 @@ Public Class TransaksiForm
             cn.Close()
         Catch ex As Exception
             cn.Close()
-            MsgBox(ex.ToString(), vbCritical)
+            MsgBox(ex.Message.ToString(), vbCritical)
         End Try
     End Sub
 

@@ -62,7 +62,7 @@ Public Class SppForm
                     btn_back.PerformClick()
                 Catch ex As Exception
                     cn.Close()
-                    MsgBox(ex.ToString(), vbCritical)
+                    MsgBox(ex.Message.ToString(), vbCritical)
                 End Try
         End Select
     End Sub
@@ -81,7 +81,7 @@ Public Class SppForm
             cn.Close()
         Catch ex As Exception
             cn.Close()
-            MsgBox(ex.ToString())
+            MsgBox(ex.Message.ToString())
         End Try
     End Sub
 
@@ -98,7 +98,7 @@ Public Class SppForm
             cn.Close()
         Catch ex As Exception
             cn.Close()
-            MsgBox(ex.ToString())
+            MsgBox(ex.Message.ToString())
         End Try
     End Sub
 End Class

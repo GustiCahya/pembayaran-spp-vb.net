@@ -119,7 +119,7 @@ Public Class SiswaForm
                     btn_back.PerformClick()
                 Catch ex As Exception
                     cn.Close()
-                    MsgBox(ex.ToString(), vbCritical)
+                    MsgBox(ex.Message.ToString(), vbCritical)
                 End Try
         End Select
     End Sub
@@ -139,7 +139,7 @@ Public Class SiswaForm
             btn_back.PerformClick()
         Catch ex As Exception
             cn.Close()
-            MsgBox(ex.ToString(), vbCritical)
+            MsgBox(ex.Message.ToString(), vbCritical)
         End Try
     End Sub
 
@@ -156,7 +156,7 @@ Public Class SiswaForm
             cn.Close()
         Catch ex As Exception
             cn.Close()
-            MsgBox(ex.ToString(), vbCritical)
+            MsgBox(ex.Message.ToString(), vbCritical)
         End Try
     End Sub
 

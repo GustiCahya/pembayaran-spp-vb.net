@@ -58,7 +58,7 @@ Public Class Login
                 cn.Close()
             Catch ex As Exception
                 cn.Close()
-                MsgBox(ex.ToString())
+                MsgBox(ex.Message.ToString())
             End Try
         Else
             Dim nisn As String = tb_username.Text
@@ -92,7 +92,7 @@ Public Class Login
                 cn.Close()
             Catch ex As Exception
                 cn.Close()
-                MsgBox(ex.ToString())
+                MsgBox(ex.Message.ToString())
             End Try
         End If
 

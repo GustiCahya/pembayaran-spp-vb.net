@@ -1,7 +1,6 @@
 ﻿Imports MySql.Data.MySqlClient
 Public Class RiwayatForm
     Private currentId As String
-    Private bitmap As Bitmap
     Private Sub RiwayatForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If PageAdmin.role <> "admin" Then
             DataGridView1.Size = New System.Drawing.Size(584, 275)
@@ -41,7 +40,6 @@ Public Class RiwayatForm
                 cn.Close()
         End Select
     End Sub
-
     Private Sub CustomizeTable()
         Dim daftarBulan As String() = {"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"}
         ds = New DataSet()
@@ -61,26 +59,9 @@ Public Class RiwayatForm
             DataGridView1.Rows(i).Cells(3).Value = tanggal.ToString("dd/MM/yyyy")
         Next
     End Sub
-
     Private Sub btn_laporan_Click(sender As Object, e As EventArgs) Handles btn_laporan.Click
-        Dim height As Integer = DataGridView1.Height
-        DataGridView1.Height = DataGridView1.RowCount * DataGridView1.RowTemplate.Height
-        bitmap = New Bitmap(Me.DataGridView1.Width, Me.DataGridView1.Height)
-        DataGridView1.DrawToBitmap(bitmap, New Rectangle(0, 0, Me.DataGridView1.Width, Me.DataGridView1.Height))
-        With PrintPreviewDialog1
-            .Document = PrintDocument1
-            .PrintPreviewControl.Zoom = 1
-            .ShowDialog()
-        End With
-        DataGridView1.Height = height
+        Laporan.Show()
     End Sub
-
-    Private Sub PrintDocument1_PrintPage(sender As Object, e As Printing.PrintPageEventArgs) Handles PrintDocument1.PrintPage
-        e.Graphics.DrawImage(bitmap, 0, 0)
-        Dim rectPrint As RectangleF = e.PageSettings.PrintableArea
-        If Me.DataGridView1.Height - rectPrint.Height > 0 Then e.HasMorePages = True
-    End Sub
-
     Private Sub btn_delete_Click(sender As Object, e As EventArgs) Handles btn_delete.Click
         Select Case MsgBox("Yakin ID Pembayaran " & currentId & " mau dihapus ?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes

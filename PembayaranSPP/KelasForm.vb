@@ -32,31 +32,117 @@ Public Class KelasForm
     End Sub
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+        currentId = DataGridView1.Item(0, DataGridView1.CurrentRow.Index).Value
+    End Sub
+
+    Dim mRow As Integer = 0
+    Dim newpage As Boolean = True
+    Private Sub PrintDocument1_PrintPage(sender As Object, e As Printing.PrintPageEventArgs) Handles PrintDocument1.PrintPage
         With DataGridView1
-            currentId = .Item(0, .CurrentRow.Index).Value
+            Dim fmt As StringFormat = New StringFormat(StringFormatFlags.LineLimit)
+            fmt.LineAlignment = StringAlignment.Center
+            fmt.Trimming = StringTrimming.EllipsisCharacter
+            Dim y As Single = e.MarginBounds.Top
+            Do While mRow < .RowCount
+                Dim row As DataGridViewRow = .Rows(mRow)
+                Dim x As Single = e.MarginBounds.Left
+                Dim h As Single = 0
+                For Each cell As DataGridViewCell In row.Cells
+                    Dim rc As RectangleF = New RectangleF(x, y, cell.Size.Width, cell.Size.Height)
+                    e.Graphics.DrawRectangle(Pens.Black, rc.Left, rc.Top, rc.Width, rc.Height)
+                    If (newpage) Then
+                        e.Graphics.DrawString(DataGridView1.Columns(cell.ColumnIndex).HeaderText, .Font, Brushes.Black, rc, fmt)
+                    Else
+                        e.Graphics.DrawString(DataGridView1.Rows(cell.RowIndex).Cells(cell.ColumnIndex).FormattedValue.ToString(), .Font, Brushes.Black, rc, fmt)
+                    End If
+                    x += rc.Width
+                    h = Math.Max(h, rc.Height)
+                Next
+                newpage = False
+                y += h
+                mRow += 1
+                If y + h > e.MarginBounds.Bottom Then
+                    e.HasMorePages = True
+                    mRow -= 1
+                    newpage = True
+                    Exit Sub
+                End If
+            Loop
+            mRow = 0
+        End With
+    End Sub
+
+    Private Sub btn_cetak_Click(sender As Object, e As EventArgs) Handles btn_cetak.Click
+        PrintPreviewDialog1.Document = PrintDocument1
+        PrintPreviewDialog1.ShowDialog()
+    End Sub
+
+    Private Sub btn_tutup_Click(sender As Object, e As EventArgs) Handles btn_tutup.Click
+        PageAdmin.FormPanel(TransaksiForm)
+    End Sub
+
+    Private Sub btn_create_Click_1(sender As Object, e As EventArgs) Handles btn_create.Click
+        If (Not String.IsNullOrEmpty(currentId)) Then
+            Try
+                cn.Open()
+                If Not String.IsNullOrEmpty(tb_nama_kelas.Text) And Not String.IsNullOrEmpty(tb_kompetensi_keahlian.Text) Then
+                    cm = New MySqlCommand("UPDATE kelas SET id_kelas=@id_kelas, nama_kelas=@nama_kelas, kompetensi_keahlian=@kompentensi WHERE id_kelas=@id_kelas ", cn)
+                    With cm.Parameters
+                        .AddWithValue("@id_kelas", tb_id_kelas.Text)
+                        .AddWithValue("@nama_kelas", tb_nama_kelas.Text)
+                        .AddWithValue("@kompentensi", tb_kompetensi_keahlian.Text)
+                    End With
+                    cm.ExecuteNonQuery()
+                    btn_back.PerformClick()
+                Else
+                    MsgBox("Tolong isi seluruh box yang masih kosong!", vbCritical)
+                End If
+                cn.Close()
+            Catch ex As Exception
+                cn.Close()
+                MsgBox(ex.Message.ToString())
+            End Try
+        Else
+            Try
+                cn.Open()
+                If Not String.IsNullOrEmpty(tb_nama_kelas.Text) And Not String.IsNullOrEmpty(tb_kompetensi_keahlian.Text) Then
+                    cm = New MySqlCommand("INSERT INTO kelas VALUES (@id_kelas, @nama_kelas, @kompentensi)", cn)
+                    With cm.Parameters
+                        .AddWithValue("@id_kelas", tb_id_kelas.Text)
+                        .AddWithValue("@nama_kelas", tb_nama_kelas.Text)
+                        .AddWithValue("@kompentensi", tb_kompetensi_keahlian.Text)
+                    End With
+                    cm.ExecuteNonQuery()
+                    LoadTable()
+                    ClearTextBox()
+                Else
+                    MsgBox("Tolong isi seluruh box yang masih kosong!", vbCritical)
+                End If
+                cn.Close()
+            Catch ex As Exception
+                cn.Close()
+                MsgBox(ex.Message.ToString())
+            End Try
+        End If
+    End Sub
+
+    Private Sub btn_back_Click_1(sender As Object, e As EventArgs) Handles btn_back.Click
+        ClearTextBox()
+        currentId = ""
+        LoadTable()
+    End Sub
+
+    Private Sub btn_update_Click_1(sender As Object, e As EventArgs) Handles btn_update.Click
+        With DataGridView1
             tb_id_kelas.Text = currentId
             tb_nama_kelas.Text = .Item(1, .CurrentRow.Index).Value
             tb_kompetensi_keahlian.Text = .Item(2, .CurrentRow.Index).Value
         End With
         tb_id_kelas.ReadOnly = False
         tb_id_kelas.Cursor = System.Windows.Forms.Cursors.IBeam
-        btn_create.Visible = False
-        btn_update.Visible = True
-        btn_delete.Visible = True
-        btn_back.Visible = True
     End Sub
 
-    Private Sub btn_back_Click(sender As Object, e As EventArgs) Handles btn_back.Click
-        ClearTextBox()
-        currentId = ""
-        btn_create.Visible = True
-        btn_update.Visible = False
-        btn_delete.Visible = False
-        btn_back.Visible = False
-        LoadTable()
-    End Sub
-
-    Private Sub btn_delete_Click(sender As Object, e As EventArgs) Handles btn_delete.Click
+    Private Sub btn_delete_Click_1(sender As Object, e As EventArgs) Handles btn_delete.Click
         Select Case MsgBox("Yakin mau dihapus?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
                 Try
@@ -71,50 +157,5 @@ Public Class KelasForm
                     MsgBox(ex.Message.ToString(), vbCritical)
                 End Try
         End Select
-    End Sub
-
-    Private Sub btn_create_Click(sender As Object, e As EventArgs) Handles btn_create.Click
-        Try
-            cn.Open()
-            If Not String.IsNullOrEmpty(tb_nama_kelas.Text) And Not String.IsNullOrEmpty(tb_kompetensi_keahlian.Text) Then
-                cm = New MySqlCommand("INSERT INTO kelas VALUES (@id_kelas, @nama_kelas, @kompentensi)", cn)
-                With cm.Parameters
-                    .AddWithValue("@id_kelas", tb_id_kelas.Text)
-                    .AddWithValue("@nama_kelas", tb_nama_kelas.Text)
-                    .AddWithValue("@kompentensi", tb_kompetensi_keahlian.Text)
-                End With
-                cm.ExecuteNonQuery()
-                LoadTable()
-                ClearTextBox()
-            Else
-                MsgBox("Tolong isi seluruh box yang masih kosong!", vbCritical)
-            End If
-            cn.Close()
-        Catch ex As Exception
-            cn.Close()
-            MsgBox(ex.Message.ToString())
-        End Try
-    End Sub
-
-    Private Sub btn_update_Click(sender As Object, e As EventArgs) Handles btn_update.Click
-        Try
-            cn.Open()
-            If Not String.IsNullOrEmpty(tb_nama_kelas.Text) And Not String.IsNullOrEmpty(tb_kompetensi_keahlian.Text) Then
-                cm = New MySqlCommand("UPDATE kelas SET id_kelas=@id_kelas, nama_kelas=@nama_kelas, kompetensi_keahlian=@kompentensi WHERE id_kelas=@id_kelas ", cn)
-                With cm.Parameters
-                    .AddWithValue("@id_kelas", tb_id_kelas.Text)
-                    .AddWithValue("@nama_kelas", tb_nama_kelas.Text)
-                    .AddWithValue("@kompentensi", tb_kompetensi_keahlian.Text)
-                End With
-                cm.ExecuteNonQuery()
-                btn_back.PerformClick()
-            Else
-                MsgBox("Tolong isi seluruh box yang masih kosong!", vbCritical)
-            End If
-            cn.Close()
-        Catch ex As Exception
-            cn.Close()
-            MsgBox(ex.Message.ToString())
-        End Try
     End Sub
 End Class

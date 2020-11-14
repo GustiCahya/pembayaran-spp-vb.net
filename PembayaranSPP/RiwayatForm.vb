@@ -56,7 +56,7 @@ Public Class RiwayatForm
             indexBulan = DataGridView1.Rows(i).Cells(4).Value - 1
             DataGridView1.Rows(i).Cells(4).Value = daftarBulan(indexBulan)
             tanggal = DataGridView1.Rows(i).Cells(3).Value
-            DataGridView1.Rows(i).Cells(3).Value = tanggal.ToString("dd/MM/yyyy")
+            DataGridView1.Rows(i).Cells(3).Value = tanggal
         Next
     End Sub
     Private Sub btn_laporan_Click(sender As Object, e As EventArgs) Handles btn_laporan.Click

@@ -52,7 +52,7 @@ Public Class TransaksiForm
             Dim get_tahun As String = dtp_tanggal.Value.Year
             cm = New MySqlCommand("SELECT nominal FROM spp WHERE tahun=@tahun", cn)
             cm.Parameters.AddWithValue("@tahun", get_tahun)
-            lbl_minimum.Text = "Biaya SPP : " & cm.ExecuteScalar()
+            num_jumlah_bayar.Value = cm.ExecuteScalar()
             cn.Close()
         Catch ex As Exception
             cn.Close()
@@ -78,11 +78,11 @@ Public Class TransaksiForm
         Connection()
         Try
             cn.Open()
-            If Not String.IsNullOrEmpty(cmb_petugas.SelectedValue) And Not String.IsNullOrEmpty(cmb_nisn.SelectedValue) And Not String.IsNullOrEmpty(dtp_tanggal.Value) And Not String.IsNullOrEmpty(tb_jumlah_bayar.Text) Then
+            If Not String.IsNullOrEmpty(cmb_petugas.SelectedValue) And Not String.IsNullOrEmpty(cmb_nisn.SelectedValue) And Not String.IsNullOrEmpty(dtp_tanggal.Value) And Not String.IsNullOrEmpty(num_jumlah_bayar.Text) Then
 
                 Dim id_pembayaran As Integer
                 If DataGridView1.RowCount < 1 Then
-                    cm = New MySqlCommand("SELECT Count(*) FROM pembayaran", cn)
+                    cm = New MySqlCommand("SELECT id_pembayaran FROM pembayaran ORDER BY id_pembayaran DESC", cn)
                     Dim count As Integer = cm.ExecuteScalar()
                     id_pembayaran = count + 1
                 Else
@@ -104,7 +104,7 @@ Public Class TransaksiForm
                     MsgBox(ex.Message.ToString(), vbCritical)
                 End Try
 
-                Dim jumlah_bayar As Integer = tb_jumlah_bayar.Text
+                Dim jumlah_bayar As Integer = num_jumlah_bayar.Text
                 cm = New MySqlCommand("SELECT nominal FROM spp WHERE id_spp=@id_spp", cn)
                 cm.Parameters.AddWithValue("@id_spp", id_spp)
                 Dim nominal As Integer = cm.ExecuteScalar()
@@ -137,14 +137,10 @@ Public Class TransaksiForm
     End Sub
 
     Private Sub ClearTextBox()
-        tb_jumlah_bayar.Text = ""
+        num_jumlah_bayar.Text = ""
     End Sub
 
-    Private Sub tb_jumlah_bayar_KeyDown(sender As Object, e As KeyEventArgs) Handles tb_jumlah_bayar.KeyDown
-        If e.KeyCode = Keys.Enter Then
-            btn_add.PerformClick()
-        End If
-    End Sub
+
 
     Private Sub btn_send_Click(sender As Object, e As EventArgs) Handles btn_send.Click
         Connection()
@@ -186,5 +182,11 @@ Public Class TransaksiForm
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btn_delete.Click
         DataGridView1.Rows.RemoveAt(currentRowIndex)
         btn_delete.Visible = False
+    End Sub
+
+    Private Sub num_jumlah_bayar_KeyDown(sender As Object, e As KeyEventArgs) Handles num_jumlah_bayar.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            btn_add.PerformClick()
+        End If
     End Sub
 End Class

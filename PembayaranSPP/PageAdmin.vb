@@ -4,7 +4,7 @@
     Public role As String
     Public currentId As String
 
-    Private Sub FormPanel(ByVal CurrentForm As Object)
+    Public Sub FormPanel(ByVal CurrentForm As Object)
         If Me.PanelShow.Controls.Count > 0 Then
             Me.PanelShow.Controls.RemoveAt(0)
         End If
@@ -27,27 +27,27 @@
     End Sub
 
     Private Sub btn_siswa_Click(sender As Object, e As EventArgs) Handles btn_siswa.Click
-        FormPanel(New SiswaForm)
+        FormPanel(SiswaForm)
     End Sub
 
     Private Sub btn_petugas_Click(sender As Object, e As EventArgs) Handles btn_petugas.Click
-        FormPanel(New PetugasForm)
+        FormPanel(PetugasForm)
     End Sub
 
     Private Sub btn_kelas_Click(sender As Object, e As EventArgs) Handles btn_kelas.Click
-        FormPanel(New KelasForm)
+        FormPanel(KelasForm)
     End Sub
 
     Private Sub btn_spp_Click(sender As Object, e As EventArgs) Handles btn_spp.Click
-        FormPanel(New SppForm)
+        FormPanel(SppForm)
     End Sub
 
     Private Sub btn_transaksi_Click(sender As Object, e As EventArgs) Handles btn_transaksi.Click
-        FormPanel(New TransaksiForm)
+        FormPanel(TransaksiForm)
     End Sub
 
     Private Sub btn_riwayat_Click(sender As Object, e As EventArgs) Handles btn_riwayat.Click
-        FormPanel(New RiwayatForm)
+        FormPanel(RiwayatForm)
     End Sub
 
     Private Sub PageAdmin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -87,5 +87,9 @@
         Me.Close()
         Me.username = ""
         Me.role = ""
+    End Sub
+
+    Private Sub PanelShow_Paint(sender As Object, e As PaintEventArgs) Handles PanelShow.Paint
+
     End Sub
 End Class

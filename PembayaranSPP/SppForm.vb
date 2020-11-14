@@ -9,7 +9,7 @@ Public Class SppForm
 
     Private Sub ClearTextBox()
         tb_tahun.Text = ""
-        tb_nominal.Text = ""
+        num_nominal.Text = ""
     End Sub
 
     Private Sub LoadTable()
@@ -22,7 +22,11 @@ Public Class SppForm
         tb_id_spp.Cursor = System.Windows.Forms.Cursors.No
     End Sub
 
-    Private Sub tb_nominal_KeyDown(sender As Object, e As KeyEventArgs) Handles tb_nominal.KeyDown
+    Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+        currentId = DataGridView1.Item(0, DataGridView1.CurrentRow.Index).Value
+    End Sub
+
+    Private Sub num_nominal_KeyDown(sender As Object, e As KeyEventArgs) Handles num_nominal.KeyDown
         If e.KeyCode = Keys.Enter Then
             If Not String.IsNullOrEmpty(currentId) Then
                 btn_update.PerformClick()
@@ -32,32 +36,110 @@ Public Class SppForm
         End If
     End Sub
 
-    Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+    Dim mRow As Integer = 0
+    Dim newpage As Boolean = True
+    Private Sub PrintDocument1_PrintPage(sender As Object, e As Printing.PrintPageEventArgs) Handles PrintDocument1.PrintPage
         With DataGridView1
-            currentId = .Item(0, .CurrentRow.Index).Value
-            tb_id_spp.Text = currentId
-            tb_tahun.Text = .Item(1, .CurrentRow.Index).Value
-            tb_nominal.Text = .Item(2, .CurrentRow.Index).Value
+            Dim fmt As StringFormat = New StringFormat(StringFormatFlags.LineLimit)
+            fmt.LineAlignment = StringAlignment.Center
+            fmt.Trimming = StringTrimming.EllipsisCharacter
+            Dim y As Single = e.MarginBounds.Top
+            Do While mRow < .RowCount
+                Dim row As DataGridViewRow = .Rows(mRow)
+                Dim x As Single = e.MarginBounds.Left
+                Dim h As Single = 0
+                For Each cell As DataGridViewCell In row.Cells
+                    Dim rc As RectangleF = New RectangleF(x, y, cell.Size.Width, cell.Size.Height)
+                    e.Graphics.DrawRectangle(Pens.Black, rc.Left, rc.Top, rc.Width, rc.Height)
+                    If (newpage) Then
+                        e.Graphics.DrawString(DataGridView1.Columns(cell.ColumnIndex).HeaderText, .Font, Brushes.Black, rc, fmt)
+                    Else
+                        e.Graphics.DrawString(DataGridView1.Rows(cell.RowIndex).Cells(cell.ColumnIndex).FormattedValue.ToString(), .Font, Brushes.Black, rc, fmt)
+                    End If
+                    x += rc.Width
+                    h = Math.Max(h, rc.Height)
+                Next
+                newpage = False
+                y += h
+                mRow += 1
+                If y + h > e.MarginBounds.Bottom Then
+                    e.HasMorePages = True
+                    mRow -= 1
+                    newpage = True
+                    Exit Sub
+                End If
+            Loop
+            mRow = 0
         End With
-        tb_id_spp.ReadOnly = False
-        tb_id_spp.Cursor = System.Windows.Forms.Cursors.IBeam
-        btn_create.Visible = False
-        btn_update.Visible = True
-        btn_delete.Visible = True
-        btn_back.Visible = True
     End Sub
 
-    Private Sub btn_back_Click(sender As Object, e As EventArgs) Handles btn_back.Click
+    Private Sub btn_cetak_Click(sender As Object, e As EventArgs) Handles btn_cetak.Click
+        PrintPreviewDialog1.Document = PrintDocument1
+        PrintPreviewDialog1.ShowDialog()
+    End Sub
+
+    Private Sub btn_tutup_Click(sender As Object, e As EventArgs) Handles btn_tutup.Click
+        PageAdmin.FormPanel(TransaksiForm)
+    End Sub
+
+    Private Sub btn_create_Click_1(sender As Object, e As EventArgs) Handles btn_create.Click
+        If (Not String.IsNullOrEmpty(currentId)) Then
+            Try
+                cn.Open()
+                If Not String.IsNullOrEmpty(tb_tahun.Text) And Not String.IsNullOrEmpty(num_nominal.Text) Then
+                    cm = New MySqlCommand("UPDATE spp SET id_spp=@id_spp, tahun=@tahun, nominal=@nominal WHERE id_spp=@id_spp ", cn)
+                    cm.Parameters.AddWithValue("@id_spp", tb_id_spp.Text)
+                    cm.Parameters.AddWithValue("@tahun", tb_tahun.Text)
+                    cm.Parameters.AddWithValue("@nominal", num_nominal.Text)
+                    cm.ExecuteNonQuery()
+                    btn_back.PerformClick()
+                Else
+                    MsgBox("Tolong isi seluruh box yang masih kosong!", vbCritical)
+                End If
+                cn.Close()
+            Catch ex As Exception
+                cn.Close()
+                MsgBox(ex.Message.ToString())
+            End Try
+        Else
+            Try
+                cn.Open()
+                If Not String.IsNullOrEmpty(tb_tahun.Text) And Not String.IsNullOrEmpty(num_nominal.Text) Then
+                    cm = New MySqlCommand("INSERT INTO spp VALUES (@id_spp, @tahun, @nominal)", cn)
+                    cm.Parameters.AddWithValue("@id_spp", tb_id_spp.Text)
+                    cm.Parameters.AddWithValue("@tahun", tb_tahun.Text)
+                    cm.Parameters.AddWithValue("@nominal", num_nominal.Text)
+                    cm.ExecuteNonQuery()
+                    LoadTable()
+                    ClearTextBox()
+                Else
+                    MsgBox("Tolong isi seluruh box yang masih kosong!", vbCritical)
+                End If
+                cn.Close()
+            Catch ex As Exception
+                cn.Close()
+                MsgBox(ex.Message.ToString())
+            End Try
+        End If
+    End Sub
+
+    Private Sub btn_back_Click_1(sender As Object, e As EventArgs) Handles btn_back.Click
         ClearTextBox()
         currentId = ""
-        btn_create.Visible = True
-        btn_update.Visible = False
-        btn_delete.Visible = False
-        btn_back.Visible = False
         LoadTable()
     End Sub
 
-    Private Sub btn_delete_Click(sender As Object, e As EventArgs) Handles btn_delete.Click
+    Private Sub btn_update_Click_1(sender As Object, e As EventArgs) Handles btn_update.Click
+        With DataGridView1
+            tb_id_spp.Text = currentId
+            tb_tahun.Text = .Item(1, .CurrentRow.Index).Value
+            num_nominal.Text = .Item(2, .CurrentRow.Index).Value
+        End With
+        tb_id_spp.ReadOnly = False
+        tb_id_spp.Cursor = System.Windows.Forms.Cursors.IBeam
+    End Sub
+
+    Private Sub btn_delete_Click_1(sender As Object, e As EventArgs) Handles btn_delete.Click
         Select Case MsgBox("Yakin mau dihapus ?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
                 Try
@@ -73,46 +155,4 @@ Public Class SppForm
                 End Try
         End Select
     End Sub
-
-    Private Sub btn_create_Click(sender As Object, e As EventArgs) Handles btn_create.Click
-        Try
-            cn.Open()
-            If Not String.IsNullOrEmpty(tb_tahun.Text) And Not String.IsNullOrEmpty(tb_nominal.Text) Then
-                cm = New MySqlCommand("INSERT INTO spp VALUES (@id_spp, @tahun, @nominal)", cn)
-                cm.Parameters.AddWithValue("@id_spp", tb_id_spp.Text)
-                cm.Parameters.AddWithValue("@tahun", tb_tahun.Text)
-                cm.Parameters.AddWithValue("@nominal", tb_nominal.Text)
-                cm.ExecuteNonQuery()
-                LoadTable()
-                ClearTextBox()
-            Else
-                MsgBox("Tolong isi seluruh box yang masih kosong!", vbCritical)
-            End If
-            cn.Close()
-        Catch ex As Exception
-            cn.Close()
-            MsgBox(ex.Message.ToString())
-        End Try
-    End Sub
-
-    Private Sub btn_update_Click(sender As Object, e As EventArgs) Handles btn_update.Click
-        Try
-            cn.Open()
-            If Not String.IsNullOrEmpty(tb_tahun.Text) And Not String.IsNullOrEmpty(tb_nominal.Text) Then
-                cm = New MySqlCommand("UPDATE spp SET id_spp=@id_spp, tahun=@tahun, nominal=@nominal WHERE id_spp=@id_spp ", cn)
-                cm.Parameters.AddWithValue("@id_spp", tb_id_spp.Text)
-                cm.Parameters.AddWithValue("@tahun", tb_tahun.Text)
-                cm.Parameters.AddWithValue("@nominal", tb_nominal.Text)
-                cm.ExecuteNonQuery()
-                btn_back.PerformClick()
-            Else
-                MsgBox("Tolong isi seluruh box yang masih kosong!", vbCritical)
-            End If
-            cn.Close()
-        Catch ex As Exception
-            cn.Close()
-            MsgBox(ex.Message.ToString())
-        End Try
-    End Sub
-
 End Class

@@ -32,7 +32,6 @@ Partial Class TransaksiForm
         Me.cmb_petugas = New System.Windows.Forms.ComboBox()
         Me.cmb_nisn = New System.Windows.Forms.ComboBox()
         Me.dtp_tanggal = New System.Windows.Forms.DateTimePicker()
-        Me.tb_jumlah_bayar = New System.Windows.Forms.TextBox()
         Me.lbl_nama_siswa = New System.Windows.Forms.Label()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.no = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -45,9 +44,10 @@ Partial Class TransaksiForm
         Me.id_spp = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.jumlah_bayar = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.btn_send = New System.Windows.Forms.Button()
-        Me.lbl_minimum = New System.Windows.Forms.Label()
         Me.btn_delete = New System.Windows.Forms.Button()
+        Me.num_jumlah_bayar = New System.Windows.Forms.NumericUpDown()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.num_jumlah_bayar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Label7
@@ -113,7 +113,9 @@ Partial Class TransaksiForm
         '
         'cmb_petugas
         '
+        Me.cmb_petugas.Cursor = System.Windows.Forms.Cursors.No
         Me.cmb_petugas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmb_petugas.Enabled = False
         Me.cmb_petugas.FormattingEnabled = True
         Me.cmb_petugas.Location = New System.Drawing.Point(22, 28)
         Me.cmb_petugas.Name = "cmb_petugas"
@@ -137,13 +139,6 @@ Partial Class TransaksiForm
         Me.dtp_tanggal.Name = "dtp_tanggal"
         Me.dtp_tanggal.Size = New System.Drawing.Size(366, 20)
         Me.dtp_tanggal.TabIndex = 45
-        '
-        'tb_jumlah_bayar
-        '
-        Me.tb_jumlah_bayar.Location = New System.Drawing.Point(22, 145)
-        Me.tb_jumlah_bayar.Name = "tb_jumlah_bayar"
-        Me.tb_jumlah_bayar.Size = New System.Drawing.Size(263, 20)
-        Me.tb_jumlah_bayar.TabIndex = 47
         '
         'lbl_nama_siswa
         '
@@ -252,19 +247,6 @@ Partial Class TransaksiForm
         Me.btn_send.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.btn_send.UseVisualStyleBackColor = False
         '
-        'lbl_minimum
-        '
-        Me.lbl_minimum.AutoSize = True
-        Me.lbl_minimum.BackColor = System.Drawing.Color.Firebrick
-        Me.lbl_minimum.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.lbl_minimum.ForeColor = System.Drawing.SystemColors.ControlLightLight
-        Me.lbl_minimum.Location = New System.Drawing.Point(291, 145)
-        Me.lbl_minimum.Name = "lbl_minimum"
-        Me.lbl_minimum.Padding = New System.Windows.Forms.Padding(5, 4, 5, 4)
-        Me.lbl_minimum.Size = New System.Drawing.Size(118, 21)
-        Me.lbl_minimum.TabIndex = 51
-        Me.lbl_minimum.Text = "Biaya SPP : ######"
-        '
         'btn_delete
         '
         Me.btn_delete.BackColor = System.Drawing.Color.Crimson
@@ -282,17 +264,28 @@ Partial Class TransaksiForm
         Me.btn_delete.UseVisualStyleBackColor = False
         Me.btn_delete.Visible = False
         '
+        'num_jumlah_bayar
+        '
+        Me.num_jumlah_bayar.Cursor = System.Windows.Forms.Cursors.No
+        Me.num_jumlah_bayar.Enabled = False
+        Me.num_jumlah_bayar.InterceptArrowKeys = False
+        Me.num_jumlah_bayar.Location = New System.Drawing.Point(22, 146)
+        Me.num_jumlah_bayar.Maximum = New Decimal(New Integer() {999999999, 0, 0, 0})
+        Me.num_jumlah_bayar.Name = "num_jumlah_bayar"
+        Me.num_jumlah_bayar.ReadOnly = True
+        Me.num_jumlah_bayar.Size = New System.Drawing.Size(366, 20)
+        Me.num_jumlah_bayar.TabIndex = 53
+        '
         'TransaksiForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(584, 364)
+        Me.Controls.Add(Me.num_jumlah_bayar)
         Me.Controls.Add(Me.btn_delete)
-        Me.Controls.Add(Me.lbl_minimum)
         Me.Controls.Add(Me.btn_send)
         Me.Controls.Add(Me.DataGridView1)
         Me.Controls.Add(Me.lbl_nama_siswa)
-        Me.Controls.Add(Me.tb_jumlah_bayar)
         Me.Controls.Add(Me.dtp_tanggal)
         Me.Controls.Add(Me.cmb_nisn)
         Me.Controls.Add(Me.cmb_petugas)
@@ -305,6 +298,7 @@ Partial Class TransaksiForm
         Me.Name = "TransaksiForm"
         Me.Text = "TransaksiForm"
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.num_jumlah_bayar, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -319,7 +313,6 @@ Partial Class TransaksiForm
     Friend WithEvents cmb_petugas As ComboBox
     Friend WithEvents cmb_nisn As ComboBox
     Friend WithEvents dtp_tanggal As DateTimePicker
-    Friend WithEvents tb_jumlah_bayar As TextBox
     Friend WithEvents lbl_nama_siswa As Label
     Friend WithEvents DataGridView1 As DataGridView
     Friend WithEvents btn_send As Button
@@ -332,6 +325,6 @@ Partial Class TransaksiForm
     Friend WithEvents tahun_dibayar As DataGridViewTextBoxColumn
     Friend WithEvents id_spp As DataGridViewTextBoxColumn
     Friend WithEvents jumlah_bayar As DataGridViewTextBoxColumn
-    Friend WithEvents lbl_minimum As Label
     Friend WithEvents btn_delete As Button
+    Friend WithEvents num_jumlah_bayar As NumericUpDown
 End Class

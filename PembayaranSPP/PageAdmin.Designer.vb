@@ -224,6 +224,7 @@ Partial Class PageAdmin
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.PanelShow)
         Me.Controls.Add(Me.PanelMenu)
+        Me.MaximizeBox = False
         Me.Name = "PageAdmin"
         Me.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow
         Me.PanelMenu.ResumeLayout(False)

@@ -1,24 +1,24 @@
 ﻿Module HandleRole
 
     Public Sub OnOffMenu(
-        Optional ByVal File As Boolean = False,
-        Optional ByVal GantiPassword As Boolean = False,
-        Optional ByVal Logout As Boolean = False,
-        Optional ByVal Keluar As Boolean = False,
-        Optional ByVal Master As Boolean = False,
-        Optional ByVal Petugas As Boolean = False,
-        Optional ByVal Kelas As Boolean = False,
-        Optional ByVal SPP As Boolean = False,
-        Optional ByVal Siswa As Boolean = False,
-        Optional ByVal Transaksi As Boolean = False,
-        Optional ByVal Pembayaran As Boolean = False,
-        Optional ByVal Laporan As Boolean = False,
-        Optional ByVal Histori As Boolean = False,
-        Optional ByVal Rekapitulasi As Boolean = False,
-        Optional ByVal Pengaturan As Boolean = False,
-        Optional ByVal Server As Boolean = False,
-        Optional ByVal Sistem As Boolean = False,
-        Optional ByVal Tentang As Boolean = False
+        ByVal File As Boolean,
+        ByVal GantiPassword As Boolean,
+        ByVal Logout As Boolean,
+        ByVal Keluar As Boolean,
+        ByVal Master As Boolean,
+        ByVal Petugas As Boolean,
+        ByVal Kelas As Boolean,
+        ByVal SPP As Boolean,
+        ByVal Siswa As Boolean,
+        ByVal Transaksi As Boolean,
+        ByVal Pembayaran As Boolean,
+        ByVal Laporan As Boolean,
+        ByVal Histori As Boolean,
+        ByVal Rekapitulasi As Boolean,
+        ByVal Pengaturan As Boolean,
+        ByVal Server As Boolean,
+        ByVal Sistem As Boolean,
+        ByVal Tentang As Boolean
     )
         MenuUtama.FileToolStripMenuItem.Visible = File
         MenuUtama.GantiPasswordToolStripMenuItem.Visible = GantiPassword

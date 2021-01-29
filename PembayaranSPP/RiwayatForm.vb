@@ -10,7 +10,7 @@ Public Class RiwayatForm
         btn_delete.Visible = False
         LoadTable()
     End Sub
-    Private Sub LoadTable()
+    Public Sub LoadTable()
         Select Case MenuUtama.role
             Case "petugas"
                 cn.Open()

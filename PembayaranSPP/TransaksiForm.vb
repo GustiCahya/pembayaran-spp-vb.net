@@ -3,6 +3,10 @@ Public Class TransaksiForm
     Private currentRowIndex As String
     Private Sub TransaksiForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Connection()
+
+        dtp_tanggal.Format = DateTimePickerFormat.Custom
+        dtp_tanggal.CustomFormat = "MMMM yyyy"
+
         handle_lbl_minimum()
         'Handle Combobox Petugas
         Try
@@ -91,7 +95,7 @@ Public Class TransaksiForm
 
                 Dim id_petugas As String = cmb_petugas.SelectedValue
                 Dim nisn As String = cmb_nisn.SelectedValue
-                Dim tanggal As String = dtp_tanggal.Value.ToString("yyyy-MM-dd")
+                Dim tanggal As String = Date.Now().ToString("dd/MM/yyyy")
                 Dim bulan As Integer = dtp_tanggal.Value.Month
                 Dim tahun As String = dtp_tanggal.Value.Year
 
@@ -152,7 +156,7 @@ Public Class TransaksiForm
                             .AddWithValue("@id_pembayaran", DataGridView1.Rows(i).Cells("id_pembayaran").Value)
                             .AddWithValue("@id_petugas", DataGridView1.Rows(i).Cells("id_petugas").Value)
                             .AddWithValue("@nisn", DataGridView1.Rows(i).Cells("nisn").Value)
-                            .AddWithValue("@tanggal", DataGridView1.Rows(i).Cells("tgl_bayar").Value)
+                            .AddWithValue("@tanggal", (DateTime.Parse(DataGridView1.Rows(i).Cells("tgl_bayar").Value)).ToString("yyyy-MM-dd"))
                             .AddWithValue("@bulan", DataGridView1.Rows(i).Cells("bulan_dibayar").Value)
                             .AddWithValue("@tahun", DataGridView1.Rows(i).Cells("tahun_dibayar").Value)
                             .AddWithValue("@id_spp", DataGridView1.Rows(i).Cells("id_spp").Value)

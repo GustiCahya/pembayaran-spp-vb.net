@@ -6,6 +6,7 @@ Public Class SiswaForm
     Private currentId
 
     Private Sub LoadTable()
+        Me.KeyPreview = True
         da = New MySqlDataAdapter("SELECT siswa.*, kelas.nama_kelas, spp.tahun FROM siswa INNER JOIN kelas ON siswa.id_kelas=kelas.id_kelas INNER JOIN spp ON siswa.id_spp=spp.id_spp", cn)
         ds = New DataSet()
         da.Fill(ds, "siswa")
@@ -247,59 +248,14 @@ SET nisn=@nisn, nis=@nis, nama=@nama, id_kelas=@id_kelas, alamat=@alamat, no_tel
         Me.Close()
     End Sub
 
-    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
-
-    End Sub
-
-    Private Sub tb_nisn_TextChanged(sender As Object, e As EventArgs) Handles tb_nisn.TextChanged
-
-    End Sub
-
-    Private Sub Label4_Click(sender As Object, e As EventArgs) Handles Label4.Click
-
-    End Sub
-
-    Private Sub tb_telepon_TextChanged(sender As Object, e As EventArgs) Handles tb_telepon.TextChanged
-
-    End Sub
-
-    Private Sub Label2_Click(sender As Object, e As EventArgs) Handles Label2.Click
-
-    End Sub
-
-    Private Sub tb_nis_TextChanged(sender As Object, e As EventArgs) Handles tb_nis.TextChanged
-
-    End Sub
-
-    Private Sub Label5_Click(sender As Object, e As EventArgs) Handles Label5.Click
-
-    End Sub
-
-    Private Sub cmb_kelas_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmb_kelas.SelectedIndexChanged
-
-    End Sub
-
-    Private Sub Label6_Click(sender As Object, e As EventArgs) Handles Label6.Click
-
-    End Sub
-
-    Private Sub cmb_spp_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmb_spp.SelectedIndexChanged
-
-    End Sub
-
-    Private Sub Label3_Click(sender As Object, e As EventArgs) Handles Label3.Click
-
-    End Sub
-
-    Private Sub tb_nama_TextChanged(sender As Object, e As EventArgs) Handles tb_nama.TextChanged
-
-    End Sub
-
-    Private Sub Label8_Click(sender As Object, e As EventArgs) Handles Label8.Click
-
-    End Sub
-
-    Private Sub tb_alamat_TextChanged(sender As Object, e As EventArgs) Handles tb_alamat.TextChanged
-
+    Private Sub SiswaForm_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+        Select Case e.KeyCode
+            Case Keys.F5
+                btn_back.PerformClick()
+            Case Keys.Escape
+                Me.Close()
+            Case Keys.Enter
+                btn_create.PerformClick()
+        End Select
     End Sub
 End Class

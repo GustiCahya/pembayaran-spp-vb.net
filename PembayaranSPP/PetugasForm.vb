@@ -4,6 +4,7 @@ Public Class PetugasForm
     Private currentId As String
 
     Private Sub SppForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.KeyPreview = True
         LoadTable()
     End Sub
 
@@ -178,4 +179,14 @@ Public Class PetugasForm
         Me.Close()
     End Sub
 
+    Private Sub PetugasForm_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+        Select Case e.KeyCode
+            Case Keys.F5
+                btn_back.PerformClick()
+            Case Keys.Escape
+                Me.Close()
+            Case Keys.Enter
+                btn_create.PerformClick()
+        End Select
+    End Sub
 End Class

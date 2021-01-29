@@ -3,6 +3,7 @@ Public Class KelasForm
     Private currentId As String
 
     Private Sub SppForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.KeyPreview = True
         LoadTable()
     End Sub
 
@@ -179,4 +180,14 @@ Public Class KelasForm
         End Try
     End Sub
 
+    Private Sub KelasForm_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+        Select Case e.KeyCode
+            Case Keys.F5
+                btn_back.PerformClick()
+            Case Keys.Escape
+                Me.Close()
+            Case Keys.Enter
+                btn_create.PerformClick()
+        End Select
+    End Sub
 End Class

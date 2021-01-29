@@ -34,18 +34,18 @@ Partial Class TransaksiForm
         Me.dtp_tanggal = New System.Windows.Forms.DateTimePicker()
         Me.lbl_nama_siswa = New System.Windows.Forms.Label()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
-        Me.btn_send = New System.Windows.Forms.Button()
-        Me.btn_delete = New System.Windows.Forms.Button()
-        Me.num_jumlah_bayar = New System.Windows.Forms.NumericUpDown()
         Me.no = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.id_pembayaran = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.id_petugas = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.nisn = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.tgl_bayar = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.bulan_dibayar = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.tahun_dibayar = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.id_spp = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.jumlah_bayar = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.tgl_bayar = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.btn_send = New System.Windows.Forms.Button()
+        Me.btn_delete = New System.Windows.Forms.Button()
+        Me.num_jumlah_bayar = New System.Windows.Forms.NumericUpDown()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.num_jumlah_bayar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -69,9 +69,9 @@ Partial Class TransaksiForm
         Me.Label3.Location = New System.Drawing.Point(28, 142)
         Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(111, 20)
+        Me.Label3.Size = New System.Drawing.Size(162, 20)
         Me.Label3.TabIndex = 37
-        Me.Label3.Text = "Tanggal Bayar"
+        Me.Label3.Text = "Pilih Bulan dan Tahun"
         '
         'Label2
         '
@@ -107,7 +107,7 @@ Partial Class TransaksiForm
         Me.btn_add.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btn_add.Name = "btn_add"
         Me.btn_add.Size = New System.Drawing.Size(213, 66)
-        Me.btn_add.TabIndex = 34
+        Me.btn_add.TabIndex = 45
         Me.btn_add.Text = "Tambah"
         Me.btn_add.UseVisualStyleBackColor = False
         '
@@ -152,7 +152,7 @@ Partial Class TransaksiForm
         Me.dtp_tanggal.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.dtp_tanggal.Name = "dtp_tanggal"
         Me.dtp_tanggal.Size = New System.Drawing.Size(547, 26)
-        Me.dtp_tanggal.TabIndex = 45
+        Me.dtp_tanggal.TabIndex = 44
         '
         'lbl_nama_siswa
         '
@@ -179,7 +179,7 @@ Partial Class TransaksiForm
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView1.BackgroundColor = System.Drawing.Color.DarkSlateGray
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.no, Me.id_pembayaran, Me.id_petugas, Me.nisn, Me.tgl_bayar, Me.bulan_dibayar, Me.tahun_dibayar, Me.id_spp, Me.jumlah_bayar})
+        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.no, Me.id_pembayaran, Me.id_petugas, Me.nisn, Me.bulan_dibayar, Me.tahun_dibayar, Me.id_spp, Me.jumlah_bayar, Me.tgl_bayar})
         Me.DataGridView1.Location = New System.Drawing.Point(-15, 274)
         Me.DataGridView1.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.DataGridView1.Name = "DataGridView1"
@@ -187,6 +187,64 @@ Partial Class TransaksiForm
         Me.DataGridView1.RowHeadersWidth = 25
         Me.DataGridView1.Size = New System.Drawing.Size(903, 282)
         Me.DataGridView1.TabIndex = 49
+        '
+        'no
+        '
+        Me.no.HeaderText = "No."
+        Me.no.Name = "no"
+        Me.no.ReadOnly = True
+        Me.no.Width = 30
+        '
+        'id_pembayaran
+        '
+        Me.id_pembayaran.HeaderText = "id_pembayaran"
+        Me.id_pembayaran.Name = "id_pembayaran"
+        Me.id_pembayaran.ReadOnly = True
+        Me.id_pembayaran.Visible = False
+        '
+        'id_petugas
+        '
+        Me.id_petugas.HeaderText = "id_petugas"
+        Me.id_petugas.Name = "id_petugas"
+        Me.id_petugas.ReadOnly = True
+        Me.id_petugas.Visible = False
+        '
+        'nisn
+        '
+        Me.nisn.HeaderText = "NISN"
+        Me.nisn.Name = "nisn"
+        Me.nisn.ReadOnly = True
+        '
+        'bulan_dibayar
+        '
+        Me.bulan_dibayar.HeaderText = "Bulan Dibayar"
+        Me.bulan_dibayar.Name = "bulan_dibayar"
+        Me.bulan_dibayar.ReadOnly = True
+        '
+        'tahun_dibayar
+        '
+        Me.tahun_dibayar.HeaderText = "Tahun Dibayar"
+        Me.tahun_dibayar.Name = "tahun_dibayar"
+        Me.tahun_dibayar.ReadOnly = True
+        '
+        'id_spp
+        '
+        Me.id_spp.HeaderText = "id_spp"
+        Me.id_spp.Name = "id_spp"
+        Me.id_spp.ReadOnly = True
+        Me.id_spp.Visible = False
+        '
+        'jumlah_bayar
+        '
+        Me.jumlah_bayar.HeaderText = "Jumlah Bayar"
+        Me.jumlah_bayar.Name = "jumlah_bayar"
+        Me.jumlah_bayar.ReadOnly = True
+        '
+        'tgl_bayar
+        '
+        Me.tgl_bayar.HeaderText = "Tanggal Bayar"
+        Me.tgl_bayar.Name = "tgl_bayar"
+        Me.tgl_bayar.ReadOnly = True
         '
         'btn_send
         '
@@ -238,66 +296,6 @@ Partial Class TransaksiForm
         Me.num_jumlah_bayar.Size = New System.Drawing.Size(549, 26)
         Me.num_jumlah_bayar.TabIndex = 53
         '
-        'no
-        '
-        Me.no.HeaderText = "No."
-        Me.no.Name = "no"
-        Me.no.ReadOnly = True
-        Me.no.Width = 30
-        '
-        'id_pembayaran
-        '
-        Me.id_pembayaran.HeaderText = "id_pembayaran"
-        Me.id_pembayaran.Name = "id_pembayaran"
-        Me.id_pembayaran.ReadOnly = True
-        Me.id_pembayaran.Visible = False
-        '
-        'id_petugas
-        '
-        Me.id_petugas.HeaderText = "id_petugas"
-        Me.id_petugas.Name = "id_petugas"
-        Me.id_petugas.ReadOnly = True
-        Me.id_petugas.Visible = False
-        '
-        'nisn
-        '
-        Me.nisn.HeaderText = "NISN"
-        Me.nisn.Name = "nisn"
-        Me.nisn.ReadOnly = True
-        '
-        'tgl_bayar
-        '
-        Me.tgl_bayar.HeaderText = "Tanggal Bayar"
-        Me.tgl_bayar.Name = "tgl_bayar"
-        Me.tgl_bayar.ReadOnly = True
-        '
-        'bulan_dibayar
-        '
-        Me.bulan_dibayar.HeaderText = "bulan_dibayar"
-        Me.bulan_dibayar.Name = "bulan_dibayar"
-        Me.bulan_dibayar.ReadOnly = True
-        Me.bulan_dibayar.Visible = False
-        '
-        'tahun_dibayar
-        '
-        Me.tahun_dibayar.HeaderText = "tahun_dibayar"
-        Me.tahun_dibayar.Name = "tahun_dibayar"
-        Me.tahun_dibayar.ReadOnly = True
-        Me.tahun_dibayar.Visible = False
-        '
-        'id_spp
-        '
-        Me.id_spp.HeaderText = "id_spp"
-        Me.id_spp.Name = "id_spp"
-        Me.id_spp.ReadOnly = True
-        Me.id_spp.Visible = False
-        '
-        'jumlah_bayar
-        '
-        Me.jumlah_bayar.HeaderText = "Jumlah Bayar"
-        Me.jumlah_bayar.Name = "jumlah_bayar"
-        Me.jumlah_bayar.ReadOnly = True
-        '
         'TransaksiForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
@@ -346,9 +344,9 @@ Partial Class TransaksiForm
     Friend WithEvents id_pembayaran As DataGridViewTextBoxColumn
     Friend WithEvents id_petugas As DataGridViewTextBoxColumn
     Friend WithEvents nisn As DataGridViewTextBoxColumn
-    Friend WithEvents tgl_bayar As DataGridViewTextBoxColumn
     Friend WithEvents bulan_dibayar As DataGridViewTextBoxColumn
     Friend WithEvents tahun_dibayar As DataGridViewTextBoxColumn
     Friend WithEvents id_spp As DataGridViewTextBoxColumn
     Friend WithEvents jumlah_bayar As DataGridViewTextBoxColumn
+    Friend WithEvents tgl_bayar As DataGridViewTextBoxColumn
 End Class

@@ -4,6 +4,7 @@ Public Class SppForm
     Private currentId As String
 
     Private Sub SppForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.KeyPreview = True
         num_tahun.Value = Now.Year
         LoadTable()
     End Sub
@@ -161,5 +162,14 @@ Public Class SppForm
         End Select
     End Sub
 
-
+    Private Sub SppForm_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+        Select Case e.KeyCode
+            Case Keys.F5
+                btn_back.PerformClick()
+            Case Keys.Escape
+                Me.Close()
+            Case Keys.Enter
+                btn_create.PerformClick()
+        End Select
+    End Sub
 End Class

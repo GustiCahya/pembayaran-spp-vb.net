@@ -125,7 +125,7 @@ Partial Class KelasForm
         Me.tb_id_kelas.Name = "tb_id_kelas"
         Me.tb_id_kelas.ReadOnly = True
         Me.tb_id_kelas.Size = New System.Drawing.Size(416, 26)
-        Me.tb_id_kelas.TabIndex = 51
+        Me.tb_id_kelas.TabIndex = 41
         '
         'btn_tutup
         '
@@ -267,7 +267,7 @@ Partial Class KelasForm
         Me.cmb_kompetensi_keahlian.Location = New System.Drawing.Point(461, 197)
         Me.cmb_kompetensi_keahlian.Name = "cmb_kompetensi_keahlian"
         Me.cmb_kompetensi_keahlian.Size = New System.Drawing.Size(392, 28)
-        Me.cmb_kompetensi_keahlian.TabIndex = 63
+        Me.cmb_kompetensi_keahlian.TabIndex = 43
         '
         'PictureBox1
         '

@@ -5,6 +5,7 @@ Public Class Login
     Private isSiswa As Boolean
 
     Private Sub Login_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.KeyPreview = True
         isSiswa = False
         tb_username.Focus()
     End Sub
@@ -124,4 +125,12 @@ Public Class Login
         End If
     End Sub
 
+    Private Sub Login_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+        Select Case e.KeyCode
+            Case Keys.Escape
+                Me.Close()
+            Case Keys.Enter
+                btn_login.PerformClick()
+        End Select
+    End Sub
 End Class

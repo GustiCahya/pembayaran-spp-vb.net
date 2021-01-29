@@ -139,7 +139,7 @@ Partial Class PetugasForm
         Me.tb_password.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.tb_password.Name = "tb_password"
         Me.tb_password.Size = New System.Drawing.Size(190, 26)
-        Me.tb_password.TabIndex = 17
+        Me.tb_password.TabIndex = 20
         Me.tb_password.UseSystemPasswordChar = True
         '
         'tb_username
@@ -148,7 +148,7 @@ Partial Class PetugasForm
         Me.tb_username.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.tb_username.Name = "tb_username"
         Me.tb_username.Size = New System.Drawing.Size(268, 26)
-        Me.tb_username.TabIndex = 16
+        Me.tb_username.TabIndex = 19
         '
         'DataGridView1
         '
@@ -239,7 +239,7 @@ Partial Class PetugasForm
         Me.cmb_level.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.cmb_level.Name = "cmb_level"
         Me.cmb_level.Size = New System.Drawing.Size(268, 28)
-        Me.cmb_level.TabIndex = 48
+        Me.cmb_level.TabIndex = 21
         '
         'lbl_id_spp
         '
@@ -260,7 +260,7 @@ Partial Class PetugasForm
         Me.tb_id_petugas.Name = "tb_id_petugas"
         Me.tb_id_petugas.ReadOnly = True
         Me.tb_id_petugas.Size = New System.Drawing.Size(486, 26)
-        Me.tb_id_petugas.TabIndex = 53
+        Me.tb_id_petugas.TabIndex = 17
         '
         'btn_cetak
         '

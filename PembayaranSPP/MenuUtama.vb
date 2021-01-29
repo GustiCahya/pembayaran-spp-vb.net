@@ -71,6 +71,7 @@
         With RiwayatForm
             .MdiParent = Me
             .WindowState = FormWindowState.Maximized
+            .LoadTable()
             .Show()
         End With
     End Sub

@@ -8,7 +8,7 @@ Public Class TransaksiForm
         Try
             cn.Open()
             cm = New MySqlCommand("SELECT * FROM petugas WHERE username = @username", cn)
-            cm.Parameters.AddWithValue("@username", PageAdmin.username)
+            cm.Parameters.AddWithValue("@username", MenuUtama.username)
             dt = New DataTable
             dt.Load(cm.ExecuteReader())
             cmb_petugas.ValueMember = "id_petugas"
@@ -112,15 +112,15 @@ Public Class TransaksiForm
                     With DataGridView1
                         Dim index As Integer = .RowCount
                         .Rows.Add()
-                        .Rows(index).Cells(0).Value = .RowCount
-                        .Rows(index).Cells(1).Value = id_pembayaran
-                        .Rows(index).Cells(2).Value = id_petugas
-                        .Rows(index).Cells(3).Value = nisn
-                        .Rows(index).Cells(4).Value = tanggal
-                        .Rows(index).Cells(5).Value = bulan
-                        .Rows(index).Cells(6).Value = tahun
-                        .Rows(index).Cells(7).Value = id_spp
-                        .Rows(index).Cells(8).Value = jumlah_bayar
+                        .Rows(index).Cells("no").Value = .RowCount
+                        .Rows(index).Cells("id_pembayaran").Value = id_pembayaran
+                        .Rows(index).Cells("id_petugas").Value = id_petugas
+                        .Rows(index).Cells("nisn").Value = nisn
+                        .Rows(index).Cells("tgl_bayar").Value = tanggal
+                        .Rows(index).Cells("bulan_dibayar").Value = bulan
+                        .Rows(index).Cells("tahun_dibayar").Value = tahun
+                        .Rows(index).Cells("id_spp").Value = id_spp
+                        .Rows(index).Cells("jumlah_bayar").Value = jumlah_bayar
                     End With
                 Else
                     MsgBox("Jumlah bayar tidak boleh kurang dari " & nominal, vbCritical)
@@ -140,8 +140,6 @@ Public Class TransaksiForm
         num_jumlah_bayar.Text = ""
     End Sub
 
-
-
     Private Sub btn_send_Click(sender As Object, e As EventArgs) Handles btn_send.Click
         Connection()
         Try
@@ -151,14 +149,14 @@ Public Class TransaksiForm
                     Try
                         cm = New MySqlCommand("INSERT INTO pembayaran VALUES (@id_pembayaran, @id_petugas, @nisn, @tanggal, @bulan, @tahun, @id_spp, @jumlah_bayar)", cn)
                         With cm.Parameters
-                            .AddWithValue("@id_pembayaran", DataGridView1.Rows(i).Cells(1).Value)
-                            .AddWithValue("@id_petugas", DataGridView1.Rows(i).Cells(2).Value)
-                            .AddWithValue("@nisn", DataGridView1.Rows(i).Cells(3).Value)
-                            .AddWithValue("@tanggal", DataGridView1.Rows(i).Cells(4).Value)
-                            .AddWithValue("@bulan", DataGridView1.Rows(i).Cells(5).Value)
-                            .AddWithValue("@tahun", DataGridView1.Rows(i).Cells(6).Value)
-                            .AddWithValue("@id_spp", DataGridView1.Rows(i).Cells(7).Value)
-                            .AddWithValue("@jumlah_bayar", DataGridView1.Rows(i).Cells(8).Value)
+                            .AddWithValue("@id_pembayaran", DataGridView1.Rows(i).Cells("id_pembayaran").Value)
+                            .AddWithValue("@id_petugas", DataGridView1.Rows(i).Cells("id_petugas").Value)
+                            .AddWithValue("@nisn", DataGridView1.Rows(i).Cells("nisn").Value)
+                            .AddWithValue("@tanggal", DataGridView1.Rows(i).Cells("tgl_bayar").Value)
+                            .AddWithValue("@bulan", DataGridView1.Rows(i).Cells("bulan_dibayar").Value)
+                            .AddWithValue("@tahun", DataGridView1.Rows(i).Cells("tahun_dibayar").Value)
+                            .AddWithValue("@id_spp", DataGridView1.Rows(i).Cells("id_spp").Value)
+                            .AddWithValue("@jumlah_bayar", DataGridView1.Rows(i).Cells("jumlah_bayar").Value)
                         End With
                         cm.ExecuteNonQuery()
                     Catch ex As Exception
@@ -168,6 +166,8 @@ Public Class TransaksiForm
                 MsgBox("Data Berhasil Dimasukkan!", vbInformation)
                 DataGridView1.Rows.Clear()
                 DataGridView1.Refresh()
+            Else
+                MsgBox("Tidak ada pembayaran yang akan dikirim", vbCritical)
             End If
             cn.Close()
         Catch ex As Exception

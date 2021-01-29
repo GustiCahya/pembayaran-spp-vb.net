@@ -2,7 +2,7 @@
 Public Class RiwayatForm
     Private currentId As String
     Private Sub RiwayatForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        If PageAdmin.role <> "admin" Then
+        If MenuUtama.role <> "admin" Then
             DataGridView1.Size = New System.Drawing.Size(584, 275)
             DataGridView1.Location = New System.Drawing.Point(0, 86)
             btn_laporan.Visible = False
@@ -11,14 +11,14 @@ Public Class RiwayatForm
         LoadTable()
     End Sub
     Private Sub LoadTable()
-        Select Case PageAdmin.role
+        Select Case MenuUtama.role
             Case "petugas"
                 cn.Open()
                 da = New MySqlDataAdapter(
                     "SELECT pembayaran.*, petugas.nama_petugas, siswa.nama FROM pembayaran 
                     INNER JOIN petugas ON pembayaran.id_petugas=petugas.id_petugas 
                     INNER JOIN siswa ON pembayaran.nisn = siswa.nisn 
-                    WHERE pembayaran.id_petugas='" & PageAdmin.currentId & "' ", cn)
+                    WHERE pembayaran.id_petugas='" & MenuUtama.currentId & "' ", cn)
                 CustomizeTable()
                 cn.Close()
             Case "siswa"
@@ -27,7 +27,7 @@ Public Class RiwayatForm
                     "SELECT pembayaran.*, petugas.nama_petugas, siswa.nama 
                     FROM pembayaran INNER JOIN petugas ON pembayaran.id_petugas=petugas.id_petugas 
                     INNER JOIN siswa ON pembayaran.nisn = siswa.nisn 
-                    WHERE pembayaran.nisn='" & PageAdmin.currentId & "'", cn)
+                    WHERE pembayaran.nisn='" & MenuUtama.currentId & "'", cn)
                 CustomizeTable()
                 cn.Close()
             Case "admin"
@@ -83,9 +83,8 @@ Public Class RiwayatForm
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
         btn_delete.Visible = True
         currentId = DataGridView1.Item(0, e.RowIndex).Value
-        If PageAdmin.role <> "admin" Then
+        If MenuUtama.role <> "admin" Then
             btn_delete.Location = New System.Drawing.Point(487, 51)
         End If
     End Sub
-
 End Class

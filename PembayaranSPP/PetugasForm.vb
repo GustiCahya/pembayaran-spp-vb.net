@@ -19,6 +19,12 @@ Public Class PetugasForm
         ds = New DataSet()
         da.Fill(ds, "petugas")
         DataGridView1.DataSource = ds.Tables("petugas")
+        With DataGridView1
+            .Columns("id_petugas").HeaderText = "Id Petugas"
+            .Columns("username").HeaderText = "Username"
+            .Columns("nama_petugas").HeaderText = "Nama Petugas"
+            .Columns("level").HeaderText = "Level"
+        End With
         tb_id_petugas.Text = DataGridView1.RowCount + 1
         tb_id_petugas.ReadOnly = True
         tb_id_petugas.Cursor = System.Windows.Forms.Cursors.No
@@ -44,6 +50,7 @@ Public Class PetugasForm
         tb_username.Width = 180
         lbl_password.Visible = True
         tb_password.Visible = True
+        cmb_level.SelectedIndex = -1
         LoadTable()
     End Sub
 
@@ -123,8 +130,6 @@ Public Class PetugasForm
             tb_nama_petugas.Text = .Item(2, .CurrentRow.Index).Value
             cmb_level.Text = .Item(3, .CurrentRow.Index).Value
         End With
-        tb_id_petugas.ReadOnly = False
-        tb_id_petugas.Cursor = System.Windows.Forms.Cursors.IBeam
     End Sub
 
     Dim mRow As Integer = 0
@@ -170,6 +175,7 @@ Public Class PetugasForm
     End Sub
 
     Private Sub btn_tutup_Click(sender As Object, e As EventArgs) Handles btn_tutup.Click
-        PageAdmin.FormPanel(TransaksiForm)
+        Me.Close()
     End Sub
+
 End Class

@@ -4,12 +4,13 @@ Public Class SppForm
     Private currentId As String
 
     Private Sub SppForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        num_tahun.Value = Now.Year
         LoadTable()
     End Sub
 
     Private Sub ClearTextBox()
-        tb_tahun.Text = ""
-        num_nominal.Text = ""
+        num_tahun.Value = 0
+        num_nominal.Value = 0
     End Sub
 
     Private Sub LoadTable()
@@ -17,6 +18,12 @@ Public Class SppForm
         ds = New DataSet()
         da.Fill(ds, "spp")
         DataGridView1.DataSource = ds.Tables("spp")
+        With DataGridView1
+            .Columns("id_spp").HeaderText = "Id SPP"
+            .Columns("tahun").HeaderText = "Tahun"
+            .Columns("nominal").HeaderText = "Nominal"
+        End With
+
         tb_id_spp.Text = DataGridView1.RowCount + 1
         tb_id_spp.ReadOnly = True
         tb_id_spp.Cursor = System.Windows.Forms.Cursors.No
@@ -79,17 +86,17 @@ Public Class SppForm
     End Sub
 
     Private Sub btn_tutup_Click(sender As Object, e As EventArgs) Handles btn_tutup.Click
-        PageAdmin.FormPanel(TransaksiForm)
+        Me.Close()
     End Sub
 
     Private Sub btn_create_Click_1(sender As Object, e As EventArgs) Handles btn_create.Click
         If (Not String.IsNullOrEmpty(currentId)) Then
             Try
                 cn.Open()
-                If Not String.IsNullOrEmpty(tb_tahun.Text) And Not String.IsNullOrEmpty(num_nominal.Text) Then
+                If Not String.IsNullOrEmpty(num_tahun.Value) And Not String.IsNullOrEmpty(num_nominal.Value) Then
                     cm = New MySqlCommand("UPDATE spp SET id_spp=@id_spp, tahun=@tahun, nominal=@nominal WHERE id_spp=@id_spp ", cn)
                     cm.Parameters.AddWithValue("@id_spp", tb_id_spp.Text)
-                    cm.Parameters.AddWithValue("@tahun", tb_tahun.Text)
+                    cm.Parameters.AddWithValue("@tahun", num_tahun.Text)
                     cm.Parameters.AddWithValue("@nominal", num_nominal.Text)
                     cm.ExecuteNonQuery()
                     btn_back.PerformClick()
@@ -104,11 +111,11 @@ Public Class SppForm
         Else
             Try
                 cn.Open()
-                If Not String.IsNullOrEmpty(tb_tahun.Text) And Not String.IsNullOrEmpty(num_nominal.Text) Then
+                If Not String.IsNullOrEmpty(num_tahun.Value) And Not String.IsNullOrEmpty(num_nominal.Value) Then
                     cm = New MySqlCommand("INSERT INTO spp VALUES (@id_spp, @tahun, @nominal)", cn)
                     cm.Parameters.AddWithValue("@id_spp", tb_id_spp.Text)
-                    cm.Parameters.AddWithValue("@tahun", tb_tahun.Text)
-                    cm.Parameters.AddWithValue("@nominal", num_nominal.Text)
+                    cm.Parameters.AddWithValue("@tahun", num_tahun.Value)
+                    cm.Parameters.AddWithValue("@nominal", num_nominal.Value)
                     cm.ExecuteNonQuery()
                     LoadTable()
                     ClearTextBox()
@@ -132,11 +139,9 @@ Public Class SppForm
     Private Sub btn_update_Click_1(sender As Object, e As EventArgs) Handles btn_update.Click
         With DataGridView1
             tb_id_spp.Text = currentId
-            tb_tahun.Text = .Item(1, .CurrentRow.Index).Value
-            num_nominal.Text = .Item(2, .CurrentRow.Index).Value
+            num_tahun.Value = .Item(1, .CurrentRow.Index).Value
+            num_nominal.Value = .Item(2, .CurrentRow.Index).Value
         End With
-        tb_id_spp.ReadOnly = False
-        tb_id_spp.Cursor = System.Windows.Forms.Cursors.IBeam
     End Sub
 
     Private Sub btn_delete_Click_1(sender As Object, e As EventArgs) Handles btn_delete.Click
@@ -155,4 +160,6 @@ Public Class SppForm
                 End Try
         End Select
     End Sub
+
+
 End Class

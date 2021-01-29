@@ -1,4 +1,6 @@
-﻿Imports MySql.Data.MySqlClient
+﻿Imports System.ComponentModel
+Imports MySql.Data.MySqlClient
+
 Public Class SiswaForm
 
     Private currentId
@@ -10,6 +12,17 @@ Public Class SiswaForm
         DataGridView1.DataSource = ds.Tables("siswa")
         DataGridView1.Columns(3).Visible = False 'Sembunyikan kolom id_kelas
         DataGridView1.Columns(6).Visible = False 'Sembunyikan kolom id_spp
+        DataGridView1.Sort(DataGridView1.Columns(8), ListSortDirection.Descending)
+        With DataGridView1
+            .Columns("nisn").HeaderText = "NISN"
+            .Columns("nis").HeaderText = "NIS"
+            .Columns("nama").HeaderText = "Nama"
+            .Columns("alamat").HeaderText = "Alamat"
+            .Columns("no_telp").HeaderText = "No. Telepon"
+        End With
+
+        cmb_kelas.SelectedIndex = -1
+
         With DataGridView1.Columns(7)
             .DisplayIndex = 3 'Ubah tampilan index nama_kelas menjadi index 3
             .HeaderText = "kelas"
@@ -45,6 +58,11 @@ Public Class SiswaForm
             cmb_spp.ValueMember = "id_spp"
             cmb_spp.DisplayMember = "tahun"
             cmb_spp.DataSource = dt
+            For i As Integer = 0 To dt.Rows.Count - 1
+                If dt(i).Item("tahun").Equals(Now.Year) Then
+                    cmb_spp.SelectedIndex = i
+                End If
+            Next
             cn.Close()
         Catch ex As Exception
             cn.Close()
@@ -66,6 +84,7 @@ Public Class SiswaForm
         cmb_kelas.Text = ""
         tb_telepon.Text = ""
         cmb_spp.Text = ""
+        cmb_kelas.SelectedIndex = -1
     End Sub
 
     Private Sub tb_alamat_KeyDown(sender As Object, e As KeyEventArgs) Handles tb_alamat.KeyDown
@@ -157,11 +176,6 @@ SET nisn=@nisn, nis=@nis, nama=@nama, id_kelas=@id_kelas, alamat=@alamat, no_tel
                 .Cursor = System.Windows.Forms.Cursors.No
             End With
             tb_nis.Text = .Item(1, .CurrentRow.Index).Value
-            With tb_nis
-                .ReadOnly = True
-                .Cursor = System.Windows.Forms.Cursors.No
-            End With
-            tb_nis.ReadOnly = True
             tb_nama.Text = .Item(2, .CurrentRow.Index).Value
             cmb_kelas.SelectedValue = .Item(3, .CurrentRow.Index).Value
             tb_alamat.Text = .Item(4, .CurrentRow.Index).Value
@@ -230,6 +244,62 @@ SET nisn=@nisn, nis=@nis, nama=@nama, id_kelas=@id_kelas, alamat=@alamat, no_tel
     End Sub
 
     Private Sub btn_tutup_Click(sender As Object, e As EventArgs) Handles btn_tutup.Click
-        PageAdmin.FormPanel(TransaksiForm)
+        Me.Close()
+    End Sub
+
+    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
+
+    End Sub
+
+    Private Sub tb_nisn_TextChanged(sender As Object, e As EventArgs) Handles tb_nisn.TextChanged
+
+    End Sub
+
+    Private Sub Label4_Click(sender As Object, e As EventArgs) Handles Label4.Click
+
+    End Sub
+
+    Private Sub tb_telepon_TextChanged(sender As Object, e As EventArgs) Handles tb_telepon.TextChanged
+
+    End Sub
+
+    Private Sub Label2_Click(sender As Object, e As EventArgs) Handles Label2.Click
+
+    End Sub
+
+    Private Sub tb_nis_TextChanged(sender As Object, e As EventArgs) Handles tb_nis.TextChanged
+
+    End Sub
+
+    Private Sub Label5_Click(sender As Object, e As EventArgs) Handles Label5.Click
+
+    End Sub
+
+    Private Sub cmb_kelas_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmb_kelas.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub Label6_Click(sender As Object, e As EventArgs) Handles Label6.Click
+
+    End Sub
+
+    Private Sub cmb_spp_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmb_spp.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub Label3_Click(sender As Object, e As EventArgs) Handles Label3.Click
+
+    End Sub
+
+    Private Sub tb_nama_TextChanged(sender As Object, e As EventArgs) Handles tb_nama.TextChanged
+
+    End Sub
+
+    Private Sub Label8_Click(sender As Object, e As EventArgs) Handles Label8.Click
+
+    End Sub
+
+    Private Sub tb_alamat_TextChanged(sender As Object, e As EventArgs) Handles tb_alamat.TextChanged
+
     End Sub
 End Class

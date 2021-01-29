@@ -10,7 +10,7 @@ Module db_mysql
     Sub Connection()
         cn = New MySqlConnection
         With cn
-            .ConnectionString = "server = localhost; user id=root; password = ; database = db_spp"
+            .ConnectionString = My.Settings.alamat
         End With
     End Sub
 

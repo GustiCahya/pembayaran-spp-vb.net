@@ -40,36 +40,42 @@ Partial Class RiwayatForm
         Me.DataGridView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DataGridView1.BackgroundColor = System.Drawing.Color.DarkSlateGray
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Location = New System.Drawing.Point(0, 135)
+        Me.DataGridView1.Location = New System.Drawing.Point(0, 186)
+        Me.DataGridView1.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.ReadOnly = True
         Me.DataGridView1.RowHeadersWidth = 5
-        Me.DataGridView1.Size = New System.Drawing.Size(584, 229)
+        Me.DataGridView1.Size = New System.Drawing.Size(876, 374)
         Me.DataGridView1.TabIndex = 42
         '
         'Label7
         '
-        Me.Label7.AutoSize = True
+        Me.Label7.Dock = System.Windows.Forms.DockStyle.Top
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 25.0!, System.Drawing.FontStyle.Bold)
-        Me.Label7.Location = New System.Drawing.Point(119, 19)
+        Me.Label7.ForeColor = System.Drawing.Color.White
+        Me.Label7.Location = New System.Drawing.Point(0, 0)
+        Me.Label7.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(359, 39)
+        Me.Label7.Size = New System.Drawing.Size(876, 89)
         Me.Label7.TabIndex = 49
         Me.Label7.Text = "Riwayat Pembayaran"
         Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'btn_laporan
         '
-        Me.btn_laporan.BackColor = System.Drawing.Color.Teal
+        Me.btn_laporan.Anchor = System.Windows.Forms.AnchorStyles.Top
+        Me.btn_laporan.BackColor = System.Drawing.Color.LimeGreen
         Me.btn_laporan.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btn_laporan.FlatAppearance.BorderSize = 0
         Me.btn_laporan.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btn_laporan.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!)
         Me.btn_laporan.ForeColor = System.Drawing.SystemColors.HighlightText
-        Me.btn_laporan.Location = New System.Drawing.Point(194, 72)
+        Me.btn_laporan.Location = New System.Drawing.Point(281, 104)
+        Me.btn_laporan.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btn_laporan.Name = "btn_laporan"
-        Me.btn_laporan.Size = New System.Drawing.Size(204, 43)
+        Me.btn_laporan.Size = New System.Drawing.Size(306, 66)
         Me.btn_laporan.TabIndex = 48
         Me.btn_laporan.Text = "Generate Laporan"
         Me.btn_laporan.UseVisualStyleBackColor = False
@@ -86,34 +92,39 @@ Partial Class RiwayatForm
         '
         'btn_delete
         '
+        Me.btn_delete.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_delete.BackColor = System.Drawing.Color.Crimson
         Me.btn_delete.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btn_delete.FlatAppearance.BorderSize = 0
         Me.btn_delete.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btn_delete.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!)
         Me.btn_delete.ForeColor = System.Drawing.SystemColors.HighlightText
-        Me.btn_delete.Location = New System.Drawing.Point(487, 96)
+        Me.btn_delete.Image = CType(resources.GetObject("btn_delete.Image"), System.Drawing.Image)
+        Me.btn_delete.Location = New System.Drawing.Point(715, 119)
+        Me.btn_delete.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btn_delete.Name = "btn_delete"
-        Me.btn_delete.Size = New System.Drawing.Size(85, 33)
+        Me.btn_delete.Size = New System.Drawing.Size(138, 51)
         Me.btn_delete.TabIndex = 50
         Me.btn_delete.Text = "Delete"
+        Me.btn_delete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btn_delete.UseVisualStyleBackColor = False
         Me.btn_delete.Visible = False
         '
         'RiwayatForm
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(584, 364)
+        Me.BackColor = System.Drawing.Color.Teal
+        Me.ClientSize = New System.Drawing.Size(876, 560)
         Me.Controls.Add(Me.btn_delete)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.btn_laporan)
         Me.Controls.Add(Me.DataGridView1)
+        Me.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.Name = "RiwayatForm"
-        Me.Text = "RiwayatForm"
+        Me.ShowIcon = False
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
 

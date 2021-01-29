@@ -34,6 +34,9 @@ Partial Class TransaksiForm
         Me.dtp_tanggal = New System.Windows.Forms.DateTimePicker()
         Me.lbl_nama_siswa = New System.Windows.Forms.Label()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
+        Me.btn_send = New System.Windows.Forms.Button()
+        Me.btn_delete = New System.Windows.Forms.Button()
+        Me.num_jumlah_bayar = New System.Windows.Forms.NumericUpDown()
         Me.no = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.id_pembayaran = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.id_petugas = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -43,9 +46,6 @@ Partial Class TransaksiForm
         Me.tahun_dibayar = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.id_spp = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.jumlah_bayar = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.btn_send = New System.Windows.Forms.Button()
-        Me.btn_delete = New System.Windows.Forms.Button()
-        Me.num_jumlah_bayar = New System.Windows.Forms.NumericUpDown()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.num_jumlah_bayar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -53,9 +53,11 @@ Partial Class TransaksiForm
         'Label7
         '
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold)
-        Me.Label7.Location = New System.Drawing.Point(402, 17)
+        Me.Label7.ForeColor = System.Drawing.Color.White
+        Me.Label7.Location = New System.Drawing.Point(603, 26)
+        Me.Label7.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(170, 64)
+        Me.Label7.Size = New System.Drawing.Size(255, 98)
         Me.Label7.TabIndex = 39
         Me.Label7.Text = "Transaksi Pembayaran"
         Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -63,27 +65,33 @@ Partial Class TransaksiForm
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(19, 92)
+        Me.Label3.ForeColor = System.Drawing.Color.White
+        Me.Label3.Location = New System.Drawing.Point(28, 142)
+        Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(76, 13)
+        Me.Label3.Size = New System.Drawing.Size(111, 20)
         Me.Label3.TabIndex = 37
         Me.Label3.Text = "Tanggal Bayar"
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(19, 52)
+        Me.Label2.ForeColor = System.Drawing.Color.White
+        Me.Label2.Location = New System.Drawing.Point(28, 80)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(64, 13)
+        Me.Label2.Size = New System.Drawing.Size(93, 20)
         Me.Label2.TabIndex = 36
         Me.Label2.Text = "NISN Siswa"
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(19, 12)
+        Me.Label1.ForeColor = System.Drawing.Color.White
+        Me.Label1.Location = New System.Drawing.Point(28, 18)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(46, 13)
+        Me.Label1.Size = New System.Drawing.Size(68, 20)
         Me.Label1.TabIndex = 35
         Me.Label1.Text = "Petugas"
         '
@@ -95,9 +103,10 @@ Partial Class TransaksiForm
         Me.btn_add.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btn_add.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!)
         Me.btn_add.ForeColor = System.Drawing.SystemColors.HighlightText
-        Me.btn_add.Location = New System.Drawing.Point(416, 84)
+        Me.btn_add.Location = New System.Drawing.Point(624, 129)
+        Me.btn_add.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btn_add.Name = "btn_add"
-        Me.btn_add.Size = New System.Drawing.Size(142, 43)
+        Me.btn_add.Size = New System.Drawing.Size(213, 66)
         Me.btn_add.TabIndex = 34
         Me.btn_add.Text = "Tambah"
         Me.btn_add.UseVisualStyleBackColor = False
@@ -105,9 +114,11 @@ Partial Class TransaksiForm
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(19, 129)
+        Me.Label4.ForeColor = System.Drawing.Color.White
+        Me.Label4.Location = New System.Drawing.Point(28, 198)
+        Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(70, 13)
+        Me.Label4.Size = New System.Drawing.Size(105, 20)
         Me.Label4.TabIndex = 41
         Me.Label4.Text = "Jumlah Bayar"
         '
@@ -117,9 +128,10 @@ Partial Class TransaksiForm
         Me.cmb_petugas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cmb_petugas.Enabled = False
         Me.cmb_petugas.FormattingEnabled = True
-        Me.cmb_petugas.Location = New System.Drawing.Point(22, 28)
+        Me.cmb_petugas.Location = New System.Drawing.Point(33, 43)
+        Me.cmb_petugas.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.cmb_petugas.Name = "cmb_petugas"
-        Me.cmb_petugas.Size = New System.Drawing.Size(366, 21)
+        Me.cmb_petugas.Size = New System.Drawing.Size(547, 28)
         Me.cmb_petugas.TabIndex = 42
         '
         'cmb_nisn
@@ -127,29 +139,32 @@ Partial Class TransaksiForm
         Me.cmb_nisn.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
         Me.cmb_nisn.DisplayMember = "nisn"
         Me.cmb_nisn.FormattingEnabled = True
-        Me.cmb_nisn.Location = New System.Drawing.Point(22, 67)
+        Me.cmb_nisn.Location = New System.Drawing.Point(33, 103)
+        Me.cmb_nisn.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.cmb_nisn.Name = "cmb_nisn"
-        Me.cmb_nisn.Size = New System.Drawing.Size(263, 21)
+        Me.cmb_nisn.Size = New System.Drawing.Size(392, 28)
         Me.cmb_nisn.TabIndex = 43
         Me.cmb_nisn.ValueMember = "nisn"
         '
         'dtp_tanggal
         '
-        Me.dtp_tanggal.Location = New System.Drawing.Point(22, 108)
+        Me.dtp_tanggal.Location = New System.Drawing.Point(33, 166)
+        Me.dtp_tanggal.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.dtp_tanggal.Name = "dtp_tanggal"
-        Me.dtp_tanggal.Size = New System.Drawing.Size(366, 20)
+        Me.dtp_tanggal.Size = New System.Drawing.Size(547, 26)
         Me.dtp_tanggal.TabIndex = 45
         '
         'lbl_nama_siswa
         '
         Me.lbl_nama_siswa.AutoSize = True
-        Me.lbl_nama_siswa.BackColor = System.Drawing.Color.Teal
+        Me.lbl_nama_siswa.BackColor = System.Drawing.Color.DarkSeaGreen
         Me.lbl_nama_siswa.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.lbl_nama_siswa.ForeColor = System.Drawing.SystemColors.ControlLightLight
-        Me.lbl_nama_siswa.Location = New System.Drawing.Point(291, 67)
+        Me.lbl_nama_siswa.Location = New System.Drawing.Point(436, 103)
+        Me.lbl_nama_siswa.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lbl_nama_siswa.Name = "lbl_nama_siswa"
-        Me.lbl_nama_siswa.Padding = New System.Windows.Forms.Padding(5, 4, 5, 4)
-        Me.lbl_nama_siswa.Size = New System.Drawing.Size(43, 21)
+        Me.lbl_nama_siswa.Padding = New System.Windows.Forms.Padding(8, 6, 8, 6)
+        Me.lbl_nama_siswa.Size = New System.Drawing.Size(65, 32)
         Me.lbl_nama_siswa.TabIndex = 48
         Me.lbl_nama_siswa.Text = "name"
         '
@@ -162,14 +177,66 @@ Partial Class TransaksiForm
         Me.DataGridView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DataGridView1.BackgroundColor = System.Drawing.Color.DarkSlateGray
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.no, Me.id_pembayaran, Me.id_petugas, Me.nisn, Me.tgl_bayar, Me.bulan_dibayar, Me.tahun_dibayar, Me.id_spp, Me.jumlah_bayar})
-        Me.DataGridView1.Location = New System.Drawing.Point(-10, 178)
+        Me.DataGridView1.Location = New System.Drawing.Point(-15, 274)
+        Me.DataGridView1.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.ReadOnly = True
         Me.DataGridView1.RowHeadersWidth = 25
-        Me.DataGridView1.Size = New System.Drawing.Size(602, 183)
+        Me.DataGridView1.Size = New System.Drawing.Size(903, 282)
         Me.DataGridView1.TabIndex = 49
+        '
+        'btn_send
+        '
+        Me.btn_send.BackColor = System.Drawing.Color.MidnightBlue
+        Me.btn_send.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btn_send.FlatAppearance.BorderSize = 0
+        Me.btn_send.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btn_send.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        Me.btn_send.ForeColor = System.Drawing.SystemColors.HighlightText
+        Me.btn_send.Image = CType(resources.GetObject("btn_send.Image"), System.Drawing.Image)
+        Me.btn_send.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btn_send.Location = New System.Drawing.Point(771, 231)
+        Me.btn_send.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.btn_send.Name = "btn_send"
+        Me.btn_send.Size = New System.Drawing.Size(87, 34)
+        Me.btn_send.TabIndex = 50
+        Me.btn_send.Text = "Kirim"
+        Me.btn_send.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btn_send.UseVisualStyleBackColor = False
+        '
+        'btn_delete
+        '
+        Me.btn_delete.BackColor = System.Drawing.Color.Crimson
+        Me.btn_delete.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btn_delete.FlatAppearance.BorderSize = 0
+        Me.btn_delete.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btn_delete.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        Me.btn_delete.ForeColor = System.Drawing.SystemColors.HighlightText
+        Me.btn_delete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.btn_delete.Location = New System.Drawing.Point(675, 231)
+        Me.btn_delete.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.btn_delete.Name = "btn_delete"
+        Me.btn_delete.Size = New System.Drawing.Size(87, 34)
+        Me.btn_delete.TabIndex = 52
+        Me.btn_delete.Text = "Delete"
+        Me.btn_delete.UseVisualStyleBackColor = False
+        Me.btn_delete.Visible = False
+        '
+        'num_jumlah_bayar
+        '
+        Me.num_jumlah_bayar.Cursor = System.Windows.Forms.Cursors.No
+        Me.num_jumlah_bayar.Enabled = False
+        Me.num_jumlah_bayar.InterceptArrowKeys = False
+        Me.num_jumlah_bayar.Location = New System.Drawing.Point(33, 225)
+        Me.num_jumlah_bayar.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.num_jumlah_bayar.Maximum = New Decimal(New Integer() {999999999, 0, 0, 0})
+        Me.num_jumlah_bayar.Name = "num_jumlah_bayar"
+        Me.num_jumlah_bayar.ReadOnly = True
+        Me.num_jumlah_bayar.Size = New System.Drawing.Size(549, 26)
+        Me.num_jumlah_bayar.TabIndex = 53
         '
         'no
         '
@@ -183,22 +250,24 @@ Partial Class TransaksiForm
         Me.id_pembayaran.HeaderText = "id_pembayaran"
         Me.id_pembayaran.Name = "id_pembayaran"
         Me.id_pembayaran.ReadOnly = True
+        Me.id_pembayaran.Visible = False
         '
         'id_petugas
         '
         Me.id_petugas.HeaderText = "id_petugas"
         Me.id_petugas.Name = "id_petugas"
         Me.id_petugas.ReadOnly = True
+        Me.id_petugas.Visible = False
         '
         'nisn
         '
-        Me.nisn.HeaderText = "nisn"
+        Me.nisn.HeaderText = "NISN"
         Me.nisn.Name = "nisn"
         Me.nisn.ReadOnly = True
         '
         'tgl_bayar
         '
-        Me.tgl_bayar.HeaderText = "tgl_bayar"
+        Me.tgl_bayar.HeaderText = "Tanggal Bayar"
         Me.tgl_bayar.Name = "tgl_bayar"
         Me.tgl_bayar.ReadOnly = True
         '
@@ -225,62 +294,16 @@ Partial Class TransaksiForm
         '
         'jumlah_bayar
         '
-        Me.jumlah_bayar.HeaderText = "jumlah_bayar"
+        Me.jumlah_bayar.HeaderText = "Jumlah Bayar"
         Me.jumlah_bayar.Name = "jumlah_bayar"
         Me.jumlah_bayar.ReadOnly = True
         '
-        'btn_send
-        '
-        Me.btn_send.BackColor = System.Drawing.Color.MidnightBlue
-        Me.btn_send.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.btn_send.FlatAppearance.BorderSize = 0
-        Me.btn_send.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btn_send.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.btn_send.ForeColor = System.Drawing.SystemColors.HighlightText
-        Me.btn_send.Image = CType(resources.GetObject("btn_send.Image"), System.Drawing.Image)
-        Me.btn_send.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btn_send.Location = New System.Drawing.Point(514, 150)
-        Me.btn_send.Name = "btn_send"
-        Me.btn_send.Size = New System.Drawing.Size(58, 22)
-        Me.btn_send.TabIndex = 50
-        Me.btn_send.Text = "Kirim"
-        Me.btn_send.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btn_send.UseVisualStyleBackColor = False
-        '
-        'btn_delete
-        '
-        Me.btn_delete.BackColor = System.Drawing.Color.Crimson
-        Me.btn_delete.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.btn_delete.FlatAppearance.BorderSize = 0
-        Me.btn_delete.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btn_delete.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.btn_delete.ForeColor = System.Drawing.SystemColors.HighlightText
-        Me.btn_delete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btn_delete.Location = New System.Drawing.Point(450, 150)
-        Me.btn_delete.Name = "btn_delete"
-        Me.btn_delete.Size = New System.Drawing.Size(58, 22)
-        Me.btn_delete.TabIndex = 52
-        Me.btn_delete.Text = "Delete"
-        Me.btn_delete.UseVisualStyleBackColor = False
-        Me.btn_delete.Visible = False
-        '
-        'num_jumlah_bayar
-        '
-        Me.num_jumlah_bayar.Cursor = System.Windows.Forms.Cursors.No
-        Me.num_jumlah_bayar.Enabled = False
-        Me.num_jumlah_bayar.InterceptArrowKeys = False
-        Me.num_jumlah_bayar.Location = New System.Drawing.Point(22, 146)
-        Me.num_jumlah_bayar.Maximum = New Decimal(New Integer() {999999999, 0, 0, 0})
-        Me.num_jumlah_bayar.Name = "num_jumlah_bayar"
-        Me.num_jumlah_bayar.ReadOnly = True
-        Me.num_jumlah_bayar.Size = New System.Drawing.Size(366, 20)
-        Me.num_jumlah_bayar.TabIndex = 53
-        '
         'TransaksiForm
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(584, 364)
+        Me.BackColor = System.Drawing.Color.Teal
+        Me.ClientSize = New System.Drawing.Size(876, 560)
         Me.Controls.Add(Me.num_jumlah_bayar)
         Me.Controls.Add(Me.btn_delete)
         Me.Controls.Add(Me.btn_send)
@@ -295,8 +318,9 @@ Partial Class TransaksiForm
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.btn_add)
+        Me.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.Name = "TransaksiForm"
-        Me.Text = "TransaksiForm"
+        Me.ShowIcon = False
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.num_jumlah_bayar, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -316,6 +340,8 @@ Partial Class TransaksiForm
     Friend WithEvents lbl_nama_siswa As Label
     Friend WithEvents DataGridView1 As DataGridView
     Friend WithEvents btn_send As Button
+    Friend WithEvents btn_delete As Button
+    Friend WithEvents num_jumlah_bayar As NumericUpDown
     Friend WithEvents no As DataGridViewTextBoxColumn
     Friend WithEvents id_pembayaran As DataGridViewTextBoxColumn
     Friend WithEvents id_petugas As DataGridViewTextBoxColumn
@@ -325,6 +351,4 @@ Partial Class TransaksiForm
     Friend WithEvents tahun_dibayar As DataGridViewTextBoxColumn
     Friend WithEvents id_spp As DataGridViewTextBoxColumn
     Friend WithEvents jumlah_bayar As DataGridViewTextBoxColumn
-    Friend WithEvents btn_delete As Button
-    Friend WithEvents num_jumlah_bayar As NumericUpDown
 End Class

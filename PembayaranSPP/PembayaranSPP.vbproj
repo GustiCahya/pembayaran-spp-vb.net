@@ -212,22 +212,10 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CrystalReport1.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CrystalReport1.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="KonfigurasiServer.Designer.vb">
       <DependentUpon>KonfigurasiServer.vb</DependentUpon>
     </Compile>
     <Compile Include="KonfigurasiServer.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Laporan.Designer.vb">
-      <DependentUpon>Laporan.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Laporan.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="KelasForm.Designer.vb">
@@ -236,11 +224,6 @@
     <Compile Include="KelasForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LaporanDataSet.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LaporanDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="MenuUtama.Designer.vb">
       <DependentUpon>MenuUtama.vb</DependentUpon>
     </Compile>
@@ -248,12 +231,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="HandleRole.vb" />
-    <Compile Include="PageAdmin.Designer.vb">
-      <DependentUpon>PageAdmin.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PageAdmin.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="LoginForm.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -283,6 +260,12 @@
     <Compile Include="PetugasForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="RekapitulasiForm.Designer.vb">
+      <DependentUpon>RekapitulasiForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RekapitulasiForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="RiwayatForm.Designer.vb">
       <DependentUpon>RiwayatForm.vb</DependentUpon>
     </Compile>
@@ -309,15 +292,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CrystalReport1.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CrystalReport1.vb</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="KonfigurasiServer.resx">
       <DependentUpon>KonfigurasiServer.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Laporan.resx">
-      <DependentUpon>Laporan.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="KelasForm.resx">
       <DependentUpon>KelasForm.vb</DependentUpon>
@@ -334,11 +310,11 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="PageAdmin.resx">
-      <DependentUpon>PageAdmin.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="PetugasForm.resx">
       <DependentUpon>PetugasForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RekapitulasiForm.resx">
+      <DependentUpon>RekapitulasiForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RiwayatForm.resx">
       <DependentUpon>RiwayatForm.vb</DependentUpon>
@@ -354,17 +330,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="LaporanDataSet.xsc">
-      <DependentUpon>LaporanDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="LaporanDataSet.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>LaporanDataSet.Designer.vb</LastGenOutput>
-    </None>
-    <None Include="LaporanDataSet.xss">
-      <DependentUpon>LaporanDataSet.xsd</DependentUpon>
-    </None>
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

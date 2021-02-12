@@ -1,8 +1,6 @@
-﻿Imports MySql.Data.MySqlClient
-Public Class TransaksiForm
+﻿Public Class TransaksiForm
     Private currentRowIndex As String
     Private Sub TransaksiForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Connection()
 
         dtp_tanggal.Format = DateTimePickerFormat.Custom
         dtp_tanggal.CustomFormat = "MMMM yyyy"
@@ -10,39 +8,27 @@ Public Class TransaksiForm
         handle_lbl_minimum()
         'Handle Combobox Petugas
         Try
-            cn.Open()
-            cm = New MySqlCommand("SELECT * FROM petugas WHERE username = @username", cn)
-            cm.Parameters.AddWithValue("@username", MenuUtama.username)
-            dt = New DataTable
-            dt.Load(cm.ExecuteReader())
+            Dim Data = EksekusiSQL("SELECT * FROM petugas WHERE username = '" & MenuUtama.username & "'")
             cmb_petugas.ValueMember = "id_petugas"
             cmb_petugas.DisplayMember = "nama_petugas"
-            cmb_petugas.DataSource = dt
-            cn.Close()
+            cmb_petugas.DataSource = Data
         Catch ex As Exception
-            cn.Close()
             MsgBox(ex.Message.ToString(), vbCritical)
         End Try
         'Handle Combobox NISN
         Try
-            cn.Open()
-            cm = New MySqlCommand("SELECT * FROM siswa", cn)
-            da = New MySqlDataAdapter(cm)
-            dt = New DataTable
-            da.Fill(dt)
+            Dim Data = EksekusiSQL("SELECT * FROM siswa")
 
             Dim autocompleted As New AutoCompleteStringCollection
-            For i As Integer = 0 To dt.Rows.Count - 1
-                autocompleted.Add(dt.Rows(i)("nisn"))
+            For i As Integer = 0 To Data.Rows.Count - 1
+                autocompleted.Add(Data.Rows(i)("nisn"))
             Next
             cmb_nisn.AutoCompleteSource = AutoCompleteSource.CustomSource
-            cmb_nisn.DataSource = dt
+            cmb_nisn.DataSource = Data
             cmb_nisn.AutoCompleteCustomSource = autocompleted
             cmb_nisn.AutoCompleteMode = AutoCompleteMode.Suggest
 
-            cn.Close()
         Catch ex As Exception
-            cn.Close()
             MsgBox(ex.Message.ToString(), vbCritical)
         End Try
     End Sub
@@ -52,117 +38,112 @@ Public Class TransaksiForm
     Private Sub handle_lbl_minimum()
         'Handle lbl_minimum jumlah bayar
         Try
-            cn.Open()
             Dim get_tahun As String = dtp_tanggal.Value.Year
-            cm = New MySqlCommand("SELECT nominal FROM spp WHERE tahun=@tahun", cn)
-            cm.Parameters.AddWithValue("@tahun", get_tahun)
-            num_jumlah_bayar.Value = cm.ExecuteScalar()
-            cn.Close()
+            Dim Data = EksekusiSQL("SELECT nominal FROM spp WHERE tahun='" & get_tahun & "'").Rows(0)
+            num_jumlah_bayar.Value = Data.Item(0)
         Catch ex As Exception
-            cn.Close()
             MsgBox(ex.ToString(), vbCritical)
         End Try
     End Sub
     Private Sub cmb_nisn_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmb_nisn.SelectedIndexChanged
         Try
-            Connection()
-            cn.Open()
-            cm = New MySqlCommand("SELECT nama FROM siswa WHERE nisn=@nisn", cn)
-            cm.Parameters.AddWithValue("@nisn", cmb_nisn.SelectedValue)
-            dt = New DataTable
-            dt.Load(cm.ExecuteReader())
-            lbl_nama_siswa.Text = dt.Rows(0)("nama")
-            cn.Close()
+            Dim Data = EksekusiSQL("SELECT nama FROM siswa WHERE nisn='" & cmb_nisn.SelectedValue & "'")
+            lbl_nama_siswa.Text = Data.Rows(0)("nama")
         Catch ex As Exception
-            cn.Close()
             MsgBox(ex.Message.ToString(), vbCritical)
         End Try
     End Sub
     Private Sub btn_create_Click(sender As Object, e As EventArgs) Handles btn_add.Click
-        Connection()
         Try
-            cn.Open()
-            If Not String.IsNullOrEmpty(cmb_petugas.SelectedValue) And Not String.IsNullOrEmpty(cmb_nisn.SelectedValue) And Not String.IsNullOrEmpty(dtp_tanggal.Value) And Not String.IsNullOrEmpty(num_jumlah_bayar.Text) Then
-
-                Dim id_pembayaran As Integer
-                If DataGridView1.RowCount < 1 Then
-                    cm = New MySqlCommand("SELECT id_pembayaran FROM pembayaran ORDER BY id_pembayaran DESC", cn)
-                    Dim count As Integer = cm.ExecuteScalar()
-                    id_pembayaran = count + 1
-                Else
-                    id_pembayaran = DataGridView1.Rows(DataGridView1.RowCount - 1).Cells(1).Value + 1
-                End If
+            If Not String.IsNullOrEmpty(cmb_petugas.SelectedValue) And Not String.IsNullOrEmpty(cmb_nisn.SelectedValue) And Not String.IsNullOrEmpty(dtp_tanggal.Value) And Not String.IsNullOrEmpty(num_jumlah_bayar.Value) Then
 
                 Dim id_petugas As String = cmb_petugas.SelectedValue
                 Dim nisn As String = cmb_nisn.SelectedValue
                 Dim tanggal As String = Date.Now().ToString("dd/MM/yyyy")
-                Dim bulan As Integer = dtp_tanggal.Value.Month
                 Dim tahun As String = dtp_tanggal.Value.Year
+                Dim bulan As Integer = dtp_tanggal.Value.Month
+
+                Dim isExist = EksekusiSQL("SELECT id_pembayaran FROM pembayaran WHERE 
+                                               nisn='" & nisn & "' And
+                                               tahun_dibayar='" & tahun & "' And
+                                               bulan_dibayar='" & bulan & "'").Rows
+
+                If isExist.Count >= 1 Then
+                    MsgBox("Siswa Tersebut Sudah Bayar dalam Bulan dan Tahun yang Anda Pilih", vbCritical)
+                    Exit Sub
+                End If
+
+                For i As Integer = 0 To DataGridView1.Rows.Count - 1
+                    Dim nisn_ditabel = DataGridView1.Rows(i).Cells("nisn").Value
+                    Dim tahun_ditabel = DataGridView1.Rows(i).Cells("tahun_dibayar").Value
+                    Dim bulan_ditabel = DataGridView1.Rows(i).Cells("bulan_dibayar").Value
+
+                    If nisn = nisn_ditabel And tahun = tahun_ditabel And bulan = bulan_ditabel Then
+                        MsgBox("Maaf Bulan dan Tahun tersebut sudah dimasukkan", vbCritical)
+                        Exit Sub
+                    End If
+
+                Next
+
+                dtp_tanggal.Value = dtp_tanggal.Value.AddMonths(1)
 
                 Dim id_spp As Integer
+                Dim jumlah_bayar As Integer
                 Try
-                    cm = New MySqlCommand("SELECT id_spp FROM spp WHERE tahun=@tahun", cn)
-                    cm.Parameters.AddWithValue("@tahun", tahun)
-                    id_spp = cm.ExecuteScalar()
+                    id_spp = EksekusiSQL("SELECT id_spp FROM spp WHERE tahun='" & tahun & "'").Rows(0).Item(0)
+                    jumlah_bayar = EksekusiSQL("SELECT nominal FROM spp WHERE tahun='" & tahun & "'").Rows(0).Item(0)
                 Catch ex As Exception
                     MsgBox(ex.Message.ToString(), vbCritical)
                 End Try
 
-                Dim jumlah_bayar As Integer = num_jumlah_bayar.Text
-                cm = New MySqlCommand("SELECT nominal FROM spp WHERE id_spp=@id_spp", cn)
-                cm.Parameters.AddWithValue("@id_spp", id_spp)
-                Dim nominal As Integer = cm.ExecuteScalar()
-                If jumlah_bayar >= nominal Then
-                    With DataGridView1
-                        Dim index As Integer = .RowCount
-                        .Rows.Add()
-                        .Rows(index).Cells("no").Value = .RowCount
-                        .Rows(index).Cells("id_pembayaran").Value = id_pembayaran
-                        .Rows(index).Cells("id_petugas").Value = id_petugas
-                        .Rows(index).Cells("nisn").Value = nisn
-                        .Rows(index).Cells("tgl_bayar").Value = tanggal
-                        .Rows(index).Cells("bulan_dibayar").Value = bulan
-                        .Rows(index).Cells("tahun_dibayar").Value = tahun
-                        .Rows(index).Cells("id_spp").Value = id_spp
-                        .Rows(index).Cells("jumlah_bayar").Value = jumlah_bayar
-                    End With
-                Else
-                    MsgBox("Jumlah bayar tidak boleh kurang dari " & nominal, vbCritical)
-                End If
+                With DataGridView1
+                    Dim index As Integer = .RowCount
+                    .Rows.Add()
+                    .Rows(index).Cells("no").Value = .RowCount
+                    .Rows(index).Cells("id_petugas").Value = id_petugas
+                    .Rows(index).Cells("nisn").Value = nisn
+                    .Rows(index).Cells("tgl_bayar").Value = tanggal
+                    .Rows(index).Cells("bulan_dibayar").Value = bulan
+                    .Rows(index).Cells("tahun_dibayar").Value = tahun
+                    .Rows(index).Cells("id_spp").Value = id_spp
+                    .Rows(index).Cells("jumlah_bayar").Value = jumlah_bayar
+                End With
             Else
                 MsgBox("Tolong isi box yang belum terisi!", vbCritical)
             End If
-            cn.Close()
         Catch ex As Exception
-            cn.Close()
             MsgBox(ex.Message.ToString(), vbCritical)
         End Try
 
     End Sub
 
     Private Sub ClearTextBox()
-        num_jumlah_bayar.Text = ""
+        num_jumlah_bayar.Value = ""
     End Sub
 
     Private Sub btn_send_Click(sender As Object, e As EventArgs) Handles btn_send.Click
-        Connection()
         Try
-            cn.Open()
             If DataGridView1.RowCount > 0 Then
                 For i = 0 To DataGridView1.RowCount - 1
                     Try
-                        cm = New MySqlCommand("INSERT INTO pembayaran VALUES (@id_pembayaran, @id_petugas, @nisn, @tanggal, @bulan, @tahun, @id_spp, @jumlah_bayar)", cn)
-                        With cm.Parameters
-                            .AddWithValue("@id_pembayaran", DataGridView1.Rows(i).Cells("id_pembayaran").Value)
-                            .AddWithValue("@id_petugas", DataGridView1.Rows(i).Cells("id_petugas").Value)
-                            .AddWithValue("@nisn", DataGridView1.Rows(i).Cells("nisn").Value)
-                            .AddWithValue("@tanggal", (DateTime.Parse(DataGridView1.Rows(i).Cells("tgl_bayar").Value)).ToString("yyyy-MM-dd"))
-                            .AddWithValue("@bulan", DataGridView1.Rows(i).Cells("bulan_dibayar").Value)
-                            .AddWithValue("@tahun", DataGridView1.Rows(i).Cells("tahun_dibayar").Value)
-                            .AddWithValue("@id_spp", DataGridView1.Rows(i).Cells("id_spp").Value)
-                            .AddWithValue("@jumlah_bayar", DataGridView1.Rows(i).Cells("jumlah_bayar").Value)
-                        End With
-                        cm.ExecuteNonQuery()
+                        Dim id_petugas = DataGridView1.Rows(i).Cells("id_petugas").Value
+                        Dim nisn = DataGridView1.Rows(i).Cells("nisn").Value
+                        Dim tanggal = (DateTime.Parse(DataGridView1.Rows(i).Cells("tgl_bayar").Value).ToString("yyyy-MM-dd"))
+                        Dim bulan = DataGridView1.Rows(i).Cells("bulan_dibayar").Value
+                        Dim tahun = DataGridView1.Rows(i).Cells("tahun_dibayar").Value
+                        Dim id_spp = DataGridView1.Rows(i).Cells("id_spp").Value
+                        Dim jumlah_bayar = DataGridView1.Rows(i).Cells("jumlah_bayar").Value
+
+                        EksekusiSQL("INSERT INTO pembayaran VALUES (
+                                     '',
+                                     '" & id_petugas & "',
+                                     '" & nisn & "',
+                                     '" & tanggal & "',
+                                     '" & bulan & "',
+                                     '" & tahun & "',
+                                     '" & id_spp & "',
+                                     '" & jumlah_bayar & "'
+                                   )")
                     Catch ex As Exception
                         MsgBox(ex.Message.ToString(), vbCritical)
                     End Try
@@ -173,19 +154,12 @@ Public Class TransaksiForm
             Else
                 MsgBox("Tidak ada pembayaran yang akan dikirim", vbCritical)
             End If
-            cn.Close()
         Catch ex As Exception
-            cn.Close()
             MsgBox(ex.Message.ToString())
         End Try
     End Sub
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
         currentRowIndex = e.RowIndex
-        btn_delete.Visible = True
-    End Sub
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btn_delete.Click
-        DataGridView1.Rows.RemoveAt(currentRowIndex)
-        btn_delete.Visible = False
     End Sub
 
     Private Sub num_jumlah_bayar_KeyDown(sender As Object, e As KeyEventArgs) Handles num_jumlah_bayar.KeyDown
@@ -193,4 +167,22 @@ Public Class TransaksiForm
             btn_add.PerformClick()
         End If
     End Sub
+
+    Private Sub btn_tutup_Click(sender As Object, e As EventArgs) Handles btn_tutup.Click
+        Me.Close()
+    End Sub
+
+    Private Sub btn_delete_Click(sender As Object, e As EventArgs) Handles btn_delete.Click
+        If String.IsNullOrEmpty(currentRowIndex) Then
+            MsgBox("Harap pilih terlebih dahulu baris yang ingin dihapus", vbCritical)
+            Exit Sub
+        End If
+
+        If Integer.Parse(currentRowIndex) >= 0 Then
+            DataGridView1.Rows.RemoveAt(currentRowIndex)
+            currentRowIndex -= 1
+        End If
+    End Sub
+
+
 End Class

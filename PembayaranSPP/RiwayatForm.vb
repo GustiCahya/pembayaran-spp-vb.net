@@ -1,90 +1,100 @@
-﻿Imports MySql.Data.MySqlClient
-Public Class RiwayatForm
+﻿Public Class RiwayatForm
     Private currentId As String
     Private Sub RiwayatForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        If MenuUtama.role <> "admin" Then
-            DataGridView1.Size = New System.Drawing.Size(584, 275)
-            DataGridView1.Location = New System.Drawing.Point(0, 86)
-            btn_laporan.Visible = False
-        End If
-        btn_delete.Visible = False
+        Me.KeyPreview = True
         LoadTable()
     End Sub
     Public Sub LoadTable()
+        Dim date1 As String = DateTimePicker1.Value.ToString("yyyy-MM-dd")
+        Dim date2 As String = DateTimePicker2.Value.ToString("yyyy-MM-dd")
         Select Case MenuUtama.role
             Case "petugas"
-                cn.Open()
-                da = New MySqlDataAdapter(
-                    "SELECT pembayaran.*, petugas.nama_petugas, siswa.nama FROM pembayaran 
-                    INNER JOIN petugas ON pembayaran.id_petugas=petugas.id_petugas 
-                    INNER JOIN siswa ON pembayaran.nisn = siswa.nisn 
-                    WHERE pembayaran.id_petugas='" & MenuUtama.currentId & "' ", cn)
-                CustomizeTable()
-                cn.Close()
+
+                Dim Data = EksekusiSQL(
+                    "SELECT a.id_pembayaran, a.id_petugas, b.nama_petugas, 
+                    a.nisn, c.nama, d.nama_kelas, a.bulan_dibayar, 
+                    a.tahun_dibayar, a.jumlah_bayar, a.tgl_bayar FROM pembayaran a 
+                    LEFT JOIN petugas b ON a.id_petugas=b.id_petugas 
+                    LEFT JOIN siswa c ON a.nisn = c.nisn 
+                    LEFT JOIN kelas d ON c.id_kelas = d.id_kelas
+                    WHERE a.tgl_bayar BETWEEN '" & date1 & "' and '" & date2 & "' and
+                    a.id_petugas='" & MenuUtama.currentId & "' ")
+                CustomizeTable(Data)
+
             Case "siswa"
-                cn.Open()
-                da = New MySqlDataAdapter(
-                    "SELECT pembayaran.*, petugas.nama_petugas, siswa.nama 
-                    FROM pembayaran INNER JOIN petugas ON pembayaran.id_petugas=petugas.id_petugas 
-                    INNER JOIN siswa ON pembayaran.nisn = siswa.nisn 
-                    WHERE pembayaran.nisn='" & MenuUtama.currentId & "'", cn)
-                CustomizeTable()
-                cn.Close()
+
+                Dim Data = EksekusiSQL(
+                    "SELECT a.id_pembayaran, a.id_petugas, b.nama_petugas, 
+                    a.nisn, c.nama, d.nama_kelas, a.bulan_dibayar, 
+                    a.tahun_dibayar, a.jumlah_bayar, a.tgl_bayar FROM pembayaran a 
+                    LEFT JOIN petugas b ON a.id_petugas=b.id_petugas 
+                    LEFT JOIN siswa c ON a.nisn = c.nisn 
+                    LEFT JOIN kelas d ON c.id_kelas = d.id_kelas
+                    WHERE a.tgl_bayar BETWEEN '" & date1 & "' and '" & date2 & "' and
+                    a.nisn='" & MenuUtama.currentId & "'")
+                CustomizeTable(Data)
+
             Case "admin"
-                cn.Open()
-                da = New MySqlDataAdapter(
-                    "SELECT pembayaran.*, petugas.nama_petugas, siswa.nama 
-                    FROM pembayaran INNER JOIN petugas ON pembayaran.id_petugas=petugas.id_petugas 
-                    INNER JOIN siswa ON pembayaran.nisn = siswa.nisn", cn)
-                CustomizeTable()
-                cn.Close()
+
+                Dim Data = EksekusiSQL(
+                    "SELECT a.id_pembayaran, a.id_petugas, b.nama_petugas, 
+                    a.nisn, c.nama, d.nama_kelas, a.bulan_dibayar, 
+                    a.tahun_dibayar, a.jumlah_bayar, a.tgl_bayar FROM pembayaran a 
+                    LEFT JOIN petugas b ON a.id_petugas=b.id_petugas 
+                    LEFT JOIN siswa c ON a.nisn = c.nisn 
+                    LEFT JOIN kelas d ON c.id_kelas = d.id_kelas
+                    WHERE a.tgl_bayar BETWEEN '" & date1 & "' and '" & date2 & "' ")
+                CustomizeTable(Data)
+
         End Select
     End Sub
-    Private Sub CustomizeTable()
+    Private Sub CustomizeTable(ByVal Data As DataTable)
         Dim daftarBulan As String() = {"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"}
-        ds = New DataSet()
-        da.Fill(ds, "pembayaran")
-        DataGridView1.DataSource = ds.Tables("pembayaran")
-        DataGridView1.Columns(6).Visible = False
-        DataGridView1.Columns(8).HeaderText = "nama_petugas"
-        DataGridView1.Columns(8).DisplayIndex = 2
-        DataGridView1.Columns(9).HeaderText = "nama_siswa"
-        DataGridView1.Columns(9).DisplayIndex = 4
+        DataGridView1.DataSource = Data
+        With DataGridView1
+            .Columns("id_pembayaran").HeaderText = "ID Pembayaran"
+            .Columns("id_petugas").HeaderText = "ID Petugas"
+            .Columns("nama_petugas").HeaderText = "Petugas"
+            .Columns("nisn").HeaderText = "NISN"
+            .Columns("nama").HeaderText = "Siswa"
+            .Columns("nama_kelas").HeaderText = "Kelas"
+            .Columns("bulan_dibayar").HeaderText = "Bulan"
+            .Columns("tahun_dibayar").HeaderText = "Tahun"
+            .Columns("jumlah_bayar").HeaderText = "Jumlah Bayar"
+            .Columns("tgl_bayar").HeaderText = "Tanggal Bayar"
+        End With
         Dim indexBulan As Integer
         Dim tanggal As Date
         For i = 0 To DataGridView1.Rows.Count - 1
-            indexBulan = DataGridView1.Rows(i).Cells(4).Value - 1
-            DataGridView1.Rows(i).Cells(4).Value = daftarBulan(indexBulan)
-            tanggal = DataGridView1.Rows(i).Cells(3).Value
-            DataGridView1.Rows(i).Cells(3).Value = tanggal
+            indexBulan = DataGridView1.Rows(i).Cells("bulan_dibayar").Value - 1
+            DataGridView1.Rows(i).Cells("bulan_dibayar").Value = daftarBulan(indexBulan)
+            tanggal = DataGridView1.Rows(i).Cells("tgl_bayar").Value
+            DataGridView1.Rows(i).Cells("tgl_bayar").Value = tanggal
         Next
-    End Sub
-    Private Sub btn_laporan_Click(sender As Object, e As EventArgs) Handles btn_laporan.Click
-        Laporan.Show()
-    End Sub
-    Private Sub btn_delete_Click(sender As Object, e As EventArgs) Handles btn_delete.Click
-        Select Case MsgBox("Yakin ID Pembayaran " & currentId & " mau dihapus ?", MsgBoxStyle.YesNo)
-            Case MsgBoxResult.Yes
-                Try
-                    cn.Open()
-                    cm = New MySqlCommand("DELETE FROM pembayaran WHERE id_pembayaran = @id_pembayaran", cn)
-                    cm.Parameters.AddWithValue("@id_pembayaran", currentId)
-                    cm.ExecuteNonQuery()
-                    cn.Close()
-                    btn_delete.Visible = False
-                    LoadTable()
-                Catch ex As Exception
-                    cn.Close()
-                    MsgBox(ex.ToString(), vbCritical)
-                End Try
-        End Select
     End Sub
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
-        btn_delete.Visible = True
         currentId = DataGridView1.Item(0, e.RowIndex).Value
-        If MenuUtama.role <> "admin" Then
-            btn_delete.Location = New System.Drawing.Point(487, 51)
-        End If
+    End Sub
+
+    Private Sub btn_tutup_Click(sender As Object, e As EventArgs) Handles btn_tutup.Click
+        Me.Close()
+    End Sub
+
+    Private Sub btn_back_Click(sender As Object, e As EventArgs) Handles btn_back.Click
+        btnCari.PerformClick()
+    End Sub
+
+    Private Sub RiwayatForm_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+        Select Case e.KeyCode
+            Case Keys.F5
+                btn_back.PerformClick()
+            Case Keys.Escape
+                Me.Close()
+        End Select
+    End Sub
+
+    Private Sub btnCari_Click(sender As Object, e As EventArgs) Handles btnCari.Click
+        LoadTable()
     End Sub
 End Class

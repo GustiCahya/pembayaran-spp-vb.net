@@ -54,73 +54,123 @@ Namespace My
             End Get
         End Property
         
-        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("server=localhost;user id=root;database=db_spp")>  _
-        Public ReadOnly Property db_sppConnectionString() As String
-            Get
-                Return CType(Me("db_sppConnectionString"),String)
-            End Get
-        End Property
-        
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property server() As String
+        Public Property Server() As String
             Get
-                Return CType(Me("server"),String)
+                Return CType(Me("Server"),String)
             End Get
             Set
-                Me("server") = value
+                Me("Server") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property userid() As String
+        Public Property UserId() As String
             Get
-                Return CType(Me("userid"),String)
+                Return CType(Me("UserId"),String)
             End Get
             Set
-                Me("userid") = value
+                Me("UserId") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property password() As String
+        Public Property Password() As String
             Get
-                Return CType(Me("password"),String)
+                Return CType(Me("Password"),String)
             End Get
             Set
-                Me("password") = value
+                Me("Password") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property database() As String
+        Public Property Database() As String
             Get
-                Return CType(Me("database"),String)
+                Return CType(Me("Database"),String)
             End Get
             Set
-                Me("database") = value
+                Me("Database") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property alamat() As String
+        Public Property Alamat() As String
             Get
-                Return CType(Me("alamat"),String)
+                Return CType(Me("Alamat"),String)
             End Get
             Set
-                Me("alamat") = value
+                Me("Alamat") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property CurrentId() As String
+            Get
+                Return CType(Me("CurrentId"),String)
+            End Get
+            Set
+                Me("CurrentId") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property Username() As String
+            Get
+                Return CType(Me("Username"),String)
+            End Get
+            Set
+                Me("Username") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property Role() As String
+            Get
+                Return CType(Me("Role"),String)
+            End Get
+            Set
+                Me("Role") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Mataram")>  _
+        Public Property TempatTTD() As String
+            Get
+                Return CType(Me("TempatTTD"),String)
+            End Get
+            Set
+                Me("TempatTTD") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Arif Hidayat")>  _
+        Public Property NamaPemimpin() As String
+            Get
+                Return CType(Me("NamaPemimpin"),String)
+            End Get
+            Set
+                Me("NamaPemimpin") = value
             End Set
         End Property
     End Class

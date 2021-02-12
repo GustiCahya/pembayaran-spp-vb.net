@@ -1,12 +1,12 @@
 ﻿Public Class MenuUtama
 
-    Public username As String
-    Public role As String
-    Public currentId As String
+    Public currentId As String = My.Settings.CurrentId
+    Public username As String = My.Settings.Username
+    Public role As String = My.Settings.Role
 
     Private Sub MenuUtama_Load(sender As Object, e As EventArgs) Handles Me.Load
         'Handle Window state
-        Me.WindowState = WindowState.Maximized
+        Me.WindowState = FormWindowState.Maximized
 
         'btn_transaksi.Select()
         ToolStripStatusLabel2.Text = "Akses: " & role & " | Pengguna: " & username & ""
@@ -16,7 +16,7 @@
                 OnOffMenu(True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True)
             Case "petugas"
                 PembayaranToolStripMenuItem.PerformClick()
-                OnOffMenu(True, True, True, True, False, False, False, False, False, True, True, True, True, True, False, False, False, False)
+                OnOffMenu(True, True, True, True, False, False, False, False, False, True, True, True, True, False, False, False, False, False)
             Case Else
                 HistoriPembayaranToolStripMenuItem.PerformClick()
                 OnOffMenu(True, True, True, True, False, False, False, False, False, False, False, True, True, False, False, False, False, True)
@@ -71,7 +71,7 @@
         With RiwayatForm
             .MdiParent = Me
             .WindowState = FormWindowState.Maximized
-            .LoadTable()
+            '.LoadTable()
             .Show()
         End With
     End Sub
@@ -95,5 +95,12 @@
         Application.Exit()
     End Sub
 
-
+    Private Sub RekapitulasiPembayaranToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RekapitulasiPembayaranToolStripMenuItem.Click
+        With RekapitulasiForm
+            .MdiParent = Me
+            .WindowState = FormWindowState.Maximized
+            '.LoadTable()
+            .Show()
+        End With
+    End Sub
 End Class

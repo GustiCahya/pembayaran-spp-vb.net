@@ -1,5 +1,4 @@
-﻿Imports MySql.Data.MySqlClient
-Imports BCrypt.Net.BCrypt
+﻿Imports BCrypt.Net.BCrypt
 Public Class PetugasForm
     Private currentId As String
 
@@ -16,10 +15,8 @@ Public Class PetugasForm
     End Sub
 
     Private Sub LoadTable()
-        da = New MySqlDataAdapter("SELECT id_petugas, username, nama_petugas, level FROM petugas", cn)
-        ds = New DataSet()
-        da.Fill(ds, "petugas")
-        DataGridView1.DataSource = ds.Tables("petugas")
+        Dim Data = EksekusiSQL("SELECT id_petugas, username, nama_petugas, level FROM petugas")
+        DataGridView1.DataSource = Data
         With DataGridView1
             .Columns("id_petugas").HeaderText = "Id Petugas"
             .Columns("username").HeaderText = "Username"
@@ -59,14 +56,12 @@ Public Class PetugasForm
         Select Case MsgBox("Yakin mau dihapus ?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
                 Try
-                    cn.Open()
-                    cm = New MySqlCommand("DELETE FROM petugas WHERE id_petugas = @id_petugas", cn)
-                    cm.Parameters.AddWithValue("@id_petugas", currentId)
-                    cm.ExecuteNonQuery()
-                    cn.Close()
+
+                    EksekusiSQL("DELETE FROM petugas WHERE id_petugas = '" & currentId & "'")
+
                     btn_back.PerformClick()
                 Catch ex As Exception
-                    cn.Close()
+
                     MsgBox(ex.Message.ToString(), vbCritical)
                 End Try
         End Select
@@ -75,47 +70,32 @@ Public Class PetugasForm
     Private Sub btn_create_Click(sender As Object, e As EventArgs) Handles btn_create.Click
         If (Not String.IsNullOrEmpty(currentId)) Then
             Try
-                cn.Open()
+
                 If Not String.IsNullOrEmpty(tb_username.Text) And Not String.IsNullOrEmpty(tb_nama_petugas.Text) And Not String.IsNullOrEmpty(cmb_level.SelectedItem) Then
-                    cm = New MySqlCommand("UPDATE petugas SET id_petugas=@id_petugas, username=@username, nama_petugas=@nama_petugas, level=@level WHERE id_petugas=@id_petugas ", cn)
-                    With cm.Parameters
-                        .AddWithValue("@id_petugas", tb_id_petugas.Text)
-                        .AddWithValue("@username", tb_username.Text)
-                        .AddWithValue("@nama_petugas", tb_nama_petugas.Text)
-                        .AddWithValue("@level", cmb_level.SelectedItem)
-                    End With
-                    cm.ExecuteNonQuery()
+                    EksekusiSQL("UPDATE petugas SET id_petugas='" & tb_id_petugas.Text & "', username='" & tb_username.Text & "', nama_petugas='" & tb_nama_petugas.Text & "', level='" & cmb_level.SelectedItem & "' WHERE id_petugas='" & tb_id_petugas.Text & "' ")
                     btn_back.PerformClick()
                 Else
                     MsgBox("Tolong isi seluruh box yang masih kosong!", vbCritical)
                 End If
-                cn.Close()
+
             Catch ex As Exception
-                cn.Close()
+
                 MsgBox(ex.Message.ToString())
             End Try
         Else
             Try
-                cn.Open()
+
                 If Not String.IsNullOrEmpty(tb_username.Text) And Not String.IsNullOrEmpty(tb_password.Text) And Not String.IsNullOrEmpty(tb_nama_petugas.Text) And Not String.IsNullOrEmpty(cmb_level.SelectedItem) Then
                     Dim password_hashed As String = BCrypt.Net.BCrypt.HashPassword(tb_password.Text, BCrypt.Net.BCrypt.GenerateSalt())
-                    cm = New MySqlCommand("INSERT INTO petugas VALUES (@id_petugas, @username, @password_hashed, @nama_petugas, @level)", cn)
-                    With cm.Parameters
-                        .AddWithValue("@id_petugas", tb_id_petugas.Text)
-                        .AddWithValue("@username", tb_username.Text)
-                        .AddWithValue("@password_hashed", password_hashed)
-                        .AddWithValue("@nama_petugas", tb_nama_petugas.Text)
-                        .AddWithValue("@level", cmb_level.SelectedItem)
-                    End With
-                    cm.ExecuteNonQuery()
-                    LoadTable()
+                    EksekusiSQL("INSERT INTO petugas VALUES ('" & tb_id_petugas.Text & "', '" & tb_username.Text & "', '" & password_hashed & "', '" & tb_nama_petugas.Text & "', '" & cmb_level.SelectedItem & "')")
+                    btn_back.PerformClick()
                     ClearTextBox()
                 Else
                     MsgBox("Tolong isi seluruh box yang masih kosong!", vbCritical)
                 End If
-                cn.Close()
+
             Catch ex As Exception
-                cn.Close()
+
                 MsgBox(ex.Message.ToString())
             End Try
         End If

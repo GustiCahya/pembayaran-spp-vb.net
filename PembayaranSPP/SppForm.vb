@@ -1,5 +1,4 @@
-﻿Imports MySql.Data.MySqlClient
-Public Class SppForm
+﻿Public Class SppForm
 
     Private currentId As String
 
@@ -15,10 +14,8 @@ Public Class SppForm
     End Sub
 
     Private Sub LoadTable()
-        da = New MySqlDataAdapter("SELECT * FROM spp", cn)
-        ds = New DataSet()
-        da.Fill(ds, "spp")
-        DataGridView1.DataSource = ds.Tables("spp")
+        Dim Data = EksekusiSQL("SELECT * FROM spp")
+        DataGridView1.DataSource = Data
         With DataGridView1
             .Columns("id_spp").HeaderText = "Id SPP"
             .Columns("tahun").HeaderText = "Tahun"
@@ -93,39 +90,25 @@ Public Class SppForm
     Private Sub btn_create_Click_1(sender As Object, e As EventArgs) Handles btn_create.Click
         If (Not String.IsNullOrEmpty(currentId)) Then
             Try
-                cn.Open()
                 If Not String.IsNullOrEmpty(num_tahun.Value) And Not String.IsNullOrEmpty(num_nominal.Value) Then
-                    cm = New MySqlCommand("UPDATE spp SET id_spp=@id_spp, tahun=@tahun, nominal=@nominal WHERE id_spp=@id_spp ", cn)
-                    cm.Parameters.AddWithValue("@id_spp", tb_id_spp.Text)
-                    cm.Parameters.AddWithValue("@tahun", num_tahun.Text)
-                    cm.Parameters.AddWithValue("@nominal", num_nominal.Text)
-                    cm.ExecuteNonQuery()
+                    EksekusiSQL("UPDATE spp SET id_spp='" & tb_id_spp.Text & "', tahun='" & num_tahun.Text & "', nominal='" & num_nominal.Text & "' WHERE id_spp='" & tb_id_spp.Text & "' ")
                     btn_back.PerformClick()
                 Else
                     MsgBox("Tolong isi seluruh box yang masih kosong!", vbCritical)
                 End If
-                cn.Close()
             Catch ex As Exception
-                cn.Close()
                 MsgBox(ex.Message.ToString())
             End Try
         Else
             Try
-                cn.Open()
                 If Not String.IsNullOrEmpty(num_tahun.Value) And Not String.IsNullOrEmpty(num_nominal.Value) Then
-                    cm = New MySqlCommand("INSERT INTO spp VALUES (@id_spp, @tahun, @nominal)", cn)
-                    cm.Parameters.AddWithValue("@id_spp", tb_id_spp.Text)
-                    cm.Parameters.AddWithValue("@tahun", num_tahun.Value)
-                    cm.Parameters.AddWithValue("@nominal", num_nominal.Value)
-                    cm.ExecuteNonQuery()
+                    EksekusiSQL("INSERT INTO spp VALUES ('" & tb_id_spp.Text & "', '" & num_tahun.Value & "', '" & num_nominal.Value & "')")
                     LoadTable()
                     ClearTextBox()
                 Else
                     MsgBox("Tolong isi seluruh box yang masih kosong!", vbCritical)
                 End If
-                cn.Close()
             Catch ex As Exception
-                cn.Close()
                 MsgBox(ex.Message.ToString())
             End Try
         End If
@@ -149,14 +132,9 @@ Public Class SppForm
         Select Case MsgBox("Yakin mau dihapus ?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
                 Try
-                    cn.Open()
-                    cm = New MySqlCommand("DELETE FROM spp WHERE id_spp = @id_spp", cn)
-                    cm.Parameters.AddWithValue("@id_spp", currentId)
-                    cm.ExecuteNonQuery()
-                    cn.Close()
+                    EksekusiSQL("DELETE FROM spp WHERE id_spp = '" & currentId & "'")
                     btn_back.PerformClick()
                 Catch ex As Exception
-                    cn.Close()
                     MsgBox(ex.Message.ToString(), vbCritical)
                 End Try
         End Select

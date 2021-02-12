@@ -1,5 +1,4 @@
-﻿Imports MySql.Data.MySqlClient
-Public Class KelasForm
+﻿Public Class KelasForm
     Private currentId As String
 
     Private Sub SppForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -13,10 +12,8 @@ Public Class KelasForm
     End Sub
 
     Private Sub LoadTable()
-        da = New MySqlDataAdapter("SELECT * FROM kelas", cn)
-        ds = New DataSet()
-        da.Fill(ds, "kelas")
-        DataGridView1.DataSource = ds.Tables("kelas")
+        Dim Data = EksekusiSQL("SELECT * FROM kelas")
+        DataGridView1.DataSource = Data
         With DataGridView1
             .Columns("id_kelas").HeaderText = "Id Kelas"
             .Columns("nama_kelas").HeaderText = "Nama Kelas"
@@ -25,6 +22,13 @@ Public Class KelasForm
         tb_id_kelas.Text = DataGridView1.RowCount + 1
         tb_id_kelas.ReadOnly = True
         tb_id_kelas.Cursor = System.Windows.Forms.Cursors.No
+
+        'Handle Kompetensi_keahlian list
+        Dim Kompetensi = EksekusiSQL("SELECT DISTINCT(kompetensi_keahlian) FROM kelas")
+        cmb_kompetensi_keahlian.ValueMember = "kompetensi_keahlian"
+        cmb_kompetensi_keahlian.DisplayMember = "kompetensi_keahlian"
+        cmb_kompetensi_keahlian.DataSource = Kompetensi
+        cmb_kompetensi_keahlian.SelectedIndex = -1
     End Sub
 
     Private Sub tb_kompetensi_keahlian_KeyDown(sender As Object, e As KeyEventArgs)
@@ -90,43 +94,31 @@ Public Class KelasForm
     Private Sub btn_create_Click_1(sender As Object, e As EventArgs) Handles btn_create.Click
         If (Not String.IsNullOrEmpty(currentId)) Then
             Try
-                cn.Open()
+
                 If Not String.IsNullOrEmpty(tb_nama_kelas.Text) And Not String.IsNullOrEmpty(cmb_kompetensi_keahlian.SelectedValue) Then
-                    cm = New MySqlCommand("UPDATE kelas SET id_kelas=@id_kelas, nama_kelas=@nama_kelas, kompetensi_keahlian=@kompentensi WHERE id_kelas=@id_kelas ", cn)
-                    With cm.Parameters
-                        .AddWithValue("@id_kelas", tb_id_kelas.Text)
-                        .AddWithValue("@nama_kelas", tb_nama_kelas.Text)
-                        .AddWithValue("@kompentensi", cmb_kompetensi_keahlian.SelectedValue)
-                    End With
-                    cm.ExecuteNonQuery()
+                    Dim Data = EksekusiSQL("UPDATE kelas SET id_kelas='" & tb_id_kelas.Text & "', nama_kelas='" & tb_nama_kelas.Text & "', kompetensi_keahlian='" & cmb_kompetensi_keahlian.SelectedValue & "' WHERE id_kelas='" & tb_id_kelas.Text & "' ")
                     btn_back.PerformClick()
                 Else
                     MsgBox("Tolong isi seluruh box yang masih kosong!", vbCritical)
                 End If
-                cn.Close()
+
             Catch ex As Exception
-                cn.Close()
+
                 MsgBox(ex.Message.ToString())
             End Try
         Else
             Try
-                cn.Open()
+
                 If Not String.IsNullOrEmpty(tb_nama_kelas.Text) And Not String.IsNullOrEmpty(cmb_kompetensi_keahlian.SelectedValue) Then
-                    cm = New MySqlCommand("INSERT INTO kelas VALUES (@id_kelas, @nama_kelas, @kompentensi)", cn)
-                    With cm.Parameters
-                        .AddWithValue("@id_kelas", tb_id_kelas.Text)
-                        .AddWithValue("@nama_kelas", tb_nama_kelas.Text)
-                        .AddWithValue("@kompentensi", cmb_kompetensi_keahlian.SelectedValue)
-                    End With
-                    cm.ExecuteNonQuery()
+                    Dim Data = EksekusiSQL("INSERT INTO kelas VALUES ('" & tb_id_kelas.Text & "', '" & tb_nama_kelas.Text & "', '" & cmb_kompetensi_keahlian.SelectedValue & "')")
                     LoadTable()
                     ClearTextBox()
                 Else
                     MsgBox("Tolong isi seluruh box yang masih kosong!", vbCritical)
                 End If
-                cn.Close()
+
             Catch ex As Exception
-                cn.Close()
+
                 MsgBox(ex.Message.ToString())
             End Try
         End If
@@ -150,34 +142,13 @@ Public Class KelasForm
         Select Case MsgBox("Yakin mau dihapus?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
                 Try
-                    cn.Open()
-                    cm = New MySqlCommand("DELETE FROM kelas WHERE id_kelas = @id_kelas", cn)
-                    cm.Parameters.AddWithValue("@id_kelas", currentId)
-                    cm.ExecuteNonQuery()
-                    cn.Close()
+                    Dim Data = EksekusiSQL("DELETE FROM kelas WHERE id_kelas = '" & currentId & "'")
                     btn_back.PerformClick()
                 Catch ex As Exception
-                    cn.Close()
+
                     MsgBox(ex.Message.ToString(), vbCritical)
                 End Try
         End Select
-    End Sub
-
-    Private Sub cmb_kompetensi_keahlian_GotFocus(sender As Object, e As EventArgs) Handles cmb_kompetensi_keahlian.GotFocus
-        Try
-            cn.Open()
-            cm = New MySqlCommand("SELECT DISTINCT(kompetensi_keahlian) FROM kelas", cn)
-            dt = New DataTable
-            dt.Load(cm.ExecuteReader())
-            cmb_kompetensi_keahlian.ValueMember = "kompetensi_keahlian"
-            cmb_kompetensi_keahlian.DisplayMember = "kompetensi_keahlian"
-            cmb_kompetensi_keahlian.DataSource = dt
-            cn.Close()
-            btn_back.PerformClick()
-        Catch ex As Exception
-            cn.Close()
-            MsgBox(ex.Message.ToString(), vbCritical)
-        End Try
     End Sub
 
     Private Sub KelasForm_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
@@ -190,4 +161,6 @@ Public Class KelasForm
                 btn_create.PerformClick()
         End Select
     End Sub
+
+
 End Class

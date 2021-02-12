@@ -1,5 +1,4 @@
 ﻿Imports System.ComponentModel
-Imports MySql.Data.MySqlClient
 
 Public Class SiswaForm
 
@@ -7,10 +6,8 @@ Public Class SiswaForm
 
     Private Sub LoadTable()
         Me.KeyPreview = True
-        da = New MySqlDataAdapter("SELECT siswa.*, kelas.nama_kelas, spp.tahun FROM siswa INNER JOIN kelas ON siswa.id_kelas=kelas.id_kelas INNER JOIN spp ON siswa.id_spp=spp.id_spp", cn)
-        ds = New DataSet()
-        da.Fill(ds, "siswa")
-        DataGridView1.DataSource = ds.Tables("siswa")
+        Dim Data = EksekusiSQL("SELECT siswa.*, kelas.nama_kelas, spp.tahun FROM siswa INNER JOIN kelas ON siswa.id_kelas=kelas.id_kelas INNER JOIN spp ON siswa.id_spp=spp.id_spp")
+        DataGridView1.DataSource = Data
         DataGridView1.Columns(3).Visible = False 'Sembunyikan kolom id_kelas
         DataGridView1.Columns(6).Visible = False 'Sembunyikan kolom id_spp
         DataGridView1.Sort(DataGridView1.Columns(8), ListSortDirection.Descending)
@@ -24,12 +21,12 @@ Public Class SiswaForm
 
         cmb_kelas.SelectedIndex = -1
 
-        With DataGridView1.Columns(7)
+        With DataGridView1.Columns("nama_kelas")
             .DisplayIndex = 3 'Ubah tampilan index nama_kelas menjadi index 3
             .HeaderText = "kelas"
         End With
-        With DataGridView1.Columns(8)
-            .DisplayIndex = 6 'Ubah tampilan index tahun spp menjadi index 6
+        With DataGridView1.Columns("tahun")
+            .DisplayIndex = 6 'Ubah tampilan index tahun_dibayar menjadi index 6
             .HeaderText = "tahun spp"
         End With
     End Sub
@@ -37,36 +34,32 @@ Public Class SiswaForm
     Private Sub SiswaForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Handle Combobox Kelas
         Try
-            cn.Open()
-            cm = New MySqlCommand("SELECT * FROM kelas", cn)
-            dt = New DataTable
-            dt.Load(cm.ExecuteReader())
+
+            Dim Data = EksekusiSQL("SELECT * FROM kelas")
             cmb_kelas.ValueMember = "id_kelas"
             cmb_kelas.DisplayMember = "nama_kelas"
-            cmb_kelas.DataSource = dt
-            cn.Close()
+            cmb_kelas.DataSource = Data
+
         Catch ex As Exception
-            cn.Close()
+
             MsgBox(ex.ToString(), vbCritical)
         End Try
 
         'Handle Combobox SPP
         Try
-            cn.Open()
-            cm = New MySqlCommand("SELECT * FROM spp", cn)
-            dt = New DataTable
-            dt.Load(cm.ExecuteReader())
+
+            Dim Data = EksekusiSQL("SELECT * FROM spp")
             cmb_spp.ValueMember = "id_spp"
             cmb_spp.DisplayMember = "tahun"
-            cmb_spp.DataSource = dt
-            For i As Integer = 0 To dt.Rows.Count - 1
-                If dt(i).Item("tahun").Equals(Now.Year) Then
+            cmb_spp.DataSource = Data
+            For i As Integer = 0 To Data.Rows.Count - 1
+                If Data.Rows(i).Item("tahun").Equals(Now.Year) Then
                     cmb_spp.SelectedIndex = i
                 End If
             Next
-            cn.Close()
+
         Catch ex As Exception
-            cn.Close()
+
             MsgBox(ex.ToString(), vbCritical)
         End Try
 
@@ -102,53 +95,47 @@ Public Class SiswaForm
 
         If (Not String.IsNullOrEmpty(currentId)) Then
             Try
-                cn.Open()
+
                 If Not String.IsNullOrEmpty(tb_nisn.Text) And Not String.IsNullOrEmpty(tb_nis.Text) And Not String.IsNullOrEmpty(tb_nama.Text) And Not String.IsNullOrEmpty(cmb_kelas.SelectedValue) And Not String.IsNullOrEmpty(tb_alamat.Text) And Not String.IsNullOrEmpty(tb_telepon.Text) And Not String.IsNullOrEmpty(cmb_spp.SelectedValue) Then
-                    cm = New MySqlCommand("UPDATE siswa 
-SET nisn=@nisn, nis=@nis, nama=@nama, id_kelas=@id_kelas, alamat=@alamat, no_telp=@telepon, id_spp=@id_spp WHERE nisn=@nisn", cn)
-                    With cm.Parameters
-                        .AddWithValue("@nisn", tb_nisn.Text)
-                        .AddWithValue("@nis", tb_nis.Text)
-                        .AddWithValue("@nama", tb_nama.Text)
-                        .AddWithValue("@id_kelas", cmb_kelas.SelectedValue)
-                        .AddWithValue("@alamat", tb_alamat.Text)
-                        .AddWithValue("@telepon", tb_telepon.Text)
-                        .AddWithValue("@id_spp", cmb_spp.SelectedValue)
-                    End With
-                    cm.ExecuteNonQuery()
+                    Dim Data = EksekusiSQL("UPDATE siswa SET 
+                                nisn='" & tb_nisn.Text & "', 
+                                nis='" & tb_nis.Text & "', 
+                                nama='" & tb_nama.Text & "', 
+                                id_kelas='" & cmb_kelas.SelectedValue & "', 
+                                alamat='" & tb_alamat.Text & "', 
+                                no_telp='" & tb_telepon.Text & "', 
+                                id_spp='" & cmb_spp.SelectedValue & "' 
+                               WHERE nisn='" & tb_nisn.Text & "'")
                     btn_back.PerformClick()
                 Else
                     MsgBox("Tolong isi seluruh box yang masih kosong!", vbCritical)
                 End If
-                cn.Close()
+
             Catch ex As Exception
-                cn.Close()
+
                 MsgBox(ex.Message.ToString(), vbCritical)
             End Try
         Else
             Try
-                cn.Open()
+
                 If Not String.IsNullOrEmpty(tb_nisn.Text) And Not String.IsNullOrEmpty(tb_nis.Text) And Not String.IsNullOrEmpty(tb_nama.Text) And Not String.IsNullOrEmpty(cmb_kelas.SelectedValue) And Not String.IsNullOrEmpty(tb_alamat.Text) And Not String.IsNullOrEmpty(tb_telepon.Text) And Not String.IsNullOrEmpty(cmb_spp.SelectedValue) Then
-                    cm = New MySqlCommand("INSERT INTO siswa VALUES (@nisn, @nis, @nama, @id_kelas, @alamat, @telepon, @id_spp)", cn)
-                    With cm.Parameters
-                        .AddWithValue("@nisn", tb_nisn.Text)
-                        .AddWithValue("@nis", tb_nis.Text)
-                        .AddWithValue("@nama", tb_nama.Text)
-                        .AddWithValue("@id_kelas", cmb_kelas.SelectedValue)
-                        .AddWithValue("@alamat", tb_alamat.Text)
-                        .AddWithValue("@telepon", tb_telepon.Text)
-                        .AddWithValue("@id_spp", cmb_spp.SelectedValue)
-                    End With
-                    cm.ExecuteNonQuery()
+                    Dim Data = EksekusiSQL("INSERT INTO siswa VALUES 
+                                            ('" & tb_nisn.Text & "', 
+                                             '" & tb_nis.Text & "', 
+                                             '" & tb_nama.Text & "', 
+                                             '" & cmb_kelas.SelectedValue & "', 
+                                             '" & tb_alamat.Text & "', 
+                                             '" & tb_telepon.Text & "', 
+                                             '" & cmb_spp.SelectedValue & "')")
                     LoadTable()
                     ClearTextBox()
                 Else
                     MsgBox("Tolong isi seluruh box yang masih kosong!", vbCritical)
                 End If
-                cn.Close()
+
                 btn_back.PerformClick()
             Catch ex As Exception
-                cn.Close()
+
                 MsgBox(ex.Message.ToString(), vbCritical)
             End Try
         End If
@@ -189,14 +176,12 @@ SET nisn=@nisn, nis=@nis, nama=@nama, id_kelas=@id_kelas, alamat=@alamat, no_tel
         Select Case MsgBox("Yakin mau dihapus ?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
                 Try
-                    cn.Open()
-                    cm = New MySqlCommand("DELETE FROM siswa WHERE nisn = @nisn", cn)
-                    cm.Parameters.AddWithValue("@nisn", currentId)
-                    cm.ExecuteNonQuery()
-                    cn.Close()
+
+                    Dim Data = EksekusiSQL("DELETE FROM siswa WHERE nisn = '" & currentId & "'")
+
                     btn_back.PerformClick()
                 Catch ex As Exception
-                    cn.Close()
+
                     MsgBox(ex.Message.ToString(), vbCritical)
                 End Try
         End Select

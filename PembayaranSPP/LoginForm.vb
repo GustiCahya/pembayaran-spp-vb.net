@@ -1,7 +1,5 @@
-﻿Imports MySql.Data.MySqlClient
-Imports BCrypt.Net.BCrypt
+﻿Imports BCrypt.Net.BCrypt
 Public Class Login
-
     Private isSiswa As Boolean
 
     Private Sub Login_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -30,22 +28,17 @@ Public Class Login
             Dim username As String = tb_username.Text
             Dim password As String = tb_password.Text
             Try
-                Connection()
-                cn.Open()
-                cm = New MySqlCommand("SELECT * FROM petugas WHERE username = @username ", cn)
-                cm.Parameters.AddWithValue("@username", tb_username.Text)
-                dr = cm.ExecuteReader()
-                dr.Read()
-                If dr.HasRows() Then
-                    Dim output_id_petugas As String = dr(0).ToString()
-                    Dim output_username As String = dr(1).ToString()
-                    Dim output_password As String = dr(2).ToString()
-                    Dim output_role As String = dr(4).ToString()
+                Dim Data = EksekusiSQL("SELECT * FROM petugas WHERE username = '" & tb_username.Text & "' ")
+                If Data.Rows.Count >= 1 Then
+                    Dim output_id_petugas As String = Data.Rows(0).Item(0).ToString()
+                    Dim output_username As String = Data.Rows(0).Item(1).ToString()
+                    Dim output_password As String = Data.Rows(0).Item(2).ToString()
+                    Dim output_role As String = Data.Rows(0).Item(4).ToString()
                     Dim isPasswordValid As Boolean = BCrypt.Net.BCrypt.Verify(password, output_password)
                     If isPasswordValid Then
-                        MenuUtama.currentId = output_id_petugas
-                        MenuUtama.username = output_username
-                        MenuUtama.role = output_role
+                        My.Settings.CurrentId = output_id_petugas
+                        My.Settings.Username = output_username
+                        My.Settings.Role = output_role
                         Clear()
                         MenuUtama.Show()
                         Me.Close()
@@ -56,33 +49,27 @@ Public Class Login
                     tb_username.Select()
                     MsgBox("Username dan Password Salah! ", vbCritical)
                 End If
-                dr.Close()
-                cn.Close()
             Catch ex As Exception
-                cn.Close()
-                MsgBox(ex.Message.ToString())
+                MsgBox(ex.Message)
+                If MessageBox.Show("Koneksi ke Server Gagal, Tekan Yes untuk Konfigurasi Server",
+                   "Koneksi Ke Server Gagal", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                    KonfigurasiServer.ShowDialog()
+                End If
             End Try
         Else
             Dim nisn As String = tb_username.Text
             Dim nis As String = tb_password.Text
             Try
-                Connection()
-                cn.Open()
-                cm = New MySqlCommand("SELECT * FROM siswa WHERE nisn = @nisn AND nis = @nis ", cn)
-                cm.Parameters.AddWithValue("@nisn", nisn)
-                cm.Parameters.AddWithValue("@nis", nis)
-                dr = cm.ExecuteReader()
-                dr.Read()
-                If dr.HasRows() Then
-                    Dim output_nisn As String = dr(0).ToString()
-                    Dim output_nis As String = dr(1).ToString()
-                    Dim output_nama As String = dr(2).ToString()
+                Dim Data = EksekusiSQL("SELECT * FROM siswa WHERE nisn = '" & nisn & "' AND nis = '" & nis & "' ")
+                If Data.Rows.Count >= 1 Then
+                    Dim output_nisn As String = Data.Rows(0).Item(0).ToString()
+                    Dim output_nis As String = Data.Rows(0).Item(1).ToString()
+                    Dim output_nama As String = Data.Rows(0).Item(2).ToString()
                     If nisn.Equals(output_nisn) And nis.Equals(output_nis) Then
-                        MenuUtama.currentId = output_nisn
-                        MenuUtama.username = output_nama
-                        MenuUtama.role = "siswa"
+                        My.Settings.CurrentId = output_nisn
+                        My.Settings.Username = output_nama
+                        My.Settings.Role = "siswa"
                         Clear()
-                        cn.Close()
                         MenuUtama.Show()
                         Me.Close()
                     Else
@@ -92,10 +79,7 @@ Public Class Login
                     tb_username.Select()
                     MsgBox("NISN dan NIS Salah! ", vbCritical)
                 End If
-                dr.Close()
-                cn.Close()
             Catch ex As Exception
-                cn.Close()
                 MsgBox(ex.Message.ToString())
             End Try
         End If

@@ -2,10 +2,10 @@
 Public Class KonfigurasiServer
     Private is_connect = False
     Private Sub KonfigurasiServer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        tb_server.Text = My.Settings.server
-        tb_userid.Text = My.Settings.userid
-        tb_password.Text = My.Settings.password
-        tb_database.Text = My.Settings.database
+        tb_server.Text = My.Settings.Server
+        tb_userid.Text = My.Settings.UserId
+        tb_password.Text = My.Settings.Password
+        tb_database.Text = My.Settings.Database
         btn_connect.PerformClick()
     End Sub
     Private Sub btn_connect_Click(sender As Object, e As EventArgs) Handles btn_connect.Click
@@ -37,17 +37,13 @@ Public Class KonfigurasiServer
             MsgBox("Database Tidak Terkoneksi, Tidak Bisa Menyimpan Konfigurasi", vbCritical)
             Exit Sub
         End If
-        My.Settings.alamat = "server = " & tb_server.Text & "; user id=" & tb_userid.Text & "; password = " & tb_password.Text & "; database = " & tb_database.Text
-        My.Settings.server = tb_server.Text
-        My.Settings.userid = tb_userid.Text
-        My.Settings.password = tb_password.Text
-        My.Settings.database = tb_database.Text
+        My.Settings.Alamat = "server = " & tb_server.Text & "; user id=" & tb_userid.Text & "; password = " & tb_password.Text & "; database = " & tb_database.Text
+        My.Settings.Server = tb_server.Text
+        My.Settings.UserId = tb_userid.Text
+        My.Settings.Password = tb_password.Text
+        My.Settings.Database = tb_database.Text
         My.Settings.Save()
         'Login.Show()
         Me.Close()
-    End Sub
-
-    Private Sub Label5_Click(sender As Object, e As EventArgs) Handles Label5.Click
-
     End Sub
 End Class

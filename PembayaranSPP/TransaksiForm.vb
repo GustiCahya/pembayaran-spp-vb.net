@@ -1,5 +1,6 @@
 ﻿Public Class TransaksiForm
     Private currentRowIndex As String
+    Private nisn_global As String
     Private Sub TransaksiForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         dtp_tanggal.Format = DateTimePickerFormat.Custom
@@ -12,22 +13,6 @@
             cmb_petugas.ValueMember = "id_petugas"
             cmb_petugas.DisplayMember = "nama_petugas"
             cmb_petugas.DataSource = Data
-        Catch ex As Exception
-            MsgBox(ex.Message.ToString(), vbCritical)
-        End Try
-        'Handle Combobox NISN
-        Try
-            Dim Data = EksekusiSQL("SELECT * FROM siswa")
-
-            Dim autocompleted As New AutoCompleteStringCollection
-            For i As Integer = 0 To Data.Rows.Count - 1
-                autocompleted.Add(Data.Rows(i)("nisn"))
-            Next
-            cmb_nisn.AutoCompleteSource = AutoCompleteSource.CustomSource
-            cmb_nisn.DataSource = Data
-            cmb_nisn.AutoCompleteCustomSource = autocompleted
-            cmb_nisn.AutoCompleteMode = AutoCompleteMode.Suggest
-
         Catch ex As Exception
             MsgBox(ex.Message.ToString(), vbCritical)
         End Try
@@ -45,20 +30,12 @@
             MsgBox(ex.ToString(), vbCritical)
         End Try
     End Sub
-    Private Sub cmb_nisn_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmb_nisn.SelectedIndexChanged
-        Try
-            Dim Data = EksekusiSQL("SELECT nama FROM siswa WHERE nisn='" & cmb_nisn.SelectedValue & "'")
-            lbl_nama_siswa.Text = Data.Rows(0)("nama")
-        Catch ex As Exception
-            MsgBox(ex.Message.ToString(), vbCritical)
-        End Try
-    End Sub
     Private Sub btn_create_Click(sender As Object, e As EventArgs) Handles btn_add.Click
         Try
-            If Not String.IsNullOrEmpty(cmb_petugas.SelectedValue) And Not String.IsNullOrEmpty(cmb_nisn.SelectedValue) And Not String.IsNullOrEmpty(dtp_tanggal.Value) And Not String.IsNullOrEmpty(num_jumlah_bayar.Value) Then
+            If Not String.IsNullOrEmpty(cmb_petugas.SelectedValue) And Not String.IsNullOrEmpty(nisn_global) And Not String.IsNullOrEmpty(dtp_tanggal.Value) And Not String.IsNullOrEmpty(num_jumlah_bayar.Value) Then
 
                 Dim id_petugas As String = cmb_petugas.SelectedValue
-                Dim nisn As String = cmb_nisn.SelectedValue
+                Dim nisn As String = nisn_global
                 Dim tanggal As String = Date.Now().ToString("dd/MM/yyyy")
                 Dim tahun As String = dtp_tanggal.Value.Year
                 Dim bulan As Integer = dtp_tanggal.Value.Month
@@ -118,7 +95,12 @@
     End Sub
 
     Private Sub ClearTextBox()
-        num_jumlah_bayar.Value = ""
+        currentRowIndex = ""
+        nisn_global = ""
+        tb_nisn.Text = ""
+        lbl_nama_siswa.Text = "Nama"
+        lbl_nama_kelas.Text = "Kelas"
+        dtp_tanggal.Value = Now()
     End Sub
 
     Private Sub btn_send_Click(sender As Object, e As EventArgs) Handles btn_send.Click
@@ -177,12 +159,36 @@
             MsgBox("Harap pilih terlebih dahulu baris yang ingin dihapus", vbCritical)
             Exit Sub
         End If
-
         If Integer.Parse(currentRowIndex) >= 0 Then
             DataGridView1.Rows.RemoveAt(currentRowIndex)
             currentRowIndex -= 1
         End If
     End Sub
 
+    Private Sub btnCari_Click(sender As Object, e As EventArgs) Handles btnCari.Click
+        Try
+            Dim Data = EksekusiSQL("SELECT a.nisn, a.nama, b.nama_kelas FROM siswa a JOIN kelas b ON a.id_kelas=b.id_kelas WHERE nisn='" & tb_nisn.Text & "'")
+            lbl_nama_siswa.Text = Data.Rows(0)("nama")
+            lbl_nama_kelas.Text = Data.Rows(0)("nama_kelas")
+            nisn_global = Data.Rows(0)("nisn")
+            dtp_tanggal.Value = Now()
+        Catch ex As Exception
+            MsgBox("Harap memasukkan NISN dengan Benar", vbCritical)
+            ClearTextBox()
+        End Try
+    End Sub
 
+    Private Sub tb_nisn_TextChanged(sender As Object, e As EventArgs) Handles tb_nisn.TextChanged
+        If tb_nisn.Text.Length > 9 Then
+            btnCari.PerformClick()
+        End If
+        If tb_nisn.Text.Length <= 0 Then
+            ClearTextBox()
+        End If
+    End Sub
+
+    Private Sub btn_refresh_Click(sender As Object, e As EventArgs) Handles btn_refresh.Click
+        ClearTextBox()
+        DataGridView1.DataSource = vbNull
+    End Sub
 End Class

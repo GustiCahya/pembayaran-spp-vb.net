@@ -1,19 +1,22 @@
 ﻿Public Class RiwayatForm
     Private currentId As String
+    Private Data As DataTable
+    Private date1 As String
+    Private date2 As String
     Private Sub RiwayatForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
         LoadTable()
     End Sub
     Public Sub LoadTable()
-        Dim date1 As String = DateTimePicker1.Value.ToString("yyyy-MM-dd")
-        Dim date2 As String = DateTimePicker2.Value.ToString("yyyy-MM-dd")
+        date1 = DateTimePicker1.Value.ToString("yyyy-MM-dd")
+        date2 = DateTimePicker2.Value.ToString("yyyy-MM-dd")
         Select Case MenuUtama.role
             Case "petugas"
 
-                Dim Data = EksekusiSQL(
+                Data = EksekusiSQL(
                     "SELECT a.id_pembayaran, a.id_petugas, b.nama_petugas, 
                     a.nisn, c.nama, d.nama_kelas, a.bulan_dibayar, 
-                    a.tahun_dibayar, a.jumlah_bayar, a.tgl_bayar FROM pembayaran a 
+                    a.tahun_dibayar, a.jumlah_bayar, a.tgl_bayar, a.id_spp FROM pembayaran a 
                     LEFT JOIN petugas b ON a.id_petugas=b.id_petugas 
                     LEFT JOIN siswa c ON a.nisn = c.nisn 
                     LEFT JOIN kelas d ON c.id_kelas = d.id_kelas
@@ -23,10 +26,10 @@
 
             Case "siswa"
 
-                Dim Data = EksekusiSQL(
+                Data = EksekusiSQL(
                     "SELECT a.id_pembayaran, a.id_petugas, b.nama_petugas, 
                     a.nisn, c.nama, d.nama_kelas, a.bulan_dibayar, 
-                    a.tahun_dibayar, a.jumlah_bayar, a.tgl_bayar FROM pembayaran a 
+                    a.tahun_dibayar, a.jumlah_bayar, a.tgl_bayar, a.id_spp FROM pembayaran a 
                     LEFT JOIN petugas b ON a.id_petugas=b.id_petugas 
                     LEFT JOIN siswa c ON a.nisn = c.nisn 
                     LEFT JOIN kelas d ON c.id_kelas = d.id_kelas
@@ -36,10 +39,10 @@
 
             Case "admin"
 
-                Dim Data = EksekusiSQL(
+                Data = EksekusiSQL(
                     "SELECT a.id_pembayaran, a.id_petugas, b.nama_petugas, 
                     a.nisn, c.nama, d.nama_kelas, a.bulan_dibayar, 
-                    a.tahun_dibayar, a.jumlah_bayar, a.tgl_bayar FROM pembayaran a 
+                    a.tahun_dibayar, a.jumlah_bayar, a.tgl_bayar, a.id_spp FROM pembayaran a 
                     LEFT JOIN petugas b ON a.id_petugas=b.id_petugas 
                     LEFT JOIN siswa c ON a.nisn = c.nisn 
                     LEFT JOIN kelas d ON c.id_kelas = d.id_kelas
@@ -96,5 +99,9 @@
 
     Private Sub btnCari_Click(sender As Object, e As EventArgs) Handles btnCari.Click
         LoadTable()
+    End Sub
+
+    Private Sub btn_cetak_Click(sender As Object, e As EventArgs) Handles btn_cetak.Click
+        CetakHistoriPembayaran(Data, date1, date2)
     End Sub
 End Class

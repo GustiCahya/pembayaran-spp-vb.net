@@ -1,7 +1,5 @@
 ﻿Public Class SppForm
 
-    Private currentId As String
-
     Private Sub SppForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
         num_tahun.Value = Now.Year
@@ -22,18 +20,13 @@
             .Columns("nominal").HeaderText = "Nominal"
         End With
 
-        tb_id_spp.Text = DataGridView1.RowCount + 1
         tb_id_spp.ReadOnly = True
         tb_id_spp.Cursor = System.Windows.Forms.Cursors.No
     End Sub
 
-    Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
-        currentId = DataGridView1.Item(0, DataGridView1.CurrentRow.Index).Value
-    End Sub
-
     Private Sub num_nominal_KeyDown(sender As Object, e As KeyEventArgs) Handles num_nominal.KeyDown
         If e.KeyCode = Keys.Enter Then
-            If Not String.IsNullOrEmpty(currentId) Then
+            If Not String.IsNullOrEmpty(tb_id_spp.Text) Then
                 btn_update.PerformClick()
             Else
                 btn_create.PerformClick()
@@ -88,7 +81,7 @@
     End Sub
 
     Private Sub btn_create_Click_1(sender As Object, e As EventArgs) Handles btn_create.Click
-        If (Not String.IsNullOrEmpty(currentId)) Then
+        If (Not String.IsNullOrEmpty(tb_id_spp.Text)) Then
             Try
                 If Not String.IsNullOrEmpty(num_tahun.Value) And Not String.IsNullOrEmpty(num_nominal.Value) Then
                     EksekusiSQL("UPDATE spp SET id_spp='" & tb_id_spp.Text & "', tahun='" & num_tahun.Text & "', nominal='" & num_nominal.Text & "' WHERE id_spp='" & tb_id_spp.Text & "' ")
@@ -102,7 +95,7 @@
         Else
             Try
                 If Not String.IsNullOrEmpty(num_tahun.Value) And Not String.IsNullOrEmpty(num_nominal.Value) Then
-                    EksekusiSQL("INSERT INTO spp VALUES ('" & tb_id_spp.Text & "', '" & num_tahun.Value & "', '" & num_nominal.Value & "')")
+                    EksekusiSQL("INSERT INTO spp VALUES ('', '" & num_tahun.Value & "', '" & num_nominal.Value & "')")
                     LoadTable()
                     ClearTextBox()
                 Else
@@ -116,23 +109,29 @@
 
     Private Sub btn_back_Click_1(sender As Object, e As EventArgs) Handles btn_back.Click
         ClearTextBox()
-        currentId = ""
+        tb_id_spp.Text = ""
+        tb_id_spp.Text = ""
         LoadTable()
     End Sub
 
     Private Sub btn_update_Click_1(sender As Object, e As EventArgs) Handles btn_update.Click
         With DataGridView1
-            tb_id_spp.Text = currentId
+            tb_id_spp.Text = .Item(0, .CurrentRow.Index).Value
             num_tahun.Value = .Item(1, .CurrentRow.Index).Value
             num_nominal.Value = .Item(2, .CurrentRow.Index).Value
         End With
     End Sub
 
     Private Sub btn_delete_Click_1(sender As Object, e As EventArgs) Handles btn_delete.Click
+        If String.IsNullOrEmpty(tb_id_spp.Text) Then
+            MsgBox("Harap pilih baris yang akan dihapus lalu klik tombol ubah setelah itu tombol hapus", vbCritical)
+            Exit Sub
+        End If
+
         Select Case MsgBox("Yakin mau dihapus ?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
                 Try
-                    EksekusiSQL("DELETE FROM spp WHERE id_spp = '" & currentId & "'")
+                    EksekusiSQL("DELETE FROM spp WHERE id_spp = '" & tb_id_spp.Text & "'")
                     btn_back.PerformClick()
                 Catch ex As Exception
                     MsgBox(ex.Message.ToString(), vbCritical)

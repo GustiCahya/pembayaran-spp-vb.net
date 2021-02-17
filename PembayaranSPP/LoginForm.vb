@@ -34,7 +34,7 @@ Public Class Login
                     Dim output_username As String = Data.Rows(0).Item(1).ToString()
                     Dim output_password As String = Data.Rows(0).Item(2).ToString()
                     Dim output_role As String = Data.Rows(0).Item(4).ToString()
-                    Dim isPasswordValid As Boolean = BCrypt.Net.BCrypt.Verify(password, output_password)
+                    Dim isPasswordValid As Boolean = Verify(password, output_password)
                     If isPasswordValid Then
                         My.Settings.CurrentId = output_id_petugas
                         My.Settings.Username = output_username
@@ -96,6 +96,7 @@ Public Class Login
             isSiswa = True
             lbl_username.Text = "NISN"
             lbl_password.Text = "NIS"
+            tb_password.UseSystemPasswordChar = True
             lbl_role.Text = "SISWA"
             lbl_login_siswa.Text = "Login Sebagai Petugas"
             Clear()
@@ -103,6 +104,7 @@ Public Class Login
             isSiswa = False
             lbl_username.Text = "Username"
             lbl_password.Text = "Password"
+            tb_password.UseSystemPasswordChar = False
             lbl_role.Text = "PETUGAS"
             lbl_login_siswa.Text = "Login Sebagai Siswa"
             Clear()
@@ -113,8 +115,6 @@ Public Class Login
         Select Case e.KeyCode
             Case Keys.Escape
                 Me.Close()
-            Case Keys.Enter
-                btn_login.PerformClick()
         End Select
     End Sub
 End Class

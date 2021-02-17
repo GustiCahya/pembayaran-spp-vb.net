@@ -1,7 +1,5 @@
 ﻿Imports BCrypt.Net.BCrypt
 Public Class PetugasForm
-    Private currentId As String
-
     Private Sub SppForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
         LoadTable()
@@ -23,14 +21,13 @@ Public Class PetugasForm
             .Columns("nama_petugas").HeaderText = "Nama Petugas"
             .Columns("level").HeaderText = "Level"
         End With
-        tb_id_petugas.Text = DataGridView1.RowCount + 1
         tb_id_petugas.ReadOnly = True
         tb_id_petugas.Cursor = System.Windows.Forms.Cursors.No
     End Sub
 
     Private Sub cmb_level_KeyDown(sender As Object, e As KeyEventArgs)
         If e.KeyCode = Keys.Enter Then
-            If Not String.IsNullOrEmpty(currentId) Then
+            If Not String.IsNullOrEmpty(tb_id_petugas.Text) Then
                 btn_update.PerformClick()
             Else
                 btn_create.PerformClick()
@@ -38,13 +35,9 @@ Public Class PetugasForm
         End If
     End Sub
 
-    Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
-        currentId = DataGridView1.Item(0, DataGridView1.CurrentRow.Index).Value
-    End Sub
-
     Private Sub btn_back_Click(sender As Object, e As EventArgs) Handles btn_back.Click
         ClearTextBox()
-        currentId = ""
+        tb_id_petugas.Text = ""
         tb_username.Width = 180
         lbl_password.Visible = True
         tb_password.Visible = True
@@ -53,49 +46,45 @@ Public Class PetugasForm
     End Sub
 
     Private Sub btn_delete_Click(sender As Object, e As EventArgs) Handles btn_delete.Click
+        If String.IsNullOrEmpty(tb_id_petugas.Text) Then
+            MsgBox("Harap pilih baris yang akan dihapus lalu klik tombol ubah setelah itu tombol hapus", vbCritical)
+            Exit Sub
+        End If
+
         Select Case MsgBox("Yakin mau dihapus ?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
                 Try
-
-                    EksekusiSQL("DELETE FROM petugas WHERE id_petugas = '" & currentId & "'")
-
+                    EksekusiSQL("DELETE FROM petugas WHERE id_petugas = '" & tb_id_petugas.Text & "'")
                     btn_back.PerformClick()
                 Catch ex As Exception
-
                     MsgBox(ex.Message.ToString(), vbCritical)
                 End Try
         End Select
     End Sub
 
     Private Sub btn_create_Click(sender As Object, e As EventArgs) Handles btn_create.Click
-        If (Not String.IsNullOrEmpty(currentId)) Then
+        If (Not String.IsNullOrEmpty(tb_id_petugas.Text)) Then
             Try
-
                 If Not String.IsNullOrEmpty(tb_username.Text) And Not String.IsNullOrEmpty(tb_nama_petugas.Text) And Not String.IsNullOrEmpty(cmb_level.SelectedItem) Then
                     EksekusiSQL("UPDATE petugas SET id_petugas='" & tb_id_petugas.Text & "', username='" & tb_username.Text & "', nama_petugas='" & tb_nama_petugas.Text & "', level='" & cmb_level.SelectedItem & "' WHERE id_petugas='" & tb_id_petugas.Text & "' ")
                     btn_back.PerformClick()
                 Else
                     MsgBox("Tolong isi seluruh box yang masih kosong!", vbCritical)
                 End If
-
             Catch ex As Exception
-
                 MsgBox(ex.Message.ToString())
             End Try
         Else
             Try
-
                 If Not String.IsNullOrEmpty(tb_username.Text) And Not String.IsNullOrEmpty(tb_password.Text) And Not String.IsNullOrEmpty(tb_nama_petugas.Text) And Not String.IsNullOrEmpty(cmb_level.SelectedItem) Then
-                    Dim password_hashed As String = BCrypt.Net.BCrypt.HashPassword(tb_password.Text, BCrypt.Net.BCrypt.GenerateSalt())
-                    EksekusiSQL("INSERT INTO petugas VALUES ('" & tb_id_petugas.Text & "', '" & tb_username.Text & "', '" & password_hashed & "', '" & tb_nama_petugas.Text & "', '" & cmb_level.SelectedItem & "')")
+                    Dim password_hashed As String = HashPassword(tb_password.Text, GenerateSalt())
+                    EksekusiSQL("INSERT INTO petugas VALUES ('', '" & tb_username.Text & "', '" & password_hashed & "', '" & tb_nama_petugas.Text & "', '" & cmb_level.SelectedItem & "')")
                     btn_back.PerformClick()
                     ClearTextBox()
                 Else
                     MsgBox("Tolong isi seluruh box yang masih kosong!", vbCritical)
                 End If
-
             Catch ex As Exception
-
                 MsgBox(ex.Message.ToString())
             End Try
         End If
@@ -103,7 +92,7 @@ Public Class PetugasForm
 
     Private Sub btn_update_Click(sender As Object, e As EventArgs) Handles btn_update.Click
         With DataGridView1
-            tb_id_petugas.Text = currentId
+            tb_id_petugas.Text = .Item(0, .CurrentRow.Index).Value
             tb_username.Text = .Item(1, .CurrentRow.Index).Value
             tb_username.Width = 325
             lbl_password.Visible = False

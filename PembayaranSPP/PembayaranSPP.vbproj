@@ -212,6 +212,19 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CetakLaporan.Designer.vb">
+      <DependentUpon>CetakLaporan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CetakLaporan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HandleReport.vb" />
+    <Compile Include="GantiPasswordForm.Designer.vb">
+      <DependentUpon>GantiPasswordForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GantiPasswordForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="KonfigurasiServer.Designer.vb">
       <DependentUpon>KonfigurasiServer.vb</DependentUpon>
     </Compile>
@@ -292,6 +305,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CetakLaporan.resx">
+      <DependentUpon>CetakLaporan.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GantiPasswordForm.resx">
+      <DependentUpon>GantiPasswordForm.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="KonfigurasiServer.resx">
       <DependentUpon>KonfigurasiServer.vb</DependentUpon>
     </EmbeddedResource>

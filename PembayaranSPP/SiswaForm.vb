@@ -1,9 +1,7 @@
 ﻿Imports System.ComponentModel
 
 Public Class SiswaForm
-
-    Private currentId
-
+    Private isEdit As Boolean = False
     Private Sub LoadTable()
         Me.KeyPreview = True
         Dim Data = EksekusiSQL("SELECT siswa.*, kelas.nama_kelas, spp.tahun FROM siswa INNER JOIN kelas ON siswa.id_kelas=kelas.id_kelas INNER JOIN spp ON siswa.id_spp=spp.id_spp")
@@ -18,9 +16,7 @@ Public Class SiswaForm
             .Columns("alamat").HeaderText = "Alamat"
             .Columns("no_telp").HeaderText = "No. Telepon"
         End With
-
         cmb_kelas.SelectedIndex = -1
-
         With DataGridView1.Columns("nama_kelas")
             .DisplayIndex = 3 'Ubah tampilan index nama_kelas menjadi index 3
             .HeaderText = "kelas"
@@ -59,15 +55,10 @@ Public Class SiswaForm
             Next
 
         Catch ex As Exception
-
             MsgBox(ex.ToString(), vbCritical)
         End Try
 
         LoadTable()
-    End Sub
-
-    Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
-        currentId = DataGridView1.Item(0, DataGridView1.CurrentRow.Index).Value
     End Sub
 
     Private Sub ClearTextBox()
@@ -78,12 +69,13 @@ Public Class SiswaForm
         cmb_kelas.Text = ""
         tb_telepon.Text = ""
         cmb_spp.Text = ""
+        isEdit = False
         cmb_kelas.SelectedIndex = -1
     End Sub
 
     Private Sub tb_alamat_KeyDown(sender As Object, e As KeyEventArgs) Handles tb_alamat.KeyDown
         If e.KeyValue = Keys.Enter Then
-            If Not String.IsNullOrEmpty(currentId) Then
+            If Not String.IsNullOrEmpty(tb_nisn.Text) Then
                 btn_update.PerformClick()
             Else
                 btn_create.PerformClick()
@@ -93,7 +85,7 @@ Public Class SiswaForm
 
     Private Sub btn_create_Click_1(sender As Object, e As EventArgs) Handles btn_create.Click
 
-        If (Not String.IsNullOrEmpty(currentId)) Then
+        If (Not String.IsNullOrEmpty(tb_nisn.Text) And isEdit) Then
             Try
 
                 If Not String.IsNullOrEmpty(tb_nisn.Text) And Not String.IsNullOrEmpty(tb_nis.Text) And Not String.IsNullOrEmpty(tb_nama.Text) And Not String.IsNullOrEmpty(cmb_kelas.SelectedValue) And Not String.IsNullOrEmpty(tb_alamat.Text) And Not String.IsNullOrEmpty(tb_telepon.Text) And Not String.IsNullOrEmpty(cmb_spp.SelectedValue) Then
@@ -112,13 +104,12 @@ Public Class SiswaForm
                 End If
 
             Catch ex As Exception
-
                 MsgBox(ex.Message.ToString(), vbCritical)
             End Try
         Else
             Try
 
-                If Not String.IsNullOrEmpty(tb_nisn.Text) And Not String.IsNullOrEmpty(tb_nis.Text) And Not String.IsNullOrEmpty(tb_nama.Text) And Not String.IsNullOrEmpty(cmb_kelas.SelectedValue) And Not String.IsNullOrEmpty(tb_alamat.Text) And Not String.IsNullOrEmpty(tb_telepon.Text) And Not String.IsNullOrEmpty(cmb_spp.SelectedValue) Then
+                If Not String.IsNullOrEmpty(tb_nis.Text) And Not String.IsNullOrEmpty(tb_nama.Text) And Not String.IsNullOrEmpty(cmb_kelas.SelectedValue) And Not String.IsNullOrEmpty(tb_alamat.Text) And Not String.IsNullOrEmpty(tb_telepon.Text) And Not String.IsNullOrEmpty(cmb_spp.SelectedValue) Then
                     Dim Data = EksekusiSQL("INSERT INTO siswa VALUES 
                                             ('" & tb_nisn.Text & "', 
                                              '" & tb_nis.Text & "', 
@@ -127,13 +118,10 @@ Public Class SiswaForm
                                              '" & tb_alamat.Text & "', 
                                              '" & tb_telepon.Text & "', 
                                              '" & cmb_spp.SelectedValue & "')")
-                    LoadTable()
-                    ClearTextBox()
+                    btn_back.PerformClick()
                 Else
                     MsgBox("Tolong isi seluruh box yang masih kosong!", vbCritical)
                 End If
-
-                btn_back.PerformClick()
             Catch ex As Exception
 
                 MsgBox(ex.Message.ToString(), vbCritical)
@@ -144,7 +132,6 @@ Public Class SiswaForm
 
     Private Sub btn_back_Click_1(sender As Object, e As EventArgs) Handles btn_back.Click
         ClearTextBox()
-        currentId = ""
         With tb_nisn
             .ReadOnly = False
             .Cursor = System.Windows.Forms.Cursors.IBeam
@@ -159,10 +146,11 @@ Public Class SiswaForm
     Private Sub btn_update_Click(sender As Object, e As EventArgs) Handles btn_update.Click
         With DataGridView1
             With tb_nisn
-                .Text = currentId
                 .ReadOnly = True
                 .Cursor = System.Windows.Forms.Cursors.No
             End With
+            isEdit = True
+            tb_nisn.Text = .Item(0, .CurrentRow.Index).Value
             tb_nis.Text = .Item(1, .CurrentRow.Index).Value
             tb_nama.Text = .Item(2, .CurrentRow.Index).Value
             cmb_kelas.SelectedValue = .Item(3, .CurrentRow.Index).Value
@@ -173,15 +161,16 @@ Public Class SiswaForm
     End Sub
 
     Private Sub btn_delete_Click_1(sender As Object, e As EventArgs) Handles btn_delete.Click
+        If String.IsNullOrEmpty(tb_nisn.Text) And Not isEdit Then
+            MsgBox("Harap pilih baris yang akan dihapus lalu klik tombol ubah setelah itu tombol hapus", vbCritical)
+            Exit Sub
+        End If
         Select Case MsgBox("Yakin mau dihapus ?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
                 Try
-
-                    Dim Data = EksekusiSQL("DELETE FROM siswa WHERE nisn = '" & currentId & "'")
-
+                    Dim Data = EksekusiSQL("DELETE FROM siswa WHERE nisn = '" & tb_nisn.Text & "'")
                     btn_back.PerformClick()
                 Catch ex As Exception
-
                     MsgBox(ex.Message.ToString(), vbCritical)
                 End Try
         End Select

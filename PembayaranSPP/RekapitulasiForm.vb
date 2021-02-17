@@ -1,14 +1,15 @@
 ﻿Public Class RekapitulasiForm
-    Private currentId As String
+    Private Data As DataTable
+    Private tahun As String
     Private Sub RekapitulasiForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
         nbTahun.Value = Now().Year
         LoadTable()
     End Sub
     Public Sub LoadTable()
-        Dim tahun As String = nbTahun.Value
+        tahun = nbTahun.Value
 
-        Dim Data = EksekusiSQL(
+        Data = EksekusiSQL(
            "SELECT b.nama AS Nama_Siswa,
             c.nama_kelas AS Kelas,
             SUM(IF(a.bulan_dibayar = 1, a.jumlah_bayar, 0)) AS Januari_" & tahun & ",
@@ -33,10 +34,6 @@
 
     End Sub
 
-    Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
-        currentId = DataGridView1.Item(0, e.RowIndex).Value
-    End Sub
-
     Private Sub btnCari_Click(sender As Object, e As EventArgs) Handles btnCari.Click
         LoadTable()
     End Sub
@@ -50,7 +47,7 @@
     End Sub
 
     Private Sub btn_cetak_Click(sender As Object, e As EventArgs) Handles btn_cetak.Click
-
+        CetakRekapitulasiPembayaran(Data, tahun)
     End Sub
 
     Private Sub btn_back_Click(sender As Object, e As EventArgs) Handles btn_back.Click

@@ -19,7 +19,7 @@
                 OnOffMenu(True, True, True, True, False, False, False, False, False, True, True, True, True, False, False, False, False, False)
             Case Else
                 HistoriPembayaranToolStripMenuItem.PerformClick()
-                OnOffMenu(True, True, True, True, False, False, False, False, False, False, False, True, True, False, False, False, False, True)
+                OnOffMenu(True, False, True, True, False, False, False, False, False, False, False, True, True, False, False, False, False, True)
         End Select
     End Sub
 
@@ -71,7 +71,7 @@
         With RiwayatForm
             .MdiParent = Me
             .WindowState = FormWindowState.Maximized
-            '.LoadTable()
+            .LoadTable()
             .Show()
         End With
     End Sub
@@ -99,7 +99,15 @@
         With RekapitulasiForm
             .MdiParent = Me
             .WindowState = FormWindowState.Maximized
-            '.LoadTable()
+            .LoadTable()
+            .Show()
+        End With
+    End Sub
+
+    Private Sub GantiPasswordToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GantiPasswordToolStripMenuItem.Click
+        With GantiPasswordForm
+            .MdiParent = Me
+            .WindowState = FormWindowState.Maximized
             .Show()
         End With
     End Sub

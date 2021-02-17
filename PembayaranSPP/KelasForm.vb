@@ -1,6 +1,4 @@
 ﻿Public Class KelasForm
-    Private currentId As String
-
     Private Sub SppForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.KeyPreview = True
         LoadTable()
@@ -19,7 +17,6 @@
             .Columns("nama_kelas").HeaderText = "Nama Kelas"
             .Columns("kompetensi_keahlian").HeaderText = "Kompetensi Keahlian"
         End With
-        tb_id_kelas.Text = DataGridView1.RowCount + 1
         tb_id_kelas.ReadOnly = True
         tb_id_kelas.Cursor = System.Windows.Forms.Cursors.No
 
@@ -33,16 +30,12 @@
 
     Private Sub tb_kompetensi_keahlian_KeyDown(sender As Object, e As KeyEventArgs)
         If e.KeyCode = Keys.Enter Then
-            If Not String.IsNullOrEmpty(currentId) Then
+            If Not String.IsNullOrEmpty(tb_id_kelas.Text) Then
                 btn_update.PerformClick()
             Else
                 btn_create.PerformClick()
             End If
         End If
-    End Sub
-
-    Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
-        currentId = DataGridView1.Item(0, DataGridView1.CurrentRow.Index).Value
     End Sub
 
     Dim mRow As Integer = 0
@@ -92,33 +85,27 @@
     End Sub
 
     Private Sub btn_create_Click_1(sender As Object, e As EventArgs) Handles btn_create.Click
-        If (Not String.IsNullOrEmpty(currentId)) Then
+        If (Not String.IsNullOrEmpty(tb_id_kelas.Text)) Then
             Try
-
                 If Not String.IsNullOrEmpty(tb_nama_kelas.Text) And Not String.IsNullOrEmpty(cmb_kompetensi_keahlian.SelectedValue) Then
                     Dim Data = EksekusiSQL("UPDATE kelas SET id_kelas='" & tb_id_kelas.Text & "', nama_kelas='" & tb_nama_kelas.Text & "', kompetensi_keahlian='" & cmb_kompetensi_keahlian.SelectedValue & "' WHERE id_kelas='" & tb_id_kelas.Text & "' ")
                     btn_back.PerformClick()
                 Else
                     MsgBox("Tolong isi seluruh box yang masih kosong!", vbCritical)
                 End If
-
             Catch ex As Exception
-
                 MsgBox(ex.Message.ToString())
             End Try
         Else
             Try
-
                 If Not String.IsNullOrEmpty(tb_nama_kelas.Text) And Not String.IsNullOrEmpty(cmb_kompetensi_keahlian.SelectedValue) Then
-                    Dim Data = EksekusiSQL("INSERT INTO kelas VALUES ('" & tb_id_kelas.Text & "', '" & tb_nama_kelas.Text & "', '" & cmb_kompetensi_keahlian.SelectedValue & "')")
+                    Dim Data = EksekusiSQL("INSERT INTO kelas VALUES ('', '" & tb_nama_kelas.Text & "', '" & cmb_kompetensi_keahlian.SelectedValue & "')")
                     LoadTable()
                     ClearTextBox()
                 Else
                     MsgBox("Tolong isi seluruh box yang masih kosong!", vbCritical)
                 End If
-
             Catch ex As Exception
-
                 MsgBox(ex.Message.ToString())
             End Try
         End If
@@ -126,26 +113,30 @@
 
     Private Sub btn_back_Click_1(sender As Object, e As EventArgs) Handles btn_back.Click
         ClearTextBox()
-        currentId = ""
+        tb_id_kelas.Text = ""
         LoadTable()
     End Sub
 
     Private Sub btn_update_Click_1(sender As Object, e As EventArgs) Handles btn_update.Click
         With DataGridView1
-            tb_id_kelas.Text = currentId
+            tb_id_kelas.Text = .Item(0, .CurrentRow.Index).Value
             tb_nama_kelas.Text = .Item(1, .CurrentRow.Index).Value
             cmb_kompetensi_keahlian.SelectedValue = .Item(2, .CurrentRow.Index).Value
         End With
     End Sub
 
     Private Sub btn_delete_Click_1(sender As Object, e As EventArgs) Handles btn_delete.Click
+        If String.IsNullOrEmpty(tb_id_kelas.Text) Then
+            MsgBox("Harap pilih baris yang akan dihapus lalu klik tombol ubah setelah itu tombol hapus", vbCritical)
+            Exit Sub
+        End If
+
         Select Case MsgBox("Yakin mau dihapus?", MsgBoxStyle.YesNo)
             Case MsgBoxResult.Yes
                 Try
-                    Dim Data = EksekusiSQL("DELETE FROM kelas WHERE id_kelas = '" & currentId & "'")
+                    Dim Data = EksekusiSQL("DELETE FROM kelas WHERE id_kelas = '" & tb_id_kelas.Text & "'")
                     btn_back.PerformClick()
                 Catch ex As Exception
-
                     MsgBox(ex.Message.ToString(), vbCritical)
                 End Try
         End Select

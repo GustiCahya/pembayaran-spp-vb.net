@@ -75,7 +75,7 @@ Partial Class MenuUtama
         Me.GantiPasswordToolStripMenuItem.BackColor = System.Drawing.Color.DarkSlateGray
         Me.GantiPasswordToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight
         Me.GantiPasswordToolStripMenuItem.Name = "GantiPasswordToolStripMenuItem"
-        Me.GantiPasswordToolStripMenuItem.Size = New System.Drawing.Size(217, 30)
+        Me.GantiPasswordToolStripMenuItem.Size = New System.Drawing.Size(252, 30)
         Me.GantiPasswordToolStripMenuItem.Text = "Ganti Password"
         '
         'LogoutToolStripMenuItem
@@ -83,7 +83,7 @@ Partial Class MenuUtama
         Me.LogoutToolStripMenuItem.BackColor = System.Drawing.Color.DarkSlateGray
         Me.LogoutToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight
         Me.LogoutToolStripMenuItem.Name = "LogoutToolStripMenuItem"
-        Me.LogoutToolStripMenuItem.Size = New System.Drawing.Size(217, 30)
+        Me.LogoutToolStripMenuItem.Size = New System.Drawing.Size(252, 30)
         Me.LogoutToolStripMenuItem.Text = "Logout"
         '
         'KeluarToolStripMenuItem
@@ -91,7 +91,7 @@ Partial Class MenuUtama
         Me.KeluarToolStripMenuItem.BackColor = System.Drawing.Color.DarkSlateGray
         Me.KeluarToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight
         Me.KeluarToolStripMenuItem.Name = "KeluarToolStripMenuItem"
-        Me.KeluarToolStripMenuItem.Size = New System.Drawing.Size(217, 30)
+        Me.KeluarToolStripMenuItem.Size = New System.Drawing.Size(252, 30)
         Me.KeluarToolStripMenuItem.Text = "Keluar"
         '
         'MasterToolStripMenuItem
